@@ -1,0 +1,152 @@
+.main {
+  /* border: 1px solid red; */
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  min-height: 80vh;
+}
+
+.main {
+  padding: 2.2rem 8rem;
+}
+
+/* || Profile */
+.profile-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 25px;
+  padding: 1rem 0;
+}
+
+.profile-side__picture {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-side-indentity {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.profile-side-indentity p {
+  font-size: 12px;
+}
+
+.profile-side__edit-picture {
+  /* border: 1px solid darkgoldenrod; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.profile-side-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+.input-file {
+  /* border: 1px solid darkblue; */
+  position: relative;
+}
+
+.edit {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  /* border: 1px solid darkblue; */
+  left: 1.5rem;
+  cursor: pointer;
+  z-index: -1;
+  top: 0.1rem;
+}
+
+.profile-side__edit-picture input[type="file"] {
+  position: relative;
+  width: 5.6rem;
+  visibility: hidden;
+}
+
+.profile-side__edit-picture input[type="file"]::after {
+  /* border: 1px solid darkblue; */
+  visibility: visible;
+  position: absolute;
+  content: "Edit";
+  right: 1.5rem;
+  cursor: pointer;
+  width: 1.5rem;
+  height: 1rem;
+  font-weight: 800;
+  color: #7a7886;
+  font-size: 12px;
+}
+
+.btn-content {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.btn-content__list {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-content__list li {
+  position: relative;
+  list-style: none;
+  padding: 1rem;
+  width: 18rem;
+  font-size: 14px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  background: #e5e8ed;
+  color: #4d4b57;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.arrow-left {
+  width: 14px;
+  height: 14px;
+}
+
+/* || Responsive */
+@media all and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+}
+
+@media all and (max-width: 480px) {
+  .header {
+    padding: 1rem 2rem;
+  }
+
+  .image-profile {
+    border: 1px solid darkgoldenrod;
+    width: 14px;
+    height: 14px;
+  }
+
+  .fullname,
+  .phonenumber {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,209 @@
+.main {
+  /* border: 1px solid red; */
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  min-height: 80vh;
+}
+
+.main {
+  padding: 2.2rem 8rem;
+}
+
+/* .balance {
+  border: 1px solid darkblue;
+} */
+
+.right-side-content {
+  /* border: 1px solid darkblue; */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.balance {
+  background: var(--primary-bg-color);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 18px;
+}
+
+.balance__content_left {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title,
+.fund,
+.phone-number {
+  color: var(--primary-font-color);
+}
+
+/* .title {
+  border: 1px solid darkblue;
+} */
+
+.fund {
+  /* border: 1px solid darkgoldenrod; */
+  min-width: 10rem;
+}
+
+/* .phone-number {
+  border: 1px solid darkgoldenrod;
+} */
+
+.balance__content_right {
+  /* border: 1px solid darkred; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.transfer-btn,
+.top-up-btn {
+  height: 2.5rem;
+  width: 8rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #ffffff;
+  color: var(--primary-font-color);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.history__content_rigth {
+  /* border: 1px solid rebeccapurple; */
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  height: 100%;
+}
+
+.chart {
+  /* border: 1px solid darkblue; */
+  width: 60%;
+  padding: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-data {
+  border: 1px solid darkblue;
+}
+
+.income-expense {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* .income-section {
+  border: 1px solid darkblue;
+} */
+
+.income-expense-image {
+  width: 12px;
+  height: 12px;
+}
+
+.income-title,
+.expense-title {
+  font-size: 10px;
+}
+
+.income-section__value,
+.expense-section__value {
+  font-weight: 800;
+}
+
+.transcation-history {
+  /* border: 1px solid darkgoldenrod; */
+  width: 40%;
+  padding: 1rem;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transcation-history__title {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 800;
+}
+
+.btn-see-all {
+  /* border: 1px solid darkblue; */
+  color: var(--primary-bg-color);
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.list {
+  border: 1px solid;
+}
+
+.content-list {
+  /* border: 1px solid darkgoldenrod; */
+  list-style: none;
+}
+
+.sub-content-list {
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+.value {
+  /* border: 1px solid darkblue; */
+  margin-left: auto;
+  font-weight: 800;
+}
+
+.identity {
+  /* border: 1px solid darkblue; */
+  width: 8rem;
+}
+
+.image {
+  /* border: 1px solid darkcyan; */
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+.name {
+  /* border: 1px solid darkblue; */
+  font-weight: 800;
+}
+
+.status {
+  /* border: 1px solid darkblue; */
+  font-size: 14px;
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+}
+
+@media all and (max-width: 480px) {
+}

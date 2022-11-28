@@ -1,0 +1,21 @@
+/* || Global style */
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300&display=swap");
+
+:root {
+  --primary-bg-color: #6379f4;
+  --secondary-bg-color: #e5e5e5;
+  --primary-font-color: #ffffff;
+  --secondary-font-color: #3a3d42;
+  --btn-font-color: #88888f;
+  --border-input: #88888f;
+  --font-third-color: #88888f;
+  --bg-btn-color: #dadada;
+  --bg-input-color: #dadada;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito Sans", sans-serif;
+}

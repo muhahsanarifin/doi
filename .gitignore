@@ -34,3 +34,46 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# folders
+hooks
+helpers
+redux
+modules
+utils
+
+# env
+.env
+
+# document
+_document.js
+
+# layout
+layout.js
+
+#toast
+toast.jsx
+
+#private
+private.js
+
+# transfer
+confirmation.js
+status.js
+
+# pin
+pin.js
+
+# contact
+contact.js
+password.js
+
+# password
+create.js
+reset.js
+
+# layout
+layout.js
+
+api

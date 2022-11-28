@@ -1,0 +1,127 @@
+.main {
+  /* border: 1px solid red; */
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.main {
+  padding: 2.2rem 8rem;
+}
+
+.right-side-content {
+  /* border: 1px solid darkblue; */
+  position: relative;
+  flex: 1;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.status {
+  border: 1px solid darkblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.image-status {
+  border: 1px solid darkblue;
+}
+
+.title-status {
+  border: 1px solid darkblue;
+}
+
+.list {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.content-list {
+  /* border: 1px solid darkgoldenrod; */
+  list-style: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.sub-content-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+.value {
+  /* border: 1px solid darkblue; */
+  margin-left: auto;
+  font-weight: 800;
+}
+
+.identity {
+  border: 1px solid darkblue;
+  width: fit-content;
+}
+
+.image {
+  /* border: 1px solid darkcyan; */
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+.identify__title {
+  /* border: 1px solid darkblue; */
+  font-size: 12px;
+}
+
+.identify__main-content {
+  /* border: 1px solid darkblue; */
+  font-size: 16px;
+  font-weight: 800;
+}
+.content-header-list {
+  border: 1px solid darkblue;
+  padding: 1rem 0;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.download-btn {
+  /* border: 1px solid darkblue; */
+  border: none;
+  padding: 0.8rem 3rem;
+  border-radius: 8px;
+  font-weight: 800;
+  background: rgba(99, 121, 244, 0.15);
+  box-shadow: 0px 6px 75px rgba(100, 87, 87, 0.05);
+  color: #6379F4;
+  cursor: pointer;
+}
+.home-btn {
+  /* border: 1px solid darkblue; */
+  border: none;
+  padding: 0.8rem 3rem;
+  border-radius: 8px;
+  font-weight: 800;
+  background: var(--primary-bg-color);
+  color: var(--primary-font-color);
+  cursor: pointer;
+}
+
+.btn-section {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 1rem;
+}
