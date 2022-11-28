@@ -5,8 +5,9 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-import styles from "../../styles/createNewPassword.module.css";
+// import styles from "../../styles/createNewPassword.module.css";
 
+import styles from "../../styles/CreateNewPassword.modul.css";
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import passwordIcon from "../../assets/icons/lock.png";
