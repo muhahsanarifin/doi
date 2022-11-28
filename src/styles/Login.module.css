@@ -177,10 +177,12 @@
   border-radius: 1rem;
   font-size: 18px;
   border: none;
-  background: #DADADA;
+  /* background: #DADADA; */
+  background: #6379F4;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 800;
-  color: #88888F;
+  /* color: #88888F; */
 }
 
 .link-to-sign-up p {

@@ -55,8 +55,8 @@ const history = () => {
                       {isOpen ? "Close Filter" : "--Select Filter--"}
                     </MenuButton>
                     <MenuList>
-                      <MenuItem>👨‍💻</MenuItem>
-                      <MenuItem>👩‍💻</MenuItem>
+                      <MenuItem>👨‍💻 deploving...</MenuItem>
+                      <MenuItem>👩‍💻 developing...</MenuItem>
                     </MenuList>
                   </>
                 )}

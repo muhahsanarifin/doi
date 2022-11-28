@@ -22,6 +22,8 @@ const dashbord = () => {
   const router = useRouter();
   const [balance, setBalance] = useState("");
   const [noTelp, setContact] = useState("");
+  const [histories, setHistory] = useState([]);
+  // const [dataUsers, setdataUsers] = useState([]);
 
   const getDataUser = async () => {
     try {
@@ -51,6 +53,25 @@ const dashbord = () => {
 
   useEffect(() => {
     setContact(getCookie("noTelp"));
+  }, []);
+
+  const getHistory = async () => {
+    try {
+      const response = await Axios.get(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=5&filter=YEAR`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      setHistory(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getHistory();
   }, []);
 
   return (
@@ -105,7 +126,7 @@ const dashbord = () => {
                 </span>
               </span>
               <span className={styles["chart-data"]}>
-                <p>👨‍💻 On developing...</p>
+                <p>👨‍💻 developing...</p>
               </span>
             </span>
             <span className={styles["transcation-history"]}>
@@ -119,16 +140,26 @@ const dashbord = () => {
                 </p>
               </span>
               <ul className={styles["list"]}>
-                <li className={styles["content-list"]}>
-                  <span className={styles["sub-content-list"]}>
-                    <Image src={``} alt={`Image`} className={styles["image"]} />
-                    <span className={styles["identity"]}>
-                      <p className={styles["name"]}>{`Samuel`}</p>
-                      <p className={styles["status"]}>{`Transfer`}</p>
+                {histories.map((history) => (
+                  <li className={styles["content-list"]} key={history.id}>
+                    <span className={styles["sub-content-list"]}>
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
+                        alt={history.firstName}
+                        className={styles["image"]}
+                        width={500}
+                        height={500}
+                      />
+                      <span className={styles["identity"]}>
+                        <p className={styles["name"]}>
+                          {history.firstName} {history.lastName}
+                        </p>
+                        <p className={styles["status"]}>{history.status}</p>
+                      </span>
+                      <p className={styles["value"]}>RP.{history.amount}</p>
                     </span>
-                    <p className={styles["value"]}>{`10000`}</p>
-                  </span>
-                </li>
+                  </li>
+                ))}
               </ul>
             </span>
           </span>

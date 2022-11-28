@@ -155,9 +155,9 @@
   cursor: pointer;
 }
 
-.list {
-  border: 1px solid;
-}
+/* .list {
+  border: 1px solid rebeccapurple;
+} */
 
 .content-list {
   /* border: 1px solid darkgoldenrod; */
