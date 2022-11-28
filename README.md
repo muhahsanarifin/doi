@@ -145,7 +145,7 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/muhahsanarifin/mammi-fe.git
+   git clone https://github.com/muhahsanarifin/doi.git
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
