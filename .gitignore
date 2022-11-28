@@ -38,7 +38,6 @@ next-env.d.ts
 
 # folders
 hooks
-helpers
 redux
 modules
 utils
