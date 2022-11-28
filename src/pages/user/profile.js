@@ -26,6 +26,7 @@ const profile = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [noTelp, setNoTelp] = useState("");
+  const [image, setImage] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -79,30 +80,36 @@ const profile = () => {
   useEffect(() => {
     setNoTelp(getCookie("noTelp"));
   }, []);
+  useEffect(() => {
+    setImage(getCookie("image"));
+  }, []);
 
   return (
     <>
       <Header />
       <main className={styles["main"]}>
-        <SideBar 
-        // onClick={handleLogout} 
+        <SideBar
+        // onClick={handleLogout}
         />
         <section className={styles["profile-side"]}>
           <span className={styles["profile-side__picture"]}>
             <span className={styles["profile-side__edit-picture"]}>
               <Image
-                src={``}
-                alt={``}
+                src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${image}`}
+                alt={firstname}
+                width={500}
+                height={500}
                 className={styles["profile-side-image"]}
               />
               <span className={styles["input-file"]}>
-                <label 
+                <label
                 // onClick={handleChangePicture}
                 >
                   <Image src={edit} alt="edit" className={styles["edit"]} />
                 </label>
-                <input type="file" 
-                // onChange={(e) => setImage(e.target.files[0])} 
+                <input
+                  type="file"
+                  // onChange={(e) => setImage(e.target.files[0])}
                 />
               </span>
             </span>

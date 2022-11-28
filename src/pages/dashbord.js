@@ -20,8 +20,8 @@ const dashbord = () => {
 
   // « Init »
   const router = useRouter();
-  const [balance, setBalance] = useState([]);
-  const [noTelp, setContact] = useState([]);
+  const [balance, setBalance] = useState("");
+  const [noTelp, setContact] = useState("");
 
   const getDataUser = async () => {
     try {
@@ -105,7 +105,7 @@ const dashbord = () => {
                 </span>
               </span>
               <span className={styles["chart-data"]}>
-                <p>👨‍💻 Developing</p>
+                <p>👨‍💻 On developing...</p>
               </span>
             </span>
             <span className={styles["transcation-history"]}>
