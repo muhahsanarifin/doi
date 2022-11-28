@@ -20,27 +20,30 @@ const dashbord = () => {
 
   // « Init »
   const router = useRouter();
-  // const [dataUser, setDataUser] = useState([]);
   const [balance, setBalance] = useState([]);
-  const [contact, setContact] = useState([]);
+  const [noTelp, setContact] = useState([]);
 
-  // const getDataUser = async () => {
-  //   try {
-  //     const response = await Axios.get(
-  //       `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/dashboard/${getCookie(
-  //         "id"
-  //       )}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${getCookie("token")}`,
-  //         },
-  //       }
-  //     );
-  //     // console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const getDataUser = async () => {
+    try {
+      await Axios.get(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/dashboard/${getCookie(
+          "id"
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getDataUser();
+  }, []);
 
   useEffect(() => {
     setBalance(getCookie("balance"));
@@ -49,13 +52,6 @@ const dashbord = () => {
   useEffect(() => {
     setContact(getCookie("noTelp"));
   }, []);
-
-  // useEffect(() => {
-  //   getDataUser();
-  // }, []);
-
-  // const balanceUser = getCookie("balance");
-  // const noTelp = getCookie("noTelp");
 
   return (
     <>
@@ -66,8 +62,10 @@ const dashbord = () => {
           <span className={styles["balance"]}>
             <span className={styles["balance__content_left"]}>
               <p className={styles["title"]}>Balance</p>
-              <h1 className={styles["fund"]}>{balance}</h1>
-              <p className={styles["phone-number"]}>{contact}</p>
+              <h1 className={styles["fund"]}>
+                {`RP.`} {balance}
+              </h1>
+              <p className={styles["phone-number"]}>{noTelp}</p>
             </span>
             <span className={styles["balance__content_right"]}>
               <button

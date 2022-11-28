@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
-
 import Image from "next/image";
 import Axios from "axios";
 import { getCookie, deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { useState, useEffect } from "react";
 
 import privateRoute from "../../helpers/private";
 import Header from "../../components/Header";
@@ -21,8 +21,11 @@ const profile = () => {
   // « Private Route »
   privateRoute();
 
-  // « Init »
   const route = useRouter();
+  // const [image, setImage] = useState([]);
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [noTelp, setNoTelp] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -61,11 +64,29 @@ const profile = () => {
     }
   };
 
+  // Issue 👨‍💻
+  // const handleChangePicture = (e) => {
+  //   new FormData().append(image, URL.createObjectURL(e.target.files[0]));
+  //   console.log(image);
+  // };
+
+  useEffect(() => {
+    setFirstname(getCookie("firstname"));
+  }, []);
+  useEffect(() => {
+    setLastname(getCookie("lastname"));
+  }, []);
+  useEffect(() => {
+    setNoTelp(getCookie("noTelp"));
+  }, []);
+
   return (
     <>
       <Header />
       <main className={styles["main"]}>
-        <SideBar onClick={handleLogout} />
+        <SideBar 
+        // onClick={handleLogout} 
+        />
         <section className={styles["profile-side"]}>
           <span className={styles["profile-side__picture"]}>
             <span className={styles["profile-side__edit-picture"]}>
@@ -75,15 +96,21 @@ const profile = () => {
                 className={styles["profile-side-image"]}
               />
               <span className={styles["input-file"]}>
-                <label>
+                <label 
+                // onClick={handleChangePicture}
+                >
                   <Image src={edit} alt="edit" className={styles["edit"]} />
                 </label>
-                <input type="file" />
+                <input type="file" 
+                // onChange={(e) => setImage(e.target.files[0])} 
+                />
               </span>
             </span>
             <span className={styles["profile-side-indentity"]}>
-              <h3>{`My Name`}</h3>
-              <p>{`085298145400`}</p>
+              <h3>
+                {firstname} {lastname}
+              </h3>
+              <p>{noTelp}</p>
             </span>
           </span>
           <span className={styles["btn-content"]}>

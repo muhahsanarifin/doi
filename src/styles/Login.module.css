@@ -115,6 +115,13 @@
   align-items: center;
 }
 
+.show-password {
+  /* border: 1px solid darkblue; */
+  position: relative;
+  right: 1.8rem;
+  cursor: pointer;
+}
+
 .form input[type="text"],
 .form input[type="password"] {
   position: relative;
@@ -156,13 +163,14 @@
   /* border: 1px solid darkred; */
   width: 27.0625rem;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 600;
   text-align: right;
   cursor: pointer;
+  color: #3A3D42;
 }
 
 .btn-login {
-  /* border: 1px solid darkcyan; */
+  /* border: 1px solid red; */
   cursor: pointer;
   max-width: 27.0625rem;
   height: 3.5625rem;
@@ -174,10 +182,6 @@
   font-weight: 800;
   color: #88888F;
 }
-
-/* .link-to-sign-up {
-  border: 1px solid darkblue;
-} */
 
 .link-to-sign-up p {
   text-align: center;

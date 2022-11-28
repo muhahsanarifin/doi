@@ -26,6 +26,7 @@
   /* border: 1px solid darkblue; */
   font-size: 18px;
   cursor: not-allowed;
+  font-weight: 800;
 }
 .header__profile {
   /* border: 1px solid darkblue; */
@@ -34,6 +35,7 @@
   align-items: center;
   gap: 1rem;
   justify-content: center;
+  cursor: not-allowed;
 }
 
 .image-profile {
@@ -49,14 +51,6 @@
   flex-direction: column;
   gap: 0.5rem;
 }
-
-/* .fullname {
-  border: 1px solid darkblue;
-} */
-
-/* .phonenumber {
-  border: 1px solid darkblue;
-} */
 
 .bell {
   /* border: 1px solid darkblue; */

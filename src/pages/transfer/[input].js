@@ -75,6 +75,10 @@ const input = () => {
         background: "#6379F4",
         color: "#ffffff",
         width: "18rem",
+      })
+      .then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer)
+          window.location.reload();
       });
     } catch (error) {
       Swal.fire({

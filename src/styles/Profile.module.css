@@ -35,6 +35,7 @@
   flex-direction: column;
   text-align: center;
   gap: 0.5rem;
+  cursor: not-allowed;
 }
 
 .profile-side-indentity p {
@@ -67,7 +68,7 @@
   /* border: 1px solid darkblue; */
   left: 1.5rem;
   cursor: pointer;
-  z-index: -1;
+  z-index: 1;
   top: 0.1rem;
 }
 
@@ -123,6 +124,8 @@
 }
 
 .arrow-left {
+  position: relative;
+  top: 0.2rem;
   width: 14px;
   height: 14px;
 }

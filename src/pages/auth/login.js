@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useToggle } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "cookies-next";
@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 // import Toast from "../../components/Toast";
 // import Layout from "../../components/Layout";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -27,6 +28,7 @@ const Login = () => {
   const route = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,6 +71,10 @@ const Login = () => {
     }
   };
 
+  const showPassword = () => {
+    setShow(!show);
+  };
+
   return (
     <>
       <main className={styles["main"]}>
@@ -76,7 +82,6 @@ const Login = () => {
           <aside className={styles["left-content"]}>
             <h3 className={styles["init-logo"]}>Doi</h3>
             <span className={styles["left-content_image"]}>
-              {/* <p>Image soon {`👨‍💻`}</p> */}
               <Image
                 src={phone}
                 alt={`phone`}
@@ -136,12 +141,22 @@ const Login = () => {
                   />
                 </label>
                 <input
-                  type="password"
+                  type={show ? "text" : "password"}
                   placeholder="Enter your password"
                   className={styles["password"]}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                <span
+                  onClick={showPassword}
+                  className={styles["show-password"]}
+                >
+                  {show ? (
+                    <ViewIcon color="#A9A9A9" />
+                  ) : (
+                    <ViewOffIcon color="#A9A9A9" />
+                  )}
+                </span>
               </span>
               <span
                 className={styles["forgot-password"]}

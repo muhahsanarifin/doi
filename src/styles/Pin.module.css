@@ -54,16 +54,6 @@
   right: 4rem;
 }
 
-/* || Content Image */
-
-/* .init-logo {
-  border: 1px solid darkblue;
-} */
-
-/* .left-content__description {
-  border: 1px solid darkblue;
-} */
-
 .right-content {
   display: flex;
   flex-direction: column;
@@ -93,8 +83,9 @@
 .pin-form {
   /* border: 1px solid darkblue; */
   display: flex;
-  flex-direction: row;
+  flex-direction: flex;
   gap: 1.5rem;
+
 }
 
 .pin-styles {
@@ -108,7 +99,7 @@
 }
 
 .btn-confirm {
-  /* border: 1px solid darkcyan; */
+  border: 1px solid darkcyan;
   cursor: pointer;
   max-width: 27.0625rem;
   height: 3.5625rem;
@@ -170,7 +161,7 @@
   }
 
   .pin-form {
-    border: 1px solid darkblue;
+    /* border: 1px solid darkblue; */
     /* gap: 2.5rem;
     align-items: center; */
   }

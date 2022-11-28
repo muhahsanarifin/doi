@@ -1,10 +1,10 @@
 .side-bar {
-  border: 1px solid darkgreen;
+  /* border: 1px solid darkgreen; */
   display: flex;
   flex-direction: column;
   /* gap: 15rem; */
   background: #ffffff;
-box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   width: 12.875rem;
   padding: 1rem 1rem;
 }
@@ -17,7 +17,7 @@ box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
 .side-bar__content li {
   list-style: none;
   /* border: 1px solid darkblue; */
-}
+} 
 
 .content__one {
   /* border: 1px solid darkblue; */
@@ -48,5 +48,4 @@ box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 @media all and (max-width: 480px) {
-
 }

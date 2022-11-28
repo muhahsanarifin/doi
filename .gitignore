@@ -55,25 +55,5 @@ layout.js
 #toast
 toast.jsx
 
-#private
-private.js
 
-# transfer
-confirmation.js
-status.js
-
-# pin
-pin.js
-
-# contact
-contact.js
-password.js
-
-# password
-create.js
-reset.js
-
-# layout
-layout.js
-
-api
+# api

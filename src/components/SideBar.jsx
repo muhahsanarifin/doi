@@ -1,6 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Axios from "axios";
+import { getCookie, deleteCookie } from "cookies-next";
+import Swal from "sweetalert2";
 
 import gridIcon from "../assets/icons/grid.png";
 import arrowUpIcon from "../assets/icons/arrow-up.png";
@@ -10,8 +13,45 @@ import logOut from "../assets/icons/log-out.png";
 
 import styles from "../styles/SideBar.module.css";
 
-const SideBar = ({onClick}) => {
+const SideBar = () => {
   const route = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const response = await Axios.post(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/logout`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      deleteCookie("id");
+      deleteCookie("token");
+      deleteCookie("pin");
+      deleteCookie("firstname");
+      deleteCookie("lastname");
+      deleteCookie("email");
+      deleteCookie("image");
+      deleteCookie("noTelp");
+      deleteCookie("balance");
+      Swal.fire({
+        title: `${response.data.msg}`,
+        timer: 2000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#FFFFFF",
+        width: "18rem",
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer)
+          route.push("/auth/login");
+      });
+    } catch (error) {
+      console.log(error.msg);
+    }
+  };
   return (
     <>
       <aside className={styles["side-bar"]}>
@@ -50,7 +90,7 @@ const SideBar = ({onClick}) => {
         <ul
           className={`${styles["side-bar__content"]} ${styles["content__two"]}`}
         >
-          <li className={styles["btn-list"]} onClick={onClick}>
+          <li className={styles["btn-list"]} onClick={handleLogout}>
             <Image src={logOut} alt={``} className={styles["btn-icon"]} />
             <p>Logout</p>
           </li>

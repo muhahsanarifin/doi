@@ -9,6 +9,7 @@ import { getCookie } from "cookies-next";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
+import Swal from "sweetalert2";
 
 import styles from "../../styles/TopUp.module.css";
 
@@ -34,9 +35,22 @@ const topup = () => {
         }
       );
       console.log(response.data)
-      console.log("Top up is succsess");
+      const {redirectUrl} = response.data;
+      Swal.fire({
+        title: `${response.data.msg}`,
+        timer: 2000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#ffffff",
+        width: "18rem",
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer)
+        window.location.replace(redirectUrl);
+      });
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
     }
   };
 

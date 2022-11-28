@@ -65,7 +65,6 @@ const register = () => {
           <aside className={styles["left-content"]}>
             <h3 className={styles["init-logo"]}>Doi</h3>
             <span className={styles["left-content_image"]}>
-              {/* <p>Image soon {`👨‍💻`}</p> */}
               <Image
                 src={phone}
                 alt={`phone`}
