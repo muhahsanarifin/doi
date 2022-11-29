@@ -35,13 +35,15 @@ const register = () => {
           password,
         }
       );
+      console.log(response.data);
       Swal.fire({
         title: `${response.data.msg}`,
-        timer: 2000,
         showConfirmButton: false,
-        timerProgressBar: true,
+        timer: 2000,
+        position: "top-start",
         background: "#6379F4",
         color: "#ffffff",
+        width: "18rem",
       }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer)
           route.push("/auth/login");
@@ -49,11 +51,12 @@ const register = () => {
     } catch (error) {
       Swal.fire({
         title: `${error.message}`,
-        timer: 2000,
         showConfirmButton: false,
-        timerProgressBar: true,
+        timer: 2000,
+        position: "top-start",
         background: "#6379F4",
         color: "#ffffff",
+        width: "18rem",
       });
     }
   };

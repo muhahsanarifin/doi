@@ -1,6 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
-
+import Axios from "axios";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
+import Swal from "sweetalert2";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 import { PinInput, PinInputField } from "@chakra-ui/react";
 
@@ -10,6 +15,60 @@ import phoneSecond from "../../assets/images/png-phone-2.png";
 import styles from "../../styles/Pin.module.css";
 
 const pin = () => {
+  const router = useRouter();
+
+  let [numeric, setPin] = useState([]);
+  let [numericTwo, setPinTwo] = useState([]);
+  let [numericTree, setPinThree] = useState([]);
+  let [numericFour, setPinFour] = useState([]);
+  let [numericFive, setPinFive] = useState([]);
+  let [numericSixe, setPinSix] = useState([]);
+
+  let numerics = [
+    numeric,
+    numericTwo,
+    numericTree,
+    numericFour,
+    numericFive,
+    numericSixe,
+  ];
+
+  let pin = numerics.join("");
+
+  const handleSetPin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await Axios.patch(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/pin/${getCookie(
+          "id"
+        )}`,
+        {
+          pin,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      Swal.fire({
+        title: "Success create Pin",
+        timer: 2000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#ffffff",
+        width: "18rem",
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer)
+          router.push("/dashbord");
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
       <main className={styles["main"]}>
@@ -50,17 +109,43 @@ const pin = () => {
                 account password and the PIN.
               </p>
             </span>
-            <span className={styles["pin-form"]}>
-              <PinInput otp placeholder="…">
-                <PinInputField className={styles["pin-styles"]} />
-                <PinInputField className={styles["pin-styles"]} />
-                <PinInputField className={styles["pin-styles"]} />
-                <PinInputField className={styles["pin-styles"]} />
-                <PinInputField className={styles["pin-styles"]} />
-                <PinInputField className={styles["pin-styles"]} />
-              </PinInput>
-            </span>
-            <button className={styles["btn-confirm"]}> Confirm </button>
+            <form className={styles["form"]} onSubmit={handleSetPin}>
+              <span className={styles["pin-form"]}>
+                <PinInput otp placeholder="…">
+                  <PinInputField
+                    className={styles["pin-styles"]}
+                    onChange={(e) => setPin(e.target.value)}
+                    required
+                  />
+                  <PinInputField
+                    className={styles["pin-styles"]}
+                    onChange={(e) => setPinTwo(e.target.value)}
+                    required
+                  />
+                  <PinInputField
+                    className={styles["pin-styles"]}
+                    onChange={(e) => setPinThree(e.target.value)}
+                    required
+                  />
+                  <PinInputField
+                    className={styles["pin-styles"]}
+                    onChange={(e) => setPinFour(e.target.value)}
+                    required
+                  />
+                  <PinInputField
+                    className={styles["pin-styles"]}
+                    onChange={(e) => setPinFive(e.target.value)}
+                    required
+                  />
+                  <PinInputField
+                    className={styles["pin-styles"]}
+                    onChange={(e) => setPinSix(e.target.value)}
+                    required
+                  />
+                </PinInput>
+              </span>
+              <button className={styles["btn-confirm"]}> Confirm </button>
+            </form>
           </div>
         </section>
       </main>

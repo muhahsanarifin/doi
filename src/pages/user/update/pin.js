@@ -2,9 +2,8 @@
 import React from "react";
 
 import Axios from "axios";
-// import { useRouter } from "next/router";
-import {useState, useEffect} from "react";
-import {getCookie} from "cookies-next";
+import { useState } from "react";
+import { getCookie } from "cookies-next";
 import Swal from "sweetalert2";
 
 import Header from "../../../components/Header";
@@ -22,7 +21,6 @@ const pin = () => {
   let [numericFour, setPinFour] = useState([]);
   let [numericFive, setPinFive] = useState([]);
   let [numericSixe, setPinSix] = useState([]);
-  
 
   let numerics = [
     numeric,
@@ -33,39 +31,41 @@ const pin = () => {
     numericSixe,
   ];
 
-  let pin = numerics.join("")
-  
-  const handleChangePin = async(e) => {
-    e.preventDefault()
-   try {
-    const response = await Axios.patch(
-      `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/pin/${getCookie("id")}`,
-      {
-        pin,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
+  let pin = numerics.join("");
+
+  const handleChangePin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await Axios.patch(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/pin/${getCookie(
+          "id"
+        )}`,
+        {
+          pin,
         },
-      }
-    );
-    Swal.fire({
-      title: `${response.data.msg}`,
-      timer: 2000,
-      showConfirmButton: false,
-      timerProgressBar: true,
-      position: "top-start",
-      background: "#6379F4",
-      color: "#ffffff",
-      width: "18rem",
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.timer) window.location.reload();;
-    });
-    
-   } catch (error) {
-    console.log(error.message);
-   }
-  }
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      Swal.fire({
+        title: `${response.data.msg}`,
+        timer: 2000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#ffffff",
+        width: "18rem",
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer)
+          window.location.reload();
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <>
       <Header />

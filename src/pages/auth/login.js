@@ -42,25 +42,39 @@ const Login = () => {
       );
 
       setCookie("id", `${response.data.data.id}`);
-      setCookie("pin", `${response.data.data.pin}`);
       setCookie("token", `${response.data.data.token}`);
 
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          route.push("/dashbord");
-      });
+      const { pin } = response.data.data;
+      console.log(response.data);
+      if (pin === null)
+        Swal.fire({
+          title: "Please, create pin",
+          showConfirmButton: false,
+          timer: 2000,
+          position: "top-start",
+          background: "#6379F4",
+          color: "#ffffff",
+          width: "18rem",
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer)
+            route.push("/auth/pin");
+        });
+      if (pin)
+        Swal.fire({
+          title: "response.data.msg",
+          showConfirmButton: false,
+          timer: 2000,
+          position: "top-start",
+          background: "#6379F4",
+          color: "#ffffff",
+          width: "18rem",
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer)
+            route.push("/dashbord");
+        });
     } catch (error) {
       Swal.fire({
-        title: "Wrong Email or Password",
+        title: `${error.message}`,
         showConfirmButton: false,
         timer: 2000,
         position: "top-start",
