@@ -55,6 +55,7 @@
 }
 
 .right-content {
+  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
@@ -80,6 +81,13 @@
   max-width: 25rem;
 }
 
+.form {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .pin-form {
   /* border: 1px solid darkblue; */
   display: flex;
@@ -99,17 +107,19 @@
 }
 
 .btn-confirm {
-  border: 1px solid darkcyan;
+  border: 1px solid black;
   cursor: pointer;
   max-width: 27.0625rem;
   height: 3.5625rem;
   border-radius: 1rem;
   font-size: 18px;
   border: none;
-  background: #dadada;
+  /* background: #dadada; */
   font-size: 16px;
   font-weight: 800;
-  color: #88888f;
+  /* color: #88888f; */
+  background: #6379F4;
+  color: #ffffff;
 }
 
 /* || Responsive */
