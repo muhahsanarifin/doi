@@ -45,7 +45,7 @@ const Login = () => {
       setCookie("token", `${response.data.data.token}`);
 
       const { pin } = response.data.data;
-      // console.log(response.data);
+      console.log(response.data);
       if (pin === null)
         Swal.fire({
           title: "Please, create pin",
@@ -74,7 +74,7 @@ const Login = () => {
         });
     } catch (error) {
       Swal.fire({
-        title: `${error.message}`,
+        title: `${error.response.data.msg}`,
         showConfirmButton: false,
         timer: 2000,
         position: "top-start",

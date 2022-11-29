@@ -50,7 +50,7 @@ const register = () => {
       });
     } catch (error) {
       Swal.fire({
-        title: `${error.message}`,
+        title: `${error.response.data.msg}`,
         showConfirmButton: false,
         timer: 2000,
         position: "top-start",
