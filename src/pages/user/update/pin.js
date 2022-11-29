@@ -55,7 +55,7 @@ const pin = () => {
         showConfirmButton: false,
         timerProgressBar: true,
         position: "top-start",
-        background: "#EB1D36",
+        background: "#6379F4",
         color: "#ffffff",
         width: "18rem",
       }).then((result) => {

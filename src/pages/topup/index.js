@@ -47,7 +47,7 @@ const topup = () => {
         width: "18rem",
       }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer)
-        window.location.replace(redirectUrl);
+        window.open(redirectUrl, "_blank");
       });
     } catch (error) {
       // console.log(error.message);
