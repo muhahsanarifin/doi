@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import styles from "../../../styles/Password.module.css";
 import passwordIcon from "../../../assets/icons/lock.png";
@@ -16,6 +17,9 @@ const password = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [showSecond, setShowSecond] = useState(false);
+  const [showThird, setShowThird] = useState(false);
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
@@ -55,6 +59,16 @@ const password = () => {
     }
   };
 
+  const showPassword = () => {
+    setShow(!show);
+  };
+  const showPasswordSecond = () => {
+    setShowSecond(!showSecond);
+  };
+  const showPasswordThird = () => {
+    setShowThird(!showThird);
+  };
+
   return (
     <>
       <Header />
@@ -79,12 +93,24 @@ const password = () => {
                   />
                 </label>
                 <input
-                  type="password"
+                  type={show ? "text" : "password"}
                   placeholder="Current Password"
                   className={styles["password"]}
                   onChange={(e) => setOldPassword(e.target.value)}
                   required
                 />
+                <span>
+                  <span
+                    onClick={showPassword}
+                    className={styles["show-password"]}
+                  >
+                    {show ? (
+                      <ViewIcon color="#A9A9A9" />
+                    ) : (
+                      <ViewOffIcon color="#A9A9A9" />
+                    )}
+                  </span>
+                </span>
               </li>
               <li className={styles["content-list"]}>
                 <label className={styles["label-password"]}>
@@ -95,12 +121,24 @@ const password = () => {
                   />
                 </label>
                 <input
-                  type="password"
+                  type={showSecond ? "text" : "password"}
                   placeholder="New Password"
                   className={styles["password"]}
                   onChange={(e) => setnewPassword(e.target.value)}
                   required
                 />
+                <span>
+                  <span
+                    onClick={showPasswordSecond}
+                    className={styles["show-password"]}
+                  >
+                    {showSecond ? (
+                      <ViewIcon color="#A9A9A9" />
+                    ) : (
+                      <ViewOffIcon color="#A9A9A9" />
+                    )}
+                  </span>
+                </span>
               </li>
               <li className={styles["content-list"]}>
                 <label className={styles["label-password"]}>
@@ -111,12 +149,24 @@ const password = () => {
                   />
                 </label>
                 <input
-                  type="password"
+                  type={showThird ? "text" : "password"}
                   placeholder="Repeat New Password"
                   className={styles["password"]}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
+                <span>
+                  <span
+                    onClick={showPasswordThird}
+                    className={styles["show-password"]}
+                  >
+                    {showThird ? (
+                      <ViewIcon color="#A9A9A9" />
+                    ) : (
+                      <ViewOffIcon color="#A9A9A9" />
+                    )}
+                  </span>
+                </span>
               </li>
               <li className={styles["content-list"]}>
                 <button className={styles["btn-manage"]}>Confirm</button>
