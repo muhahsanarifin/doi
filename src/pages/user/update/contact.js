@@ -2,8 +2,9 @@
 import React from "react";
 import Axios from "axios";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getCookie } from "cookies-next";
+import Swal from "sweetalert2";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
