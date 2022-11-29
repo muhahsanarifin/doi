@@ -81,7 +81,9 @@
   border: none;
   padding: 1rem 8rem;
   border-radius: 8px;
-  color: #88888f;
+  /* color: #88888f; */
   font-weight: 800;
   cursor: pointer;
+  background: #6379F4;
+  color: #ffffff;
 }

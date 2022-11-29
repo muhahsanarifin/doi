@@ -35,7 +35,7 @@ const topup = () => {
         }
       );
       console.log(response.data)
-      const {redirectUrl} = response.data;
+      const {redirectUrl} = response.data.data;
       Swal.fire({
         title: `${response.data.msg}`,
         timer: 2000,
