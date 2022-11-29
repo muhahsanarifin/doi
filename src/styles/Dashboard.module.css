@@ -95,6 +95,7 @@
   border-radius: 18px;
   display: flex;
   flex-direction: column;
+  cursor: not-allowed;
 }
 
 /* .chart-data {

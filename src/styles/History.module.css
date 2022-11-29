@@ -46,7 +46,8 @@
   width: 8rem;
   height: 2rem;
   border-radius: 8px;
-  cursor: pointer;
+  /* cursor: pointer; */
+  cursor: not-allowed;
   font-weight: 800;
   font-size: 12px;
 }
