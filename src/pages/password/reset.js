@@ -15,8 +15,8 @@ import styles from "../../styles/ResetPassword.module.css";
 const resetPassword = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  //const linkDirect = `http://localhost:3000/password/create/`;
-  const linkDirect = `${NEXT_PUBLIC_LINK_TO_PASSWORD_CREATE}/password/create/`;
+  const linkDirect = `http://localhost:3000/password/create/`;
+  //const linkDirect = `${NEXT_PUBLIC_LINK_TO_PASSWORD_CREATE}/password/create/`;
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const resetPassword = () => {
         }
       );
       console.log(response);
-      // router.push(linkDirect);
+      router.push(linkDirect);
     } catch (error) {
       console.log(error.message);
     }
