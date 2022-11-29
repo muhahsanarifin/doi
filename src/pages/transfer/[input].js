@@ -87,7 +87,7 @@ const input = () => {
         showConfirmButton: false,
         timerProgressBar: true,
         position: "top-start",
-        background: "#6379F4",
+        background: "#EB1D36",
         color: "#ffffff",
         width: "18rem",
       });

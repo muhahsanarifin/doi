@@ -54,7 +54,7 @@ const register = () => {
         showConfirmButton: false,
         timer: 2000,
         position: "top-start",
-        background: "#6379F4",
+        background: "#EB1D36",
         color: "#ffffff",
         width: "18rem",
       });
