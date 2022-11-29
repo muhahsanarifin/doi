@@ -82,7 +82,7 @@ const input = () => {
       });
     } catch (error) {
       Swal.fire({
-        title: `${error.message}`,
+        title: `${error.response.data.msg}`,
         timer: 2000,
         showConfirmButton: false,
         timerProgressBar: true,
