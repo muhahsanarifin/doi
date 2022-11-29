@@ -55,7 +55,17 @@ const password = () => {
           window.location.reload();
       });
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
+      Swal.fire({
+        title: `${error.response.data.msg}`,
+        timer: 2000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#ffffff",
+        width: "18rem",
+      });
     }
   };
 
