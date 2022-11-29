@@ -61,7 +61,7 @@ const Login = () => {
         });
       if (pin)
         Swal.fire({
-          title: "response.data.msg",
+          title: `${response.data.msg}`,
           showConfirmButton: false,
           timer: 2000,
           position: "top-start",
