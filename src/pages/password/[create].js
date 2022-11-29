@@ -22,8 +22,6 @@ const createNewPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // const keysChangePassword = query ?;
-
   const handleCreateNewPassword = async (e) => {
     e.preventDefault();
     try {
