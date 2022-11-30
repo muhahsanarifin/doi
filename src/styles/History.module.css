@@ -46,10 +46,19 @@
   width: 8rem;
   height: 2rem;
   border-radius: 8px;
-  /* cursor: pointer; */
-  cursor: not-allowed;
+  cursor: pointer;
   font-weight: 800;
   font-size: 12px;
+}
+
+.menu-item {
+  width: 4rem !important;
+  margin: 0.2rem;
+  border: none;
+  padding: 0.2rem;
+  border-radius: 2px;
+  font-weight: 800;
+  cursor: pointer;
 }
 
 /* .bottom-content {
@@ -119,10 +128,25 @@
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+  }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+  }
 }
 
 @media all and (max-width: 480px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+  }
 }

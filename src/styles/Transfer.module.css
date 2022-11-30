@@ -8,6 +8,7 @@
 }
 
 .main {
+  /* border: 1px solid darkblue; */
   padding: 2.2rem 8rem;
 }
 
@@ -70,7 +71,7 @@
 
 .link-input {
   text-decoration: none;
-  color: #4D4B57;
+  color: #4d4b57;
 }
 
 .content-list {
@@ -111,10 +112,22 @@
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+  }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+  }
 }
 
 @media all and (max-width: 480px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+  }
 }

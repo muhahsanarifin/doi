@@ -118,7 +118,7 @@
 .show-password {
   /* border: 1px solid darkblue; */
   position: relative;
-  right: 1.8rem;
+  right: 1.5rem;
   cursor: pointer;
 }
 
@@ -129,14 +129,10 @@
   border: none;
   width: 25.0625rem;
   height: 1.6914rem;
-  border-bottom: 2px solid #88888f;
   padding: 1rem 0;
   font-weight: 600;
+  border-bottom: 2px solid #88888f;
 }
-
-/* .label-email, .label-email {
-  border: 1px solid darkblue;
-} */
 
 .email {
   position: relative;
@@ -148,10 +144,6 @@
   width: 14px;
   height: 14px;
 }
-/* 
-.password {
-  border: 1px solid darkgreen;
-} */
 
 .forgot-password {
   /* border: 1px solid darkblue; */
@@ -166,7 +158,7 @@
   font-weight: 600;
   text-align: right;
   cursor: pointer;
-  color: #3A3D42;
+  color: #3a3d42;
 }
 
 .btn-login {
@@ -178,7 +170,7 @@
   font-size: 18px;
   border: none;
   /* background: #DADADA; */
-  background: #6379F4;
+  background: #6379f4;
   color: #ffffff;
   font-size: 16px;
   font-weight: 800;
@@ -222,6 +214,7 @@
     align-self: center;
     width: 27.0625rem;
   }
+
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
@@ -250,12 +243,22 @@
   }
 
   .forgot-password p {
-    width: 31.0625rem;
+    width: 26.0625rem;
   }
 
   .btn-login {
     align-self: center;
     width: 27.0625rem;
+  }
+  .form input[type="text"],
+  .form input[type="password"] {
+    /* border: 1px solid darkblue; */
+    max-width: none;
+    border: none;
+  }
+
+  .show-password {
+    right: 0;
   }
 }
 
@@ -311,6 +314,16 @@
 
   .form input[type="text"],
   .form input[type="password"] {
+    /* border: 1px solid darkblue; */
     max-width: none;
+    border: none;
+  }
+
+  .show-password {
+    right: 0;
+  }
+  .form__email-content,
+  .form__password-content {
+    border-bottom: 2px solid #88888f;
   }
 }

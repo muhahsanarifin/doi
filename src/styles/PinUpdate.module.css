@@ -82,10 +82,40 @@
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+  }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+  }
 }
 
 @media all and (max-width: 480px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+    height: 100vh;
+  }
+
+  .right-side-content {
+    /* border: 1px solid darkblue; */
+    padding: 1rem;
+  }
+
+  .pin-styles {
+    width: 32px;
+    height: 32px;
+    border-radius: 2px;
+  }
+
+  .btn-confirm {
+    width: 8rem;
+  }
 }

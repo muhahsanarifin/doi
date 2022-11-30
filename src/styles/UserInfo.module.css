@@ -111,10 +111,23 @@
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
 }
 
 @media all and (max-width: 480px) {
+  .main {
+    flex-direction: column;
+    padding: 0.5rem;
+    height: 100vh;
+  }
 }
