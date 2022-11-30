@@ -36,6 +36,7 @@
 
 @media all and (max-width: 480px) {
   .footer {
+    /* border: 1px solid darkblue; */
     padding-top: auto;
     padding-bottom: auto;
     padding-left: 1rem;
@@ -45,5 +46,6 @@
   .footer__section_one,
   .footer__section_two {
     font-size: 10px;
+    /* border: 1px solid darkgreen; */
   }
 }

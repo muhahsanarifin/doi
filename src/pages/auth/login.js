@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useToggle } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "cookies-next";
