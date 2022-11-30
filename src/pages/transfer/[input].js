@@ -34,7 +34,7 @@ const input = () => {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setReceiver(response.data.data);
     } catch (error) {
       console.log(error.message);

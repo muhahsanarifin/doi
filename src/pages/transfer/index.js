@@ -55,8 +55,9 @@ const transfer = () => {
           },
         }
       );
-      // console.log(response.data.data);
+      console.log(response.data.data);
       setUsers(response.data.data);
+      console.log(identify);
     } catch (error) {
       console.log(error.message);
     }

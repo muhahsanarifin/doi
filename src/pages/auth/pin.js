@@ -51,9 +51,9 @@ const pin = () => {
           },
         }
       );
-     console.log(response.data);
+      // console.log(response.data);
       Swal.fire({
-        title: "Success create Pin",
+        title: `${response.data.msg}`,
         timer: 2000,
         showConfirmButton: false,
         timerProgressBar: true,

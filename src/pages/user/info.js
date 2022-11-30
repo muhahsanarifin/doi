@@ -16,6 +16,7 @@ import styles from "../../styles/UserInfo.module.css";
 const info = () => {
   // « Private Route »
   privateRoute();
+  
   const router = useRouter();
 
   const [firstname, setFirstName] = useState([]);

@@ -35,7 +35,7 @@ const register = () => {
           password,
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       Swal.fire({
         title: `${response.data.msg}`,
         showConfirmButton: false,
