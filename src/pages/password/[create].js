@@ -14,7 +14,6 @@ import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import passwordIcon from "../../assets/icons/lock.png";
 
-// on going fixing ◬
 const createNewPassword = () => {
   const router = useRouter();
 
