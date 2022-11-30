@@ -21,7 +21,7 @@ const resetPassword = () => {
         `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/forgot-password`,
         {
           email,
-          linkDirect: "http://localhost:3000/password/",
+          linkDirect: "https://doi.vercel.app/password/",
         }
       );
       // console.log(response);
