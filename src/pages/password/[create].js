@@ -4,8 +4,10 @@ import Axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 // import styles from "../../styles/createNewPassword.module.css";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import styles from "../../styles/CreateNewPassword.module.css";
 import phone from "../../assets/images/png-phone.png";
@@ -14,13 +16,15 @@ import passwordIcon from "../../assets/icons/lock.png";
 
 // on going fixing ◬
 const createNewPassword = () => {
-  const route = useRouter();
+  const router = useRouter();
 
-  const keyChangePassword = route.query.create;
+  const keyChangePassword = parseInt(router.query.create);
   console.log(keyChangePassword);
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [showSecond, setShowSecond] = useState(false);
 
   const handleCreateNewPassword = async (e) => {
     e.preventDefault();
@@ -28,15 +32,34 @@ const createNewPassword = () => {
       const response = await Axios.patch(
         `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/reset-password`,
         {
-          keysChangePassword,
+          keysChangePassword: parseInt(router.query.create),
           newPassword,
           confirmPassword,
         }
       );
-      console.log(response);
+      // console.log(response);
+      Swal.fire({
+        title: `${response.data.msg}`,
+        showConfirmButton: false,
+        timer: 2000,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#ffffff",
+        width: "18rem",
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer)
+          router.push("/auth/login");
+      });
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const showPassword = () => {
+    setShow(!show);
+  };
+  const showPasswordSecond = () => {
+    setShowSecond(!showSecond);
   };
 
   return (
@@ -89,12 +112,22 @@ const createNewPassword = () => {
                   />
                 </label>
                 <input
-                  type="text"
+                  type={show ? "text" : "password"}
                   placeholder="Create new password"
                   className={styles["password"]}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
                 />
+                <span
+                  onClick={showPassword}
+                  className={styles["show-password"]}
+                >
+                  {show ? (
+                    <ViewIcon color="#A9A9A9" />
+                  ) : (
+                    <ViewOffIcon color="#A9A9A9" />
+                  )}
+                </span>
               </span>
               <span className={styles["form__password-content"]}>
                 <label className={styles["label-password"]}>
@@ -105,12 +138,22 @@ const createNewPassword = () => {
                   />
                 </label>
                 <input
-                  type="text"
+                  type={showSecond ? "text" : "password"}
                   placeholder="Create new password"
                   className={styles["password"]}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
+                <span
+                  onClick={showPasswordSecond}
+                  className={styles["show-password"]}
+                >
+                  {show ? (
+                    <ViewIcon color="#A9A9A9" />
+                  ) : (
+                    <ViewOffIcon color="#A9A9A9" />
+                  )}
+                </span>
               </span>
               <button className={styles["btn-confirm"]}> Confirm </button>
             </form>

@@ -30,7 +30,58 @@ const history = () => {
       );
       setHistory(response.data.data);
       // console.log(response.data.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const Week = async () => {
+    try {
+      const response = await Axios.get(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=WEEK`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      setHistory(response.data.data);
+      // console.log(response.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  const Month = async () => {
+    try {
+      const response = await Axios.get(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=MONTH`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      setHistory(response.data.data);
+      // console.log(response.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const Year = async() => {
+    try {
+      const response = await Axios.get(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=YEAR`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      setHistory(response.data.data);
+      // console.log(response.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
@@ -55,8 +106,15 @@ const history = () => {
                       {isOpen ? "Close Filter" : "--Select Filter--"}
                     </MenuButton>
                     <MenuList>
-                      <MenuItem>👨‍💻 deploving...</MenuItem>
-                      <MenuItem>👩‍💻 developing...</MenuItem>
+                      <MenuItem onClick={Week} className={styles["menu-item"]}>
+                        Week
+                      </MenuItem>
+                      <MenuItem onClick={Month} className={styles["menu-item"]}>
+                        Month
+                      </MenuItem>
+                      <MenuItem onClick={Year} className={styles["menu-item"]}>
+                        Year
+                      </MenuItem>
                     </MenuList>
                   </>
                 )}

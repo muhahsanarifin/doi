@@ -2,8 +2,8 @@
 import React from "react";
 import Axios from "axios";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -11,12 +11,8 @@ import emailIcon from "../../assets/icons/mail.png";
 
 import styles from "../../styles/ResetPassword.module.css";
 
-// on going fixing ◬
 const resetPassword = () => {
-  const router = useRouter();
   const [email, setEmail] = useState("");
-  const linkDirect = `http://localhost:3000/password/create`;
-  //const linkDirect = `${NEXT_PUBLIC_LINK_TO_PASSWORD_CREATE}/password/create/`;
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -25,11 +21,19 @@ const resetPassword = () => {
         `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/forgot-password`,
         {
           email,
-          linkDirect,
+          linkDirect: "http://localhost:3000/password/",
         }
       );
-      console.log(response);
-      router.push(linkDirect);
+      // console.log(response);
+      Swal.fire({
+        title: `${response.data.msg}`,
+        showConfirmButton: false,
+        timer: 2000,
+        position: "top-start",
+        background: "#6379F4",
+        color: "#ffffff",
+        width: "18rem",
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -42,7 +46,6 @@ const resetPassword = () => {
           <aside className={styles["left-content"]}>
             <h3 className={styles["init-logo"]}>Doi</h3>
             <span className={styles["left-content_image"]}>
-              {/* <p>Image soon {`👨‍💻`}</p> */}
               <Image
                 src={phone}
                 alt={`phone`}

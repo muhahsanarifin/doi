@@ -22,6 +22,7 @@ const transfer = () => {
   privateRoute();
 
   const [users, setUsers] = useState([]);
+  const [identify, setIdentify] = useState([])
 
   const getDataUsers = async () => {
     try {
@@ -44,6 +45,27 @@ const transfer = () => {
     getDataUsers();
   }, []);
 
+  const searchReciever = async () => {
+    try {
+      const response = await Axios.get(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user?page=1&limit=10&sort=noTelp DESC&search=${identify}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      // console.log(response.data.data);
+      setUsers(response.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    searchReciever()
+  }, [identify]);
+
   return (
     <>
       <Header />
@@ -63,19 +85,25 @@ const transfer = () => {
                 type="text"
                 placeholder="Search receiver here"
                 className={styles["input-receiver"]}
+                onChange={(e) => setIdentify(e.target.value)}
               />
             </InputGroup>
           </span>
           <span className={styles["bottom-content"]}>
             <ul className={styles["list"]}>
               {users.map((user) => (
-                <li className={styles["content-list"]} key={user.id}>
+                <li
+                  className={styles["content-list"]}
+                  key={user.id}
+                  value={identify}
+                >
                   <Link
                     href={{
-                      pathname: '/transfer/[input]',
+                      pathname: "/transfer/[input]",
                       query: { input: user.id },
                     }}
-                  className={styles["link-input"]}>
+                    className={styles["link-input"]}
+                  >
                     <span className={styles["sub-content-list"]}>
                       <Image
                         src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${user.image}`}

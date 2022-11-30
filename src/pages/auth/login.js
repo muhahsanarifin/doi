@@ -25,7 +25,7 @@ const Login = () => {
   // const toast = useToast();
 
   // « Init »
-  const route = useRouter();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -57,7 +57,7 @@ const Login = () => {
           width: "18rem",
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer)
-            route.push("/auth/pin");
+            router.push("/auth/pin");
         });
       if (pin)
         Swal.fire({
@@ -70,7 +70,7 @@ const Login = () => {
           width: "18rem",
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer)
-            route.push("/dashbord");
+            router.push("/dashbord");
         });
     } catch (error) {
       Swal.fire({
@@ -174,7 +174,7 @@ const Login = () => {
               </span>
               <span
                 className={styles["forgot-password"]}
-                onClick={() => route.push("/password/reset")}
+                onClick={() => router.push("/password/reset")}
               >
                 <p>Forgot password ?</p>
               </span>
@@ -183,7 +183,7 @@ const Login = () => {
             <span className={styles["link-to-sign-up"]}>
               <p>
                 Don{`'`}t have an account? Let{`'`}s{" "}
-                <span onClick={() => route.push("/auth/register")}>
+                <span onClick={() => router.push("/auth/register")}>
                   Sign Up
                 </span>
               </p>
