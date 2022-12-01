@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import Axios from "axios";
 import { useState } from "react";
@@ -14,7 +13,7 @@ import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import passwordIcon from "../../assets/icons/lock.png";
 
-const createNewPassword = () => {
+const CreateNewPassword = () => {
   const router = useRouter();
 
   const keyChangePassword = parseInt(router.query.create);
@@ -163,4 +162,4 @@ const createNewPassword = () => {
   );
 };
 
-export default createNewPassword;
+export default CreateNewPassword;

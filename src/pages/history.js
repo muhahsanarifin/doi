@@ -12,7 +12,7 @@ import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
 import styles from "../styles/History.module.css";
 
-const history = () => {
+const History = () => {
   // « Private Route »
   privateRoute();
 
@@ -155,4 +155,4 @@ const history = () => {
   );
 };
 
-export default history;
+export default History;

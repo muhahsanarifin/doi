@@ -14,7 +14,7 @@ import { PinInput, PinInputField } from "@chakra-ui/react";
 
 import styles from "../../../styles/PinUpdate.module.css";
 
-const pin = () => {
+const Pin = () => {
   let [numeric, setPin] = useState([]);
   let [numericTwo, setPinTwo] = useState([]);
   let [numericTree, setPinThree] = useState([]);
@@ -123,4 +123,4 @@ const pin = () => {
   );
 };
 
-export default pin;
+export default Pin;

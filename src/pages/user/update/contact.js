@@ -13,7 +13,7 @@ import SideBar from "../../../components/SideBar";
 import styles from "../../../styles/Contact.module.css";
 import phoneIcon from "../../../assets/icons/phone.png";
 
-const contact = () => {
+const Contact = () => {
   const [noTelp, setNoTelp] = useState([]);
 
   const handleSetPhoneNumber = async (e) => {
@@ -107,4 +107,4 @@ const contact = () => {
   );
 };
 
-export default contact;
+export default Contact;

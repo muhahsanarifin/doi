@@ -13,7 +13,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import styles from "../../../styles/Password.module.css";
 import passwordIcon from "../../../assets/icons/lock.png";
 
-const password = () => {
+const Password = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -190,4 +190,4 @@ const password = () => {
   );
 };
 
-export default password;
+export default Password;

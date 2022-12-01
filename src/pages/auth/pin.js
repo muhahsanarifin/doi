@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import Axios from "axios";
 import { getCookie } from "cookies-next";
@@ -14,7 +13,7 @@ import phoneSecond from "../../assets/images/png-phone-2.png";
 
 import styles from "../../styles/Pin.module.css";
 
-const pin = () => {
+const Pin = () => {
   const router = useRouter();
 
   let [numeric, setPin] = useState([]);
@@ -154,4 +153,4 @@ const pin = () => {
   );
 };
 
-export default pin;
+export default Pin;

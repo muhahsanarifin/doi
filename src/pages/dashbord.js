@@ -14,7 +14,7 @@ import privateRoute from "../helpers/private";
 
 import styles from "../styles/Dashboard.module.css";
 
-const dashbord = () => {
+const Dashbord = () => {
   // « Private Route »
   privateRoute();
 
@@ -170,4 +170,4 @@ const dashbord = () => {
   );
 };
 
-export default dashbord;
+export default Dashbord;

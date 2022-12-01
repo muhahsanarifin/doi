@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { use } from "react";
 // import Axios from "axios";
 // import Image from "next/image";
@@ -13,7 +12,7 @@ import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import styles from "../../styles/UserInfo.module.css";
 
-const info = () => {
+const Info = () => {
   // « Private Route »
   privateRoute();
   
@@ -97,4 +96,4 @@ const info = () => {
   );
 };
 
-export default info;
+export default Info;

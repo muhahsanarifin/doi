@@ -17,16 +17,16 @@ import arrowLeft from "../../assets/icons/arrow-left.png";
 
 import styles from "../../styles/Profile.module.css";
 
-const profile = () => {
+const Profile = () => {
   // « Private Route »
   privateRoute();
 
   const route = useRouter();
-  // const [image, setImage] = useState([]);
+  // const [image, setImage] = useState();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [noTelp, setNoTelp] = useState("");
-  const [image, setImage] = useState("");
+  const [picture, setPicture] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -65,11 +65,35 @@ const profile = () => {
     }
   };
 
-  // Issue 👨‍💻
-  // const handleChangePicture = (e) => {
-  //   new FormData().append(image, URL.createObjectURL(e.target.files[0]));
-  //   console.log(image);
-  // };
+  let formData = new FormData();
+
+  const setImage = (e) => {
+    console.log(e.target.files[0]);
+    if (e.target && e.target.files[0]) {
+      formData.append("file", e.target.files[0]);
+    }
+  };
+
+  // formData.append("file", image);
+
+  const handleChangePicture = async () => {
+    try {
+      const response = await Axios.patch(
+        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/image/${getCookie(
+          "id"
+        )}`,
+        { formData },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
     setFirstname(getCookie("firstname"));
@@ -81,7 +105,7 @@ const profile = () => {
     setNoTelp(getCookie("noTelp"));
   }, []);
   useEffect(() => {
-    setImage(getCookie("image"));
+    setPicture(getCookie("picture"));
   }, []);
 
   return (
@@ -95,22 +119,17 @@ const profile = () => {
           <span className={styles["profile-side__picture"]}>
             <span className={styles["profile-side__edit-picture"]}>
               <Image
-                src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${image}`}
+                src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${picture}`}
                 alt={firstname}
                 width={500}
                 height={500}
                 className={styles["profile-side-image"]}
               />
               <span className={styles["input-file"]}>
-                <label
-                // onClick={handleChangePicture}
-                >
+                <label onClick={handleChangePicture}>
                   <Image src={edit} alt="edit" className={styles["edit"]} />
                 </label>
-                <input
-                  type="file"
-                  // onChange={(e) => setImage(e.target.files[0])}
-                />
+                <input type="file" onChange={setImage} />
               </span>
             </span>
             <span className={styles["profile-side-indentity"]}>
@@ -159,4 +178,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;

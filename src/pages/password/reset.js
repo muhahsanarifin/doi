@@ -11,7 +11,7 @@ import emailIcon from "../../assets/icons/mail.png";
 
 import styles from "../../styles/ResetPassword.module.css";
 
-const resetPassword = () => {
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
 
   const handleResetPassword = async (e) => {
@@ -105,4 +105,4 @@ const resetPassword = () => {
   );
 };
 
-export default resetPassword;
+export default ResetPassword;

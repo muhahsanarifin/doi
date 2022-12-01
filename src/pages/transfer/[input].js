@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
 import React from "react";
 import Axios from "axios";
 import Image from "next/image";
@@ -15,7 +13,7 @@ import penIcon from "../../assets/icons/edit-2.png";
 
 import styles from "../../styles/InputTransfer.module.css";
 
-const input = () => {
+const Input = () => {
   const router = useRouter();
   // console.log(router.query.input);
   const [receiver, setReceiver] = useState([]);
@@ -169,4 +167,4 @@ const input = () => {
   );
 };
 
-export default input;
+export default Input;

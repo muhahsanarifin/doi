@@ -8,7 +8,7 @@ import SideBar from "../../components/SideBar";
 
 import styles from "../../styles/Status.module.css";
 
-const status = () => {
+const Status = () => {
   return (
     <>
       <Header />
@@ -84,4 +84,4 @@ const status = () => {
   );
 };
 
-export default status;
+export default Status;

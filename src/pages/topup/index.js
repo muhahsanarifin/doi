@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import Axios from "axios";
 import privateRoute from "../../helpers/private";
@@ -13,7 +12,7 @@ import Swal from "sweetalert2";
 
 import styles from "../../styles/TopUp.module.css";
 
-const topup = () => {
+const Topup = () => {
   // « Private Route »
   privateRoute();
 
@@ -98,4 +97,4 @@ const topup = () => {
   );
 };
 
-export default topup;
+export default Topup;

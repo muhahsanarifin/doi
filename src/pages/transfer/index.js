@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable react/no-children-prop */
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import Axios from "axios";
 import { useState, useEffect } from "react";
@@ -18,7 +15,7 @@ import styles from "../../styles/Transfer.module.css";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
-const transfer = () => {
+const Transfer = () => {
   privateRoute();
 
   const [users, setUsers] = useState([]);
@@ -132,4 +129,4 @@ const transfer = () => {
   );
 };
 
-export default transfer;
+export default Transfer;

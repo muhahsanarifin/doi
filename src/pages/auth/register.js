@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 
 import Image from "next/image";
@@ -15,7 +14,7 @@ import personIcon from "../../assets/icons/person.png";
 
 import styles from "../../styles/Register.module.css";
 
-const register = () => {
+const Register = () => {
   // « Init route »
   const route = useRouter();
   const [firstName, setFirstName] = useState("");
@@ -181,4 +180,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;
