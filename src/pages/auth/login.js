@@ -112,7 +112,7 @@ const Login = () => {
               <p>
                 Doi is an application that focussing in banking needs for all
                 users in the world. Always updated and always following world
-                trends. 5000+ users registered in FazzPay everyday with
+                trends. 5000+ users registered in Doi everyday with
                 worldwide users coverage.
               </p>
             </span>
@@ -124,7 +124,7 @@ const Login = () => {
                 With 30.000+ Users
               </h3>
               <p>
-                Transfering money is eassier than ever, you can access FazzPay
+                Transfering money is eassier than ever, you can access Doi
                 wherever you are. Desktop, laptop, mobile phone? we cover all of
                 that for you!
               </p>
