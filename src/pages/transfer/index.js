@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import React from "react";
 import Axios from "axios";
 import { useState, useEffect } from "react";
