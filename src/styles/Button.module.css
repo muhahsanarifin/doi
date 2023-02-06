@@ -1,0 +1,40 @@
+.btn {
+  cursor: no-drop;
+  max-width: 27.0625rem;
+  height: 3.5625rem;
+  border-radius: 1rem;
+  font-size: 18px;
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  background: #dadada;
+  color: #88888f;
+}
+
+.btn-active {
+  cursor: pointer;
+  max-width: 27.0625rem;
+  height: 3.5625rem;
+  border-radius: 1rem;
+  font-size: 18px;
+  border: none;
+  background: #6379f4;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* || Responsive */
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .btn {
+    align-self: center;
+    width: 27.0625rem;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .btn {
+    align-self: center;
+    width: 27.0625rem;
+  }
+}
