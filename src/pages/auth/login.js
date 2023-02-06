@@ -1,14 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "cookies-next";
 import Axios from "axios";
-import Swal from "sweetalert2";
 
-// import Toast from "../../components/Toast";
-// import Layout from "../../components/Layout";
+import Swal from "sweetalert2";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { LoginButton } from "../../components/Button";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -18,13 +16,6 @@ import passwordIcon from "../../assets/icons/lock.png";
 import styles from "../../styles/Login.module.css";
 
 const Login = () => {
-  // « Layout »
-  // <Layout title="Login" />;
-
-  // « Toast »
-  // const toast = useToast();
-
-  // « Init »
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -112,8 +103,8 @@ const Login = () => {
               <p>
                 Doi is an application that focussing in banking needs for all
                 users in the world. Always updated and always following world
-                trends. 5000+ users registered in Doi everyday with
-                worldwide users coverage.
+                trends. 5000+ users registered in Doi everyday with worldwide
+                users coverage.
               </p>
             </span>
           </aside>
@@ -127,6 +118,13 @@ const Login = () => {
                 Transfering money is eassier than ever, you can access Doi
                 wherever you are. Desktop, laptop, mobile phone? we cover all of
                 that for you!
+              </p>
+            </span>
+            <span className={styles["right-content__description-mobile"]}>
+              <h3>Login</h3>
+              <p>
+                Login to your existing account to access all the features in
+                Doi.
               </p>
             </span>
             <form className={styles["form"]} onSubmit={handleSubmit}>
@@ -143,7 +141,6 @@ const Login = () => {
                   placeholder="Enter your e-mail"
                   className={styles["email"]}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                 />
               </span>
               <span className={styles["form__password-content"]}>
@@ -159,7 +156,6 @@ const Login = () => {
                   placeholder="Enter your password"
                   className={styles["password"]}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                 />
                 <span
                   onClick={showPassword}
@@ -178,7 +174,8 @@ const Login = () => {
               >
                 <p>Forgot password ?</p>
               </span>
-              <button className={styles["btn-login"]}>Login</button>
+              {/* LoginButton */}
+              <LoginButton email={email} password={password} />
             </form>
             <span className={styles["link-to-sign-up"]}>
               <p>
