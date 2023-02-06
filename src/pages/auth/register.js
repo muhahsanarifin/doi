@@ -1,10 +1,10 @@
-import React from "react";
-
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import Axios from "axios";
+
 import Swal from "sweetalert2";
+import { SignUpButton } from "../../components/Button";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -15,7 +15,6 @@ import personIcon from "../../assets/icons/person.png";
 import styles from "../../styles/Register.module.css";
 
 const Register = () => {
-  // « Init route »
   const route = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -83,8 +82,8 @@ const Register = () => {
               <p>
                 Doi is an application that focussing in banking needs for all
                 users in the world. Always updated and always following world
-                trends. 5000+ users registered in FazzPay everyday with
-                worldwide users coverage.
+                trends. 5000+ users registered in Doi everyday with worldwide
+                users coverage.
               </p>
             </span>
           </aside>
@@ -95,10 +94,14 @@ const Register = () => {
                 With 30.000+ Users
               </h3>
               <p>
-                Transfering money is eassier than ever, you can access FazzPay
+                Transfering money is eassier than ever, you can access Doi
                 wherever you are. Desktop, laptop, mobile phone? we cover all of
                 that for you!
               </p>
+            </span>
+            <span className={styles["right-content__description-mobile"]}>
+              <h3>Sign Up</h3>
+              <p>Create your account to access Doi.</p>
             </span>
             <form className={styles["form"]} onSubmit={handleRegister}>
               <span className={styles["form__firstname-content"]}>
@@ -165,7 +168,12 @@ const Register = () => {
                   required
                 />
               </span>
-              <button className={styles["btn-login"]}> SignUp </button>
+              <SignUpButton
+                firstName={firstName}
+                lastName={lastName}
+                email={email}
+                password={password}
+              />
             </form>
             <span className={styles["link-to-login"]}>
               <p>

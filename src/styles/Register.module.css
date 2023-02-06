@@ -100,10 +100,13 @@
 .form__lastname-content,
 .form__email-content,
 .form__password-content {
+  /* border: 1px solid darkgreen; */
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  border-bottom: 2px solid #88888f;
+  max-width: 27.0625rem;
 }
 
 .form input[type="text"],
@@ -111,16 +114,11 @@
   position: relative;
   outline: none;
   border: none;
-  width: 25.0625rem;
+  flex: 1;
   height: 1.6914rem;
-  border-bottom: 2px solid #88888f;
   padding: 1rem 0;
   font-weight: 600;
 }
-
-/* label-firstname, label-lastname .label-email, .label-email {
-  border: 1px solid darkblue;
-} */
 
 .email {
   position: relative;
@@ -137,22 +135,6 @@
 .password {
   border: 1px solid darkgreen;
 } */
-
-.btn-login {
-  /* border: 1px solid darkcyan; */
-  cursor: pointer;
-  max-width: 27.0625rem;
-  height: 3.5625rem;
-  border-radius: 1rem;
-  font-size: 18px;
-  border: none;
-  /* background: #dadada; */
-  background: #6379f4;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 800;
-  /* color: #88888f; */
-}
 
 /* .link-to-login {
   border: 1px solid darkblue;
@@ -174,79 +156,215 @@
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .content {
-    flex-direction: column;
+    justify-content: space-between;
+    background: #e5e5e5;
   }
 
   .right-content {
-    align-items: center;
+    flex: 0.5;
   }
 
-  .left-content__description p,
-  .right-content__description h3,
-  .right-content__description p {
-    text-align: justify;
-  }
-
-  .right-content__description h3,
-  .right-content__description p {
-    max-width: none;
-  }
-
-  .btn-login {
-    align-self: center;
-    width: 27.0625rem;
-  }
-}
-
-@media all and (min-width: 480px) and (max-width: 768px) {
-  .content {
-    flex-direction: column;
-  }
-
-  .left-content::before {
-    left: 0;
-  }
-
-  .left-content__description p,
-  .right-content__description h3,
-  .right-content__description p {
-    text-align: justify;
-  }
-
-  .right-content__description h3,
-  .right-content__description p {
-    max-width: none;
-  }
-
-  .form {
-    gap: 2.5rem;
-    align-items: center;
-  }
-
-  .btn-login {
-    align-self: center;
-    width: 27.0625rem;
-  }
-}
-
-@media all and (max-width: 480px) {
   .left-content,
   .right-content {
-    padding: 2.5rem 2.5rem;
+    padding: 0.5rem 2.5rem;
+  }
+
+  .left-content {
+    background: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 32px;
+    color: #6379f4;
+  }
+
+  /* || Non display left side content */
+  .image,
+  .left-content_image,
+  .left-content__description {
+    display: none;
+  }
+
+  .content {
+    flex-direction: column;
+    /* border: 1px solid darkblue; */
   }
 
   .left-content::before {
     display: none;
   }
 
-  .left-content__description p,
+  .right-content {
+    background: #ffffff;
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+    align-items: center;
+  }
+
+  /* || Non display header and pragraph of right side content */
   .right-content__description h3,
   .right-content__description p {
-    text-align: justify;
+    display: none;
+  }
+
+  .right-content__description-mobile {
+    /* border: 1px solid darkblue; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .right-content__description-mobile h3 {
+    font-size: 32px;
+  }
+
+  .right-content__description-mobile p {
+    color: #a9a9a9;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .content {
+    justify-content: space-between;
+    background: #e5e5e5;
+  }
+
+  .right-content {
+    flex: 0.5;
+  }
+
+  .left-content,
+  .right-content {
+    padding: 0.5rem 2.5rem;
+  }
+
+  .left-content {
+    background: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 32px;
+    color: #6379f4;
+  }
+
+  /* || Non display left side content */
+  .image,
+  .left-content_image,
+  .left-content__description {
+    display: none;
   }
 
   .content {
     flex-direction: column;
+  }
+
+  .left-content::before {
+    display: none;
+  }
+
+  .right-content {
+    background: #ffffff;
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+  }
+
+  /* || Non display header and pragraph of right side content */
+  .right-content__description h3,
+  .right-content__description p {
+    display: none;
+  }
+
+  .right-content__description-mobile {
+    /* border: 1px solid darkblue; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .right-content__description-mobile h3 {
+    font-size: 32px;
+  }
+
+  .right-content__description-mobile p {
+    color: #a9a9a9;
+  }
+}
+
+@media all and (max-width: 480px) {
+  .content {
+    justify-content: space-between;
+    background: #e5e5e5;
+  }
+
+  .left-content,
+  .right-content {
+    padding: 0.5rem 2.5rem;
+  }
+
+  .left-content {
+    background: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 26px;
+    color: #6379f4;
+  }
+
+  /* || Non display left side content */
+  .image,
+  .left-content_image,
+  .left-content__description {
+    display: none;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .left-content::before {
+    display: none;
+  }
+
+  .right-content {
+    background: #ffffff;
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+  }
+
+  /* || Non display header and pragraph of right side content */
+  .right-content__description h3,
+  .right-content__description p {
+    display: none;
+  }
+
+  .right-content__description-mobile {
+    /* border: 1px solid darkblue; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .right-content__description-mobile h3 {
+    font-size: 24px;
+  }
+
+  .right-content__description-mobile p {
+    color: #a9a9a9;
   }
 
   /* || Content Image */
@@ -281,6 +399,15 @@
 
   .form input[type="text"],
   .form input[type="password"] {
-    max-width: none;
+    /* border: 1px solid darkblue; */
+    border: none;
+  }
+
+  .show-password {
+    right: 0;
+  }
+  .form__email-content,
+  .form__password-content {
+    border-bottom: 2px solid #88888f;
   }
 }
