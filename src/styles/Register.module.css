@@ -78,6 +78,11 @@
   gap: 1rem;
 }
 
+.right-content__description-mobile {
+  display: none;
+}
+
+
 .right-content__description h3 {
   /* border: 1px solid darkblue; */
   max-width: 20rem;
