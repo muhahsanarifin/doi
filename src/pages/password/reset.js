@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useState } from "react";
 import Axios from "axios";
-import { useState } from "react";
 import Image from "next/image";
+
+import { ForgotPasswordButton } from "../../components/Button";
 import Swal from "sweetalert2";
 
+
+import styles from "../../styles/ResetPassword.module.css";
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import emailIcon from "../../assets/icons/mail.png";
 
-import styles from "../../styles/ResetPassword.module.css";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -62,7 +64,7 @@ const ResetPassword = () => {
               <p>
                 Doi is an application that focussing in banking needs for all
                 users in the world. Always updated and always following world
-                trends. 5000+ users registered in FazzPay everyday with
+                trends. 5000+ users registered in Doi everyday with
                 worldwide users coverage.
               </p>
             </span>
@@ -77,6 +79,13 @@ const ResetPassword = () => {
                 To reset your password, you must type your e-mail and we will
                 send a link to your email and you will be directed to the reset
                 password screens.
+              </p>
+            </span>
+            <span className={styles["right-content__description-mobile"]}>
+              <h3>Reset Password</h3>
+              <p>
+                Enter your Doi e-mail so we can send you a password reset
+                link.
               </p>
             </span>
             <form className={styles["form"]} onSubmit={handleResetPassword}>
@@ -96,7 +105,7 @@ const ResetPassword = () => {
                   required
                 />
               </span>
-              <button className={styles["btn-confirm"]}> Confirm </button>
+              <ForgotPasswordButton email={email} />
             </form>
           </div>
         </section>
