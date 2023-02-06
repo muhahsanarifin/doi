@@ -18,7 +18,7 @@
     <a href="#"><strong>Explore the docs »</strong></a>
     <br />
     <br /> -->
-    <a href="#">View Demo</a>
+    <a href="https://doi.vercel.app/auth/login">View Demo</a>
     ·
     <a href="#">Report Bug</a>
     ·
@@ -58,39 +58,28 @@
 
 <p align="left">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=react,nextjs,javascript,html,css," />
+    <img src="https://skillicons.dev/icons?i=react,nextjs,javascript,css," />
   </a>
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ABOUT THE PROJECT -->
-# About The Project 
+<!-- # About The Project  -->
 
 <!-- ## Features
 
-| Info          |       Status           |
-| :-----------  |:---------------------- |
-| Login         | `On going development` |
-| Logout        | `On going development` |
-| `ADMIN`                                |
-| Home          | `On going development` |
-| Profile       | `On going development` |
-| Product       | `On going development` |
-| Promo         | `On going development` |
-| Orders        | `On going development` |
-| Dashbord      | `On going development` |
-| Transactions  | `On going development` |
-| `Customer`                             |
-| Home          | `On going development` |
-| Profile       | `On going development` |
-| Product       | `On going development` |
-| Promo         | `On going development` |
-| YourChart     | `On going development` |
-| Transactions  | `On going development` |
-| History       | `On going development` | -->
+| `Main`        |`Admin`                    | `Customer`
+| :-----------  |:------------------------- | :-----------  
+| Login         | Edit Profile
+| Logout        | Change & Forgot Password               
+| Home          | Create & Edit Product     | Cart
+|               | Create & Edit Promo       | Order
+|               | Dashboard                 | Transaction (including history)
+|               | Handle Transaction        | 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- ## Sign Up
 
@@ -104,23 +93,27 @@
 
 ![Home](src/assets/images/home-mammi.png?raw=true)
 
-## Product
+## Products | Customer
 
-![Product](src/assets/images/product-mammi.png?raw=true)
+![Product Customer](src/assets/images/product-mammi.png?raw=true)
+
+## Products | Admin
+
+![Product Admin](src/assets/images/products-mammi-admin.png?raw=true)
 
 ## Forgot Password
 
-![Profile](src/assets/images/forgot-password-mammi.png?raw=true)
+![Forgot Password](src/assets/images/forgot-password-mammi.png?raw=true)
 
 
 ## History Customer
 
-![Profile](src/assets/images/history-customer-mammi.png?raw=true)
+![History Customer](src/assets/images/history-customer-mammi.png?raw=true)
 
 
 ## Product Detail Customer
 
-![Profile](src/assets/images/product-detail-customer-mammi.png?raw=true)
+![Product Detail Customer](src/assets/images/product-detail-customer-mammi.png?raw=true)
 
 
 ## Profile
@@ -130,7 +123,19 @@
 
 ## Payment And Delivery
 
-![Profile](src/assets/images/payment-and-delivery-mammi.png?raw=true)
+![Payment And Delivery](src/assets/images/payment-and-delivery-mammi.png?raw=true)
+
+## Create Promo
+
+![Create Promo](src/assets/images/create-promos-mammi.png?raw=true)
+
+## Create Product
+
+![Create Product](src/assets/images/create-products-mammi.png?raw=true)
+
+## Handle Transactions
+
+![Handle Transactions](src/assets/images/handle-transaction-customer-mammi.png?raw=true)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
