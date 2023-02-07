@@ -40,7 +40,6 @@ next-env.d.ts
 hooks
 redux
 modules
-utils
 
 # env
 .env
@@ -59,3 +58,6 @@ Modal.jsx
 
 #home
 home.js
+
+#pages
+src/pages/api
