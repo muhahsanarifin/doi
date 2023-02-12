@@ -1,10 +1,8 @@
-import React from "react";
-import Axios from "axios";
+import React, { useState } from "react";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
-import Swal from "sweetalert2";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import Users from "../../utils/api/user";
 
 import { PinInput, PinInputField } from "@chakra-ui/react";
 
@@ -12,60 +10,60 @@ import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 
 import styles from "../../styles/Pin.module.css";
+import { PinButton } from "../../components/Button";
 
 const Pin = () => {
+  const { updatePinUser } = Users;
   const router = useRouter();
+  const [numeric, setPin] = useState("");
+  const [numericTwo, setPinTwo] = useState("");
+  const [numericTree, setPinThree] = useState("");
+  const [numericFour, setPinFour] = useState("");
+  const [numericFive, setPinFive] = useState("");
+  const [numericSix, setPinSix] = useState("");
 
-  let [numeric, setPin] = useState([]);
-  let [numericTwo, setPinTwo] = useState([]);
-  let [numericTree, setPinThree] = useState([]);
-  let [numericFour, setPinFour] = useState([]);
-  let [numericFive, setPinFive] = useState([]);
-  let [numericSixe, setPinSix] = useState([]);
-
-  let numerics = [
+  const numerics = [
     numeric,
     numericTwo,
     numericTree,
     numericFour,
     numericFive,
-    numericSixe,
+    numericSix,
   ];
 
-  let pin = numerics.join("");
+  // const pin = (numeric) => {
+  //   let result = [];
+  //   for (let idx = 0; idx < numeric.length; idx++) {
+  //     result.push(parseFloat(numeric[idx]));
+  //   }
+  //   return result;
+  // };
 
-  const handleSetPin = async (e) => {
-    e.preventDefault();
+  // const pin = (numerics) => { // <= Short hand
+  //   return parseFloat(numerics.join(""));
+  // }
+  // console.log(pin(numerics));
+
+  const pin = (numerics) => {
+    let result = "";
+    for (let idx = 0; idx < numerics.length; idx++) {
+      result += numerics[idx];
+    }
+    return parseFloat(result);
+  };
+
+  const handleSetPin = async () => {
     try {
-      const response = await Axios.patch(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/pin/${getCookie(
-          "id"
-        )}`,
-        {
-          pin,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
+      const response = await updatePinUser(
+        getCookie("id"),
+        pin(numerics),
+        getCookie("token")
       );
-      // console.log(response.data);
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          router.push("/dashbord");
-      });
+      if (response.data.status === 200) {
+        router.push("/dashbord");
+      }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.data.msg);
     }
   };
 
@@ -109,43 +107,45 @@ const Pin = () => {
                 account password and the PIN.
               </p>
             </span>
-            <form className={styles["form"]} onSubmit={handleSetPin}>
+            <span className={styles["form"]}>
               <span className={styles["pin-form"]}>
                 <PinInput otp placeholder="…">
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPin(e.target.value)}
-                    required
                   />
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPinTwo(e.target.value)}
-                    required
                   />
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPinThree(e.target.value)}
-                    required
                   />
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPinFour(e.target.value)}
-                    required
                   />
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPinFive(e.target.value)}
-                    required
                   />
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPinSix(e.target.value)}
-                    required
                   />
                 </PinInput>
               </span>
-              <button className={styles["btn-confirm"]}> Confirm </button>
-            </form>
+              <PinButton
+                numeric={numeric}
+                numericTwo={numericTwo}
+                numericTree={numericTree}
+                numericFour={numericFour}
+                numericFive={numericFive}
+                numericSix={numericSix}
+                onClick={handleSetPin}
+              />
+            </span>
           </div>
         </section>
       </main>
