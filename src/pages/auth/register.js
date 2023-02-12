@@ -1,66 +1,57 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Axios from "axios";
+import Auth from "../../utils/api/auth";
 
-import Swal from "sweetalert2";
 import { SignUpButton } from "../../components/Button";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import emailIcon from "../../assets/icons/mail.png";
+import emailIconBlue from "../../assets/icons/mail-blue.png";
 import passwordIcon from "../../assets/icons/lock.png";
+import passwordIconBlue from "../../assets/icons/lock-blue.png";
 import personIcon from "../../assets/icons/person.png";
+import personIconBlue from "../../assets/icons/person-blue.png";
 
 import styles from "../../styles/Register.module.css";
+import TitleBar from "../../components/TitleBar";
+import { HideShowPassword } from "../../components/Toggle";
 
 const Register = () => {
-  const route = useRouter();
+  const { register, login } = Auth;
+  const router = useRouter();
+  const [show, setShow] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await Axios.post(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/register`,
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-        }
-      );
-      // console.log(response.data);
-      Swal.fire({
-        title: `${response.data.msg}`,
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          route.push("/auth/login");
+      const response = await register({
+        firstName,
+        lastName,
+        email,
+        password,
       });
+
+      if (response.data.status === 200) {
+        const response = await login({ email, password });
+        
+        const { pin } = response.data.data;
+        if (pin === null) return router.push("/auth/pin");
+      }
     } catch (error) {
-      Swal.fire({
-        title: `${error.response.data.msg}`,
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top-start",
-        background: "#EB1D36",
-        color: "#ffffff",
-        width: "18rem",
-      });
+      setErrorMsg(error.response.data.msg);
     }
   };
 
   return (
     <>
+      <TitleBar name={"Register"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>
@@ -104,10 +95,18 @@ const Register = () => {
               <p>Create your account to access Doi.</p>
             </span>
             <form className={styles["form"]} onSubmit={handleRegister}>
-              <span className={styles["form__firstname-content"]}>
+              <span
+                className={
+                  styles[
+                    !firstName
+                      ? "form__firstname-content"
+                      : "form__firstname-content-active"
+                  ]
+                }
+              >
                 <label className={styles["label-firstname"]}>
                   <Image
-                    src={personIcon}
+                    src={!firstName ? personIcon : personIconBlue}
                     alt="firstname"
                     className={styles["person-icon"]}
                   />
@@ -120,10 +119,18 @@ const Register = () => {
                   required
                 />
               </span>
-              <span className={styles["form__lastname-content"]}>
+              <span
+                className={
+                  styles[
+                    !lastName
+                      ? "form__lastname-content"
+                      : "form__lastname-content-active"
+                  ]
+                }
+              >
                 <label className={styles["label-lastname"]}>
                   <Image
-                    src={personIcon}
+                    src={!lastName ? personIcon : personIconBlue}
                     alt="lastname"
                     className={styles["person-icon"]}
                   />
@@ -136,10 +143,18 @@ const Register = () => {
                   required
                 />
               </span>
-              <span className={styles["form__email-content"]}>
+              <span
+                className={
+                  styles[
+                    !email
+                      ? "form__email-content"
+                      : "form__email-content-active"
+                  ]
+                }
+              >
                 <label className={styles["label-email"]}>
                   <Image
-                    src={emailIcon}
+                    src={!email ? emailIcon : emailIconBlue}
                     alt="email"
                     className={styles["email-icon"]}
                   />
@@ -152,22 +167,40 @@ const Register = () => {
                   required
                 />
               </span>
-              <span className={styles["form__password-content"]}>
+              <span
+                className={
+                  styles[
+                    !password
+                      ? "form__password-content"
+                      : "form__password-content-active"
+                  ]
+                }
+              >
                 <label className={styles["label-password"]}>
                   <Image
-                    src={passwordIcon}
+                    src={!password ? passwordIcon : passwordIconBlue}
                     alt="password"
                     className={styles["password-icon"]}
                   />
                 </label>
                 <input
-                  type="password"
+                  type={show ? "text" : "password"}
                   placeholder="Enter your password"
                   className={styles["password"]}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                <HideShowPassword
+                  onClick={() => setShow(!show)}
+                  onShow={show}
+                  className={styles["show-password"]}
+                />
               </span>
+              {errorMsg ? (
+                <span className={styles["error-msg"]}>
+                  <p>{errorMsg}</p>
+                </span>
+              ) : null}
               <SignUpButton
                 firstName={firstName}
                 lastName={lastName}
@@ -177,8 +210,8 @@ const Register = () => {
             </form>
             <span className={styles["link-to-login"]}>
               <p>
-                Don{`'`}t have an account? Let{`'`}s{" "}
-                <span onClick={() => route.push("/auth/login")}>login</span>
+                Don&apos;t have an account? Let&apos;s{" "}
+                <span onClick={() => router.push("/auth/login")}>login</span>
               </p>
             </span>
           </div>
