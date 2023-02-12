@@ -40,10 +40,7 @@ const Login = () => {
         setCookie("id", `${response.data.data.id}`);
         setCookie("token", `${response.data.data.token}`);
 
-        const { pin } = response.data.data;
-        if (pin === null) return router.push("/auth/pin");
-
-        if (pin) return router.push("/dashboard");
+        router.push("/dashboard");
       }
     } catch (error) {
       setErrorMsg(error.response.data.msg);
