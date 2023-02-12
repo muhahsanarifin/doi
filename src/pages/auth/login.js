@@ -2,86 +2,59 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "cookies-next";
-import Axios from "axios";
+import Auth from "../../utils/api/auth";
 
-import Swal from "sweetalert2";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import TitleBar from "../../components/TitleBar";
+
 import { LoginButton } from "../../components/Button";
+import { HideShowPassword } from "../../components/Toggle";
+import { Loader } from "../../components/Feedback";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import emailIcon from "../../assets/icons/mail.png";
+import emailIconBlue from "../../assets/icons/mail-blue.png";
+import emailIconRed from "../../assets/icons/mail-red.png";
 import passwordIcon from "../../assets/icons/lock.png";
-
+import passwordIconBlue from "../../assets/icons/lock-blue.png";
+import passwordIconRed from "../../assets/icons/lock-red.png";
 import styles from "../../styles/Login.module.css";
 
 const Login = () => {
+  const { login } = Auth; // <= Import Login API function from "utils/api" folder.
   const router = useRouter();
+  const [loader, setLoader] = useState(false);
+  const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await Axios.post(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/login`,
-        {
-          email,
-          password,
-        }
-      );
+      setLoader(true);
+      const response = await login({ email, password });
 
-      setCookie("id", `${response.data.data.id}`);
-      setCookie("token", `${response.data.data.token}`);
+      if (response.data.status === 200) {
+        // Set cookies ↴
+        setCookie("id", `${response.data.data.id}`);
+        setCookie("token", `${response.data.data.token}`);
 
-      const { pin } = response.data.data;
-      // console.log(response.data);
-      if (pin === null)
-        Swal.fire({
-          title: "Please, create pin",
-          showConfirmButton: false,
-          timer: 2000,
-          position: "top-start",
-          background: "#6379F4",
-          color: "#ffffff",
-          width: "18rem",
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer)
-            router.push("/auth/pin");
-        });
-      if (pin)
-        Swal.fire({
-          title: `${response.data.msg}`,
-          showConfirmButton: false,
-          timer: 2000,
-          position: "top-start",
-          background: "#6379F4",
-          color: "#ffffff",
-          width: "18rem",
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer)
-            router.push("/dashbord");
-        });
+        const { pin } = response.data.data;
+        if (pin === null) return router.push("/auth/pin");
+
+        if (pin) return router.push("/dashboard");
+      }
     } catch (error) {
-      Swal.fire({
-        title: `${error.response.data.msg}`,
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top-start",
-        background: "#EB1D36",
-        color: "#ffffff",
-        width: "18rem",
-      });
+      setErrorMsg(error.response.data.msg);
+    } finally {
+      setLoader(false);
     }
-  };
-
-  const showPassword = () => {
-    setShow(!show);
   };
 
   return (
     <>
+      <TitleBar name={"Login"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>
@@ -128,10 +101,26 @@ const Login = () => {
               </p>
             </span>
             <form className={styles["form"]} onSubmit={handleSubmit}>
-              <span className={styles["form__email-content"]}>
+              <span
+                className={
+                  styles[
+                    errorMsg
+                      ? "form__email-content-active-error-msg"
+                      : !email
+                      ? "form__email-content"
+                      : "form__email-content-active"
+                  ]
+                }
+              >
                 <label className={styles["label-email"]}>
                   <Image
-                    src={emailIcon}
+                    src={
+                      errorMsg
+                        ? emailIconRed
+                        : !email
+                        ? emailIcon
+                        : emailIconBlue
+                    }
                     alt="email"
                     className={styles["email-icon"]}
                   />
@@ -143,10 +132,26 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </span>
-              <span className={styles["form__password-content"]}>
+              <span
+                className={
+                  styles[
+                    errorMsg
+                      ? "form__password-content-active-error-msg"
+                      : !password
+                      ? "form__password-content"
+                      : "form__password-content-active"
+                  ]
+                }
+              >
                 <label className={styles["label-password"]}>
                   <Image
-                    src={passwordIcon}
+                    src={
+                      errorMsg
+                        ? passwordIconRed
+                        : !password
+                        ? passwordIcon
+                        : passwordIconBlue
+                    }
                     alt="password"
                     className={styles["password-icon"]}
                   />
@@ -157,16 +162,11 @@ const Login = () => {
                   className={styles["password"]}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <span
-                  onClick={showPassword}
+                <HideShowPassword
+                  onClick={() => setShow(!show)}
+                  onShow={show}
                   className={styles["show-password"]}
-                >
-                  {show ? (
-                    <ViewIcon color="#A9A9A9" />
-                  ) : (
-                    <ViewOffIcon color="#A9A9A9" />
-                  )}
-                </span>
+                />
               </span>
               <span
                 className={styles["forgot-password"]}
@@ -174,12 +174,20 @@ const Login = () => {
               >
                 <p>Forgot password ?</p>
               </span>
-              {/* LoginButton */}
-              <LoginButton email={email} password={password} />
+              {errorMsg ? (
+                <span className={styles["error-msg"]}>
+                  <p>{errorMsg}</p>
+                </span>
+              ) : null}
+              <LoginButton
+                email={email}
+                password={password}
+                init={loader ? <Loader /> : "Login"}
+              />
             </form>
             <span className={styles["link-to-sign-up"]}>
               <p>
-                Don{`'`}t have an account? Let{`'`}s{" "}
+                Don&apos;t have an account? Let&apos;s{" "}
                 <span onClick={() => router.push("/auth/register")}>
                   Sign Up
                 </span>

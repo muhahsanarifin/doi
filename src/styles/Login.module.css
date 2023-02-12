@@ -24,6 +24,10 @@
   gap: 1rem;
 }
 
+.init-logo {
+  font-weight: 800;
+}
+
 .left-content::before {
   position: absolute;
   content: url(../assets/images/vector-3.png);
@@ -85,7 +89,6 @@
 }
 
 .form {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -99,6 +102,28 @@
   gap: 0.5rem;
   align-items: center;
   border-bottom: 2px solid #88888f;
+  max-width: 27.0625rem;
+}
+
+.form__email-content-active,
+.form__password-content-active {
+  /* border: 1px solid darkgreen; */
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  border-bottom: 2px solid #6379f4;
+  max-width: 27.0625rem;
+}
+
+.form__email-content-active-error-msg,
+.form__password-content-active-error-msg {
+  /* border: 1px solid darkgreen; */
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  border-bottom: 2px solid #FF5B37;
   max-width: 27.0625rem;
 }
 
@@ -143,6 +168,18 @@
   text-align: right;
   cursor: pointer;
   color: #3a3d42;
+}
+
+.error-msg {
+  width: 27.0625rem;
+  display: flex;
+  justify-content: center;
+}
+
+.error-msg p {
+  color: #FF5B37;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .link-to-sign-up p {
@@ -410,6 +447,7 @@
   .show-password {
     right: 0;
   }
+
   .form__email-content,
   .form__password-content {
     border-bottom: 2px solid #88888f;
