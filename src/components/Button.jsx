@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "../styles/Button.module.css";
 
-const LoginButton = ({ password, email }) => {
+const LoginButton = ({ password, email, init }) => {
   return (
     <>
       <button
         className={styles[!password || !email ? "btn" : "btn-active"]}
         disabled={!password || !email}
       >
-        Login
+        {init}
       </button>
     </>
   );
@@ -26,8 +26,7 @@ const SignUpButton = ({ firstName, lastName, email, password }) => {
           ]
         }
       >
-        {" "}
-        SignUp{" "}
+        SignUp
       </button>
     </>
   );
