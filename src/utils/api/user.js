@@ -34,7 +34,7 @@ const updatePasswordUser = (id, body, accessToken) =>
 const deleteImageUser = (id, accessToken) =>
   Axios.delete(`${BASE_URL}/user/image/${id}`, config(accessToken));
 
-const Auth = {
+const Users = {
   dataUsers,
   dataUser,
   checkPinUser,
@@ -45,4 +45,4 @@ const Auth = {
   deleteImageUser,
 };
 
-export default Auth;
+export default Users;
