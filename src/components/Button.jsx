@@ -45,4 +45,102 @@ const ForgotPasswordButton = ({ email }) => {
   );
 };
 
-export { LoginButton, SignUpButton, ForgotPasswordButton };
+const PinButton = ({
+  numeric,
+  numericTwo,
+  numericTree,
+  numericFour,
+  numericFive,
+  numericSix,
+
+  onClick,
+}) => {
+  return (
+    <>
+      <button
+        className={
+          styles[
+            !numeric ||
+            !numericTwo ||
+            !numericTree ||
+            !numericFour ||
+            !numericFive ||
+            !numericSix
+              ? "btn"
+              : "btn-active"
+          ]
+        }
+        disabled={
+          !numeric ||
+          !numericTwo ||
+          !numericTree ||
+          !numericFour ||
+          !numericFive ||
+          !numericSix
+        }
+        onClick={onClick}
+      >
+        Confirm
+      </button>
+    </>
+  );
+};
+
+const ChangePasswordButton = ({
+  currentPassword,
+  newPassword,
+  repeatPassword,
+}) => {
+  return (
+    <>
+      <button
+        className={
+          styles[
+            !currentPassword || !newPassword || !repeatPassword
+              ? "btn"
+              : "btn-active"
+          ]
+        }
+        disabled={!currentPassword || !newPassword || !repeatPassword}
+      >
+        Confirm
+      </button>
+    </>
+  );
+};
+
+const EditPhoneNumberButton = ({ noTelp }) => {
+  return (
+    <>
+      <button
+        className={styles[!noTelp ? "btn" : "btn-active"]}
+        disabled={!noTelp}
+      >
+        Edit Phone Number
+      </button>
+    </>
+  );
+};
+
+const TopupButton = ({ amount }) => {
+  return (
+    <>
+      <button
+        className={styles[!amount ? "btn" : "btn-active"]}
+        disabled={!amount}
+      >
+        Submit
+      </button>
+    </>
+  );
+};
+
+export {
+  LoginButton,
+  SignUpButton,
+  ForgotPasswordButton,
+  PinButton,
+  ChangePasswordButton,
+  EditPhoneNumberButton,
+  TopupButton,
+};
