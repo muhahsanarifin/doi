@@ -41,7 +41,13 @@ const Input = () => {
     }
   };
 
-  console.log("Receiver: ", receiver);
+  // Handle currency
+  const idrCurreny = (number) => {
+    return Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
 
   return (
     <>
@@ -89,17 +95,17 @@ const Input = () => {
                 <input
                   type="text"
                   placeholder={`0.00`}
-                  className={styles[!amount ? "amount": "amount-active"]}
+                  className={styles[!amount ? "amount" : "amount-active"]}
                   onChange={(e) => setAmount(e.target.value)}
                   required
                 />
                 <p className={styles["rest-balance"]}>
-                  {`Rp${user?.balance} Availabe`}
+                  {`${idrCurreny(user?.balance)} Availabe`}
                 </p>
-                <span className={styles[!notes ? "note": "note-active"]}>
+                <span className={styles[!notes ? "note" : "note-active"]}>
                   <label className={styles["pen-icon-label"]}>
                     <Image
-                      src={!notes ? penIcon: penIconBlue}
+                      src={!notes ? penIcon : penIconBlue}
                       alt="Pen"
                       className={styles["pen-icon"]}
                     />
@@ -114,9 +120,10 @@ const Input = () => {
               </span>
               <span className={styles["btn-section"]}>
                 <button
-                  className={styles[!amount ? "continue-btn": "continue-btn-active"]}
+                  className={
+                    styles[!amount ? "continue-btn" : "continue-btn-active"]
+                  }
                   onClick={handleTransfer}
-
                   disabled={!amount}
                 >
                   Continue
