@@ -7,11 +7,11 @@ const Footer = () => {
     <>
       <footer className={styles["footer"]}>
         <span className={styles["footer__section_one"]}>
-          <p>2022 Doi. All right reserved.</p>
+          <p>2022-2023 Doi. All right reserved.</p>
         </span>
         <span className={styles["footer__section_two"]}>
-          <p>{`085298145421`}</p>
-          <p>contact@doi.com</p>
+          <p className={styles["footer__no-telp"]}>+62 5321 1234 9876</p>
+          <p className={styles["footer__email"]}>contact@doi.com</p>
         </span>
       </footer>
     </>
