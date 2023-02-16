@@ -76,6 +76,9 @@ const Charts = () => {
     return result;
   };
 
+  const incomeTotal = sum(listIncome);
+  const expenseTotal = sum(listExpense);
+
   // const checkTotal = (totals) => {
   //   const result = totals.map((total) => total.total === 0).includes(false);
 
@@ -84,6 +87,14 @@ const Charts = () => {
   // console.log("Check total list expense: ", checkTotal(listExpense))
   // console.log("Check total list income: ", checkTotal(listIncome));
 
+  // Handle currency
+  const idrCurreny = (number) => {
+    return Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
+
   return (
     <>
       <span className={"chart"}>
@@ -91,7 +102,7 @@ const Charts = () => {
           <span className={"income-section"}>
             <Image
               src={
-                sum(listIncome) > sum(listExpense)
+                incomeTotal > expenseTotal
                   ? greenArrowUpIcon
                   : greenArrowDownIcon
               }
@@ -103,15 +114,13 @@ const Charts = () => {
             />
             <p className={"income-title"}>Income</p>
             <p className={"income-section__value"}>
-              {sum(listIncome) ? `RP${sum(listIncome)}` : null}
+              {incomeTotal ? `${idrCurreny(incomeTotal)}` : null}
             </p>
           </span>
           <span className={"expense-section"}>
             <Image
               src={
-                sum(listExpense) > sum(listIncome)
-                  ? redArrowUpIcon
-                  : redArrowDownIcon
+                expenseTotal > incomeTotal ? redArrowUpIcon : redArrowDownIcon
               }
               alt="Up"
               // className={"income-expense-image"}
@@ -121,7 +130,7 @@ const Charts = () => {
             />
             <p className={"expense-title"}>Expense</p>
             <p className={"expense-section__value"}>
-              {sum(listExpense) ? `RP${sum(listExpense)}` : null}
+              {expenseTotal ? `${idrCurreny(expenseTotal)}` : null}
             </p>
           </span>
         </span>
