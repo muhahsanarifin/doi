@@ -33,8 +33,9 @@ const getDataDashboardThunk = (
       dispatch(getDataDashboardPending());
       typeof cbPending === "function" && cbPending();
       const response = await getDataDashboard(id, accessToken);
+      // console.log("Response data dashboard: ", response.data)
       dispatch(getDataDashboardFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(getDataDashboardError(error));
       typeof cbError === "function" && cbError();

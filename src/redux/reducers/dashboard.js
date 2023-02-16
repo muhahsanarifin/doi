@@ -27,7 +27,7 @@ const dashboardReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isError: false,
         isFulfilled: true,
-        getDataDashboard: payload.data.response,
+        getDataDashboard: payload.data,
       };
     case getDataDashboard.concat("-", Rejected):
       return {
@@ -35,7 +35,7 @@ const dashboardReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isError: true,
         isFulfilled: false,
-        err: payload.error.data.response?.data.msg, // <= Custome error message
+        err: payload.error.message, // <= Default error message
       };
     default:
       return prevState;
