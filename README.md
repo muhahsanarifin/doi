@@ -65,7 +65,7 @@
 
 <!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
-<div style="display:grid; grid-template-columns: auto auto auto; gap: 1rem">
+<div style="display:grid; grid-template-columns: auto auto; gap: 1rem">
   <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
     <h3 style="font-weight: 600; text-align: center">Login</h3>
     <img width="500" height="100%" src="src/assets/images-readme/login.png" alt="Login" style="border-radius: 6px; image-rendering: smooth">
