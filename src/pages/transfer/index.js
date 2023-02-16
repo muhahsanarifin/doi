@@ -1,85 +1,64 @@
-/* eslint-disable react/no-children-prop */
-import React from "react";
-import Axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
-// import { useRouter} from "next/router"
 import Link from "next/link";
-
+import Users from "../../utils/api/user";
 import privateRoute from "../../helpers/private";
+import TitleBar from "../../components/TitleBar";
 
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+// import { SearchIcon } from "@chakra-ui/icons";
+import arrowUpIconBlue from "../../assets/icons/arrow-up-blue.png";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import styles from "../../styles/Transfer.module.css";
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 
 const Transfer = () => {
   privateRoute();
-
+  const { dataUsers } = Users;
   const [users, setUsers] = useState([]);
-  const [identify, setIdentify] = useState([])
-
-  const getDataUsers = async () => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user?page=1&limit=10&sort=noTelp DESC`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      // console.log(response.data.data);
-      setUsers(response.data.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const [identify, setIdentify] = useState("");
 
   useEffect(() => {
-    getDataUsers();
-  }, []);
+    const searchReciever = async () => {
+      try {
+        const response = await dataUsers(
+          `page=1&limit=5&sort=noTelp DESC&search=${identify}`,
+          getCookie("token")
+        );
+        setUsers(response.data.data);
 
-  const searchReciever = async () => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user?page=1&limit=10&sort=noTelp DESC&search=${identify}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
+        if (response.data.data.length === 0) {
+          throw new Error("Data Not Found!");
         }
-      );
-      console.log(response.data.data);
-      setUsers(response.data.data);
-      console.log(identify);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    searchReciever()
-  }, [identify]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    searchReciever();
+  }, [dataUsers, identify]);
 
   return (
     <>
+      <TitleBar name={"Transfer"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleTransfer={styles["focus-style-side-transfer-button"]}
+          transferStyle={styles["init-button-active"]}
+          arrowUpIconBlue={arrowUpIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["right-side-content__title"]}>
             <p className={styles["title"]}>Search Receiver</p>
           </span>
           <span className={styles["search-input"]}>
             <InputGroup>
-              <InputLeftElement
+              {/* <InputLeftElement
                 pointerEvents="none"
                 children={<SearchIcon className={styles["search-icon"]} />}
-              />
+              /> */}
               <Input
                 type="text"
                 placeholder="Search receiver here"

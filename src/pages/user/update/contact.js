@@ -4,17 +4,18 @@ import Axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 import { getCookie } from "cookies-next";
-import Swal from "sweetalert2";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
+import { EditPhoneNumberButton } from "../../../components/Button";
 
 import styles from "../../../styles/Contact.module.css";
 import phoneIcon from "../../../assets/icons/phone.png";
+import phoneIconBlue from "../../../assets/icons/phone-blue.png";
 
 const Contact = () => {
-  const [noTelp, setNoTelp] = useState([]);
+  const [noTelp, setNoTelp] = useState("");
 
   const handleSetPhoneNumber = async (e) => {
     e.preventDefault();
@@ -32,32 +33,11 @@ const Contact = () => {
           },
         }
       );
-      console.log(`Result: ${response.data}`);
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          window.location.reload();
-      });
+      if (response.data.status === 200) {
+        window.location.reload();
+      }
     } catch (error) {
-      // console.log(error.message);
-       Swal.fire({
-         title: `${error.response.data.msg}`,
-         timer: 2000,
-         showConfirmButton: false,
-         timerProgressBar: true,
-         position: "top-start",
-         background: "#6379F4",
-         color: "#ffffff",
-         width: "18rem",
-       });
+      console.log(error.response.data.msg);
     }
   };
 
@@ -77,27 +57,31 @@ const Contact = () => {
           <form className={styles["form"]} onSubmit={handleSetPhoneNumber}>
             <ul className={styles["list"]}>
               <li className={styles["content-list"]}>
-                <label className={styles["label-phone"]}>
-                  <Image
-                    src={phoneIcon}
-                    alt="phone"
-                    className={styles["phone-icon"]}
+                <span
+                  className={
+                    styles[
+                      !noTelp ? "form__telp-content" : "form__telp-content-active"
+                    ]
+                  }
+                >
+                  <label className={styles["label-phone"]}>
+                    <Image
+                      src={!noTelp ? phoneIcon : phoneIconBlue}
+                      alt="phone"
+                      className={styles["phone-icon"]}
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your phone number"
+                    className={styles["phone"]}
+                    onChange={(e) => setNoTelp(e.target.value)}
+                    required
                   />
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your phone number"
-                  className={styles["phone"]}
-                  onChange={(e) => setNoTelp(e.target.value)}
-                  required
-                />
+                </span>
               </li>
 
-              <li className={styles["content-list"]}>
-                <button className={styles["btn-manage"]}>
-                  Edit Phone Number
-                </button>
-              </li>
+              <EditPhoneNumberButton noTelp={noTelp} />
             </ul>
           </form>
         </section>

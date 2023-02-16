@@ -1,17 +1,14 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import Axios from "axios";
 import Image from "next/image";
 
 import { ForgotPasswordButton } from "../../components/Button";
-import Swal from "sweetalert2";
-
 
 import styles from "../../styles/ResetPassword.module.css";
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import emailIcon from "../../assets/icons/mail.png";
-
+import TitleBar from "../../components/TitleBar";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -27,15 +24,6 @@ const ResetPassword = () => {
         }
       );
       // console.log(response);
-      Swal.fire({
-        title: `${response.data.msg}`,
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      });
     } catch (error) {
       console.log(error.message);
     }
@@ -43,6 +31,7 @@ const ResetPassword = () => {
 
   return (
     <>
+      <TitleBar name={"Reset Password"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>
@@ -64,8 +53,8 @@ const ResetPassword = () => {
               <p>
                 Doi is an application that focussing in banking needs for all
                 users in the world. Always updated and always following world
-                trends. 5000+ users registered in Doi everyday with
-                worldwide users coverage.
+                trends. 5000+ users registered in Doi everyday with worldwide
+                users coverage.
               </p>
             </span>
           </aside>
@@ -84,8 +73,7 @@ const ResetPassword = () => {
             <span className={styles["right-content__description-mobile"]}>
               <h3>Reset Password</h3>
               <p>
-                Enter your Doi e-mail so we can send you a password reset
-                link.
+                Enter your Doi e-mail so we can send you a password reset link.
               </p>
             </span>
             <form className={styles["form"]} onSubmit={handleResetPassword}>

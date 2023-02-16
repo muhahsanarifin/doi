@@ -1,11 +1,8 @@
 import React from "react";
-import Axios from "axios";
 import Image from "next/image";
-
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
-
 import styles from "../../styles/Status.module.css";
 
 const Status = () => {

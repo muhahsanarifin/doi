@@ -3,7 +3,6 @@ import Axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Swal from "sweetalert2";
 
 // import styles from "../../styles/createNewPassword.module.css";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -17,7 +16,7 @@ const CreateNewPassword = () => {
   const router = useRouter();
 
   const keyChangePassword = parseInt(router.query.create);
-  console.log(keyChangePassword);
+  // console.log(keyChangePassword);
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -35,19 +34,10 @@ const CreateNewPassword = () => {
           confirmPassword,
         }
       );
-      // console.log(response);
-      Swal.fire({
-        title: `${response.data.msg}`,
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          router.push("/auth/login");
-      });
+      // console.log("Success response message: ", response.data.msg);
+      if (response.data.status === 200) {
+        router.push("/auth/login");
+      }
     } catch (error) {
       console.log(error.message);
     }

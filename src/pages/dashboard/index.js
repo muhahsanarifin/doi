@@ -1,80 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Axios from "axios";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import historyTransactionAction from "../../redux/actions/history";
 
 import privateRoute from "../../helpers/private";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import TitleBar from "../../components/TitleBar";
+import Charts from "../../components/Chart";
 
+import gridIconBlue from "../../assets/icons/grid-blue.png";
 import styles from "../../styles/Dashboard.module.css";
 
 const Dashbord = () => {
   // Private Route
   privateRoute();
-
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [histories, setHistory] = useState([]);
 
-  const getDataUser = async () => {
-    try {
-      await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/dashboard/${getCookie(
-          "id"
-        )}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      // console.log(response.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [filter, setFilter] = useState("");
+  const histories = useSelector(
+    (state) => state.historyTransaction.getHistoryTransaction
+  );
+  const user = useSelector((state) => state.users.getDataUser.data);
 
   useEffect(() => {
-    getDataUser();
-  }, []);
-
-
-  const getHistory = async () => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=5&filter=YEAR`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      setHistory(response.data.data);
-      console.log(response.data);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    getHistory();
-  }, []);
+    dispatch(
+      historyTransactionAction.getHistoryTransactionThunk(
+        `page=${page}&limit=${limit}&filter=${filter}`,
+        getCookie("token")
+      )
+    );
+  }, [dispatch, page, limit, filter]);
 
   return (
     <>
       <TitleBar name={"Dashboard"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleDashbord={styles["focus-style-side-dashboard-button"]}
+          dashboardStyle={styles["init-button-active"]}
+          gridIconBlue={gridIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["balance"]}>
             <span className={styles["balance__content_left"]}>
               <p className={styles["title"]}>Balance</p>
-              <h1 className={styles["fund"]}>
-                {`RP.`} {getCookie("balance")}
-              </h1>
-              <p className={styles["phone-number"]}>{getCookie("noTelp")}</p>
+              <h1 className={styles["fund"]}>{`Rp${user?.balance}`}</h1>
+              <p className={styles["phone-number"]}>{user?.noTelp}</p>
             </span>
             <span className={styles["balance__content_right"]}>
               <button
@@ -85,38 +64,14 @@ const Dashbord = () => {
               </button>
               <button
                 className={styles["top-up-btn"]}
-                onClick={(e) => router.push("/topup")}
+                onClick={() => router.push("/topup")}
               >
                 Top Up
               </button>
             </span>
           </span>
           <span className={styles["history__content_rigth"]}>
-            <span className={styles["chart"]}>
-              <span className={styles["income-expense"]}>
-                <span className={styles["income-section"]}>
-                  <Image
-                    src={``}
-                    alt={`Down`}
-                    className={styles["income-expense-image"]}
-                  />
-                  <p className={styles["income-title"]}>Income</p>
-                  <p className={styles["income-section__value"]}>{`10000`}</p>
-                </span>
-                <span className={styles["expense-section"]}>
-                  <Image
-                    src={``}
-                    alt={`Up`}
-                    className={styles["income-expense-image"]}
-                  />
-                  <p className={styles["expense-title"]}>Expense</p>
-                  <p className={styles["expense-section__value"]}>{`10000`}</p>
-                </span>
-              </span>
-              <span className={styles["chart-data"]}>
-                <p>Chart</p>
-              </span>
-            </span>
+            <Charts />
             <span className={styles["transcation-history"]}>
               <span className={styles["transcation-history__title"]}>
                 <p>Transcation History</p>
@@ -128,7 +83,7 @@ const Dashbord = () => {
                 </p>
               </span>
               <ul className={styles["list"]}>
-                {histories.map((history) => (
+                {histories.data?.map((history) => (
                   <li className={styles["content-list"]} key={history.id}>
                     <span className={styles["sub-content-list"]}>
                       <Image
@@ -144,7 +99,21 @@ const Dashbord = () => {
                         </p>
                         <p className={styles["status"]}>{history.status}</p>
                       </span>
-                      <p className={styles["value"]}>RP.{history.amount}</p>
+                      <p
+                        className={
+                          styles[
+                            history.type === "topup"
+                              ? "value-income"
+                              : "value-expense"
+                          ]
+                        }
+                      >
+                        {history.type === "topup"
+                          ? `+RP${history.amount}`
+                          : history.type === "send"
+                          ? `-RP${history.amount}`
+                          : null}
+                      </p>
                     </span>
                   </li>
                 ))}

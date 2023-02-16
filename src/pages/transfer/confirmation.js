@@ -1,18 +1,21 @@
 import React from "react";
-import Axios from "axios";
 import Image from "next/image";
-
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import styles from "../../styles/Confirmation.module.css";
+import arrowUpIconBlue from "../../assets/icons/arrow-up-blue.png";
 
 const confirmation = () => {
   return (
     <>
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleTransfer={styles["focus-style-side-transfer-button"]}
+          transferStyle={styles["init-button-active"]}
+          arrowUpIconBlue={arrowUpIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <ul className={styles["list"]}>
             <li className={styles["content-list"]}>

@@ -5,12 +5,13 @@ import { useRouter } from "next/router";
 import Users from "../../utils/api/user";
 
 import { PinInput, PinInputField } from "@chakra-ui/react";
+import { PinButton } from "../../components/Button";
+import TitleBar from "../../components/TitleBar";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 
 import styles from "../../styles/Pin.module.css";
-import { PinButton } from "../../components/Button";
 
 const Pin = () => {
   const { updatePinUser } = Users;
@@ -69,6 +70,7 @@ const Pin = () => {
 
   return (
     <>
+      <TitleBar name={" Create Pin"}/>
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>

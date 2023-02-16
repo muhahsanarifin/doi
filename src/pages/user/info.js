@@ -1,40 +1,38 @@
-import React, { use } from "react";
-// import Axios from "axios";
-// import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getCookie } from "cookies-next";
-import { useEffect, useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import privateRoute from "../../helpers/private";
-
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
+import TitleBar from "../../components/TitleBar";
+import userIconBlue from "../../assets/icons/user-blue.png";
+
 import styles from "../../styles/UserInfo.module.css";
 
 const Info = () => {
-  // « Private Route »
+  // Private Route
   privateRoute();
-  
+  const user = useSelector((state) => state.users.getDataUser?.data);
   const router = useRouter();
-
-  const [firstname, setFirstName] = useState([]);
-  const [lastname, setLastName] = useState([]);
-  const [email, setEmail] = useState([]);
-  const [contact, setNoTelp] = useState([]);
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
 
   useEffect(() => {
-    setFirstName(getCookie("firstname"));
-    setLastName(getCookie("lastname"));
-    setEmail(getCookie("email"));
-    setNoTelp(getCookie("noTelp"));
-  }, []);
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+  }, [user.firstName, user.lastName]);
 
   return (
     <>
+      <TitleBar name={"Personal Information"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleProfile={styles["focus-style-side-info-button"]}
+          profileStyle={styles["init-button-active"]}
+          userIconBlue={userIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["title"]}>
             <h3>Personal Infromation</h3>
@@ -48,9 +46,12 @@ const Info = () => {
               <span className={styles["sub-content-list"]}>
                 <span className={styles["identity"]}>
                   <p className={styles["identify__title"]}>Firstname</p>
-                  <p className={styles["identify__main-content"]}>
-                    {firstname}
-                  </p>
+                  <input
+                    type="text"
+                    className={styles["identify__main-content"]}
+                    value={firstname}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
                 </span>
               </span>
             </li>
@@ -58,17 +59,22 @@ const Info = () => {
               <span className={styles["sub-content-list"]}>
                 <span className={styles["identity"]}>
                   <p className={styles["identify__title"]}>Lastname</p>
-                  <p className={styles["identify__main-content"]}>{lastname}</p>
+                  <input
+                    type="text"
+                    className={styles["identify__main-content"]}
+                    value={lastname}
+                    onChange={(e) => setLastName(e.target.name)}
+                  />
                 </span>
               </span>
             </li>
             <li className={styles["content-list"]}>
               <span className={styles["sub-content-list"]}>
                 <span className={styles["identity"]}>
-                  <p
-                    className={styles["identify__title"]}
-                  >{`Verified E-mail`}</p>
-                  <p className={styles["identify__main-content"]}>{email}</p>
+                  <p className={styles["identify__title"]}>Verified E-mail</p>
+                  <p className={styles["identify__main-content"]}>
+                    {user.email}
+                  </p>
                 </span>
               </span>
             </li>
@@ -78,7 +84,9 @@ const Info = () => {
               <span className={styles["sub-content-list"]}>
                 <span className={styles["identity"]}>
                   <p className={styles["identify__title"]}>Phone Number</p>
-                  <p className={styles["identify__main-content"]}>{contact}</p>
+                  <p className={styles["identify__main-content"]}>
+                    {user.noTelp}
+                  </p>
                 </span>
               </span>
               <button

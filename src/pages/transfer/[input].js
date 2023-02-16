@@ -1,103 +1,57 @@
-import React from "react";
-import Axios from "axios";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import transferBalance from "../../utils/api/transfer";
+import usersAction from "../../redux/actions/user";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
-import { useEffect, useState } from "react";
-
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
-import Swal from "sweetalert2";
 import penIcon from "../../assets/icons/edit-2.png";
-
+import penIconBlue from "../../assets/icons/edit-2-blue.png"
+import arrowUpIconBlue from "../../assets/icons/arrow-up-blue.png";
 import styles from "../../styles/InputTransfer.module.css";
 
 const Input = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.users.getDataUser.data);
+  const receiver = useSelector((state) => state.users);
   const router = useRouter();
-  // console.log(router.query.input);
-  const [receiver, setReceiver] = useState([]);
-  const [balance, setBalance] = useState([]);
-  const receiverId = router.query.input;
   const [amount, setAmount] = useState("");
   const [notes, setNotes] = useState("");
+  const receiverId = router.query.input;
 
-  const getReceiver = async () => {
+  useEffect(() => {
+    dispatch(usersAction.getDataReceiverThunk(receiverId, getCookie("token")));
+  }, [dispatch, receiverId]);
+
+  const handleTransfer = async (e) => {
+    e.preventDefault();
     try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/profile/${router.query.input}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
+      const response = await transferBalance(
+        { receiverId, amount, notes },
+        getCookie("token")
       );
-      // console.log(response.data);
-      setReceiver(response.data.data);
+
+      console.log("Success response message: ", response.data.msg);
+      window.location.reload();
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.data.msg);
     }
   };
 
-  useEffect(() => {
-    getReceiver();
-  }, []);
-
-  const { firstName, lastName, noTelp, image } = receiver;
-
-  useEffect(() => {
-    setBalance(getCookie("balance"));
-  }, []);
-
-  const handleTransfer = async(e) =>{
-    e.preventDefault()
-    try {
-      const response = await Axios.post(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/transfer`,
-        {
-          receiverId,
-          amount,
-          notes,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      })
-      .then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          window.location.reload();
-      });
-    } catch (error) {
-      Swal.fire({
-        title: `${error.response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#EB1D36",
-        color: "#ffffff",
-        width: "18rem",
-      });
-    }
-  }
+  console.log("Receiver: ", receiver);
 
   return (
     <>
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleTransfer={styles["focus-style-side-transfer-button"]}
+          transferStyle={styles["init-button-active"]}
+          arrowUpIconBlue={arrowUpIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["right-side-content__title"]}>
             <p className={styles["title"]}>Transfer Money</p>
@@ -107,17 +61,19 @@ const Input = () => {
               <li className={styles["content-list"]}>
                 <span className={styles["sub-content-list"]}>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${image}`}
-                    alt={firstName}
+                    src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${receiver.getDataReceiver.data?.image}`}
+                    alt={receiver.getDataReceiver.data?.firstName}
                     className={styles["image"]}
                     width={500}
                     height={500}
                   />
                   <span className={styles["identity"]}>
                     <p className={styles["name"]}>
-                      {firstName} {lastName}
+                      {`${receiver.getDataReceiver.data?.firstName} ${receiver.getDataReceiver.data?.lastName}`}
                     </p>
-                    <p className={styles["contact"]}>{noTelp}</p>
+                    <p className={styles["contact"]}>
+                      {receiver.getDataReceiver.data?.noTelp}
+                    </p>
                   </span>
                 </span>
               </li>
@@ -128,22 +84,23 @@ const Input = () => {
                 the next steps.
               </p>
             </span>
-            <form className={styles["form"]} onSubmit={handleTransfer}>
+            <span className={styles["form"]}>
               <span className={styles["input-section"]}>
                 <input
                   type="text"
                   placeholder={`0.00`}
-                  className={styles["amount"]}
+                  className={styles[!amount ? "amount": "amount-active"]}
                   onChange={(e) => setAmount(e.target.value)}
                   required
                 />
-                <p className={styles["rest-balance"]}>{`Rp.`}{balance}</p>
-
-                <span className={styles["note"]}>
+                <p className={styles["rest-balance"]}>
+                  {`Rp${user?.balance} Availabe`}
+                </p>
+                <span className={styles[!notes ? "note": "note-active"]}>
                   <label className={styles["pen-icon-label"]}>
                     <Image
-                      src={penIcon}
-                      alt=""
+                      src={!notes ? penIcon: penIconBlue}
+                      alt="Pen"
                       className={styles["pen-icon"]}
                     />
                   </label>
@@ -156,9 +113,16 @@ const Input = () => {
                 </span>
               </span>
               <span className={styles["btn-section"]}>
-                <button className={styles["continue-btn"]}>Continue</button>
+                <button
+                  className={styles[!amount ? "continue-btn": "continue-btn-active"]}
+                  onClick={handleTransfer}
+
+                  disabled={!amount}
+                >
+                  Continue
+                </button>
               </span>
-            </form>
+            </span>
           </span>
         </section>
       </main>

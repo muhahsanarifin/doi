@@ -1,26 +1,26 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
-
-import Axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import { getCookie } from "cookies-next";
-import Swal from "sweetalert2";
+import Users from "../../../utils/api/user";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
-
+import TitleBar from "../../../components/TitleBar";
+import { PinButton } from "../../../components/Button";
 import { PinInput, PinInputField } from "@chakra-ui/react";
+import userIconBlue from "../../../assets/icons/user-blue.png";
 
 import styles from "../../../styles/PinUpdate.module.css";
 
 const Pin = () => {
-  let [numeric, setPin] = useState([]);
-  let [numericTwo, setPinTwo] = useState([]);
-  let [numericTree, setPinThree] = useState([]);
-  let [numericFour, setPinFour] = useState([]);
-  let [numericFive, setPinFive] = useState([]);
-  let [numericSixe, setPinSix] = useState([]);
+  const { updatePinUser } = Users;
+
+  const [numeric, setPin] = useState("");
+  const [numericTwo, setPinTwo] = useState("");
+  const [numericTree, setPinThree] = useState("");
+  const [numericFour, setPinFour] = useState("");
+  const [numericFive, setPinFive] = useState("");
+  const [numericSix, setPinSix] = useState("");
 
   let numerics = [
     numeric,
@@ -28,49 +28,42 @@ const Pin = () => {
     numericTree,
     numericFour,
     numericFive,
-    numericSixe,
+    numericSix,
   ];
 
-  let pin = numerics.join("");
+  const pin = (numerics) => {
+    let result = "";
+    for (let idx = 0; idx < numerics.length; idx++) {
+      result += numerics[idx];
+    }
+    return parseFloat(result);
+  };
 
-  const handleChangePin = async (e) => {
-    e.preventDefault();
+  const handleChangePin = async () => {
     try {
-      const response = await Axios.patch(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/pin/${getCookie(
-          "id"
-        )}`,
-        {
-          pin,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
+      const response = await updatePinUser(
+        getCookie("id"),
+        pin(numerics),
+        getCookie("token")
       );
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          window.location.reload();
-      });
+      if (response.data.status === 200) {
+        window.location.reload();
+      }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.data.msg);
     }
   };
+
   return (
     <>
+      <TitleBar name={"Change Pin"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleProfile={styles["focus-style-side-pin-button"]}
+          profileStyle={styles["init-button-active"]}
+          userIconBlue={userIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["title"]}>
             <h3>Change Pin</h3>
@@ -79,7 +72,7 @@ const Pin = () => {
               next steps.
             </p>
           </span>
-          <form className={styles["form"]} onSubmit={handleChangePin}>
+          <span className={styles["form"]}>
             <span className={styles["pin-form"]}>
               <PinInput otp placeholder="…">
                 <PinInputField
@@ -114,8 +107,16 @@ const Pin = () => {
                 />
               </PinInput>
             </span>
-            <button className={styles["btn-confirm"]}> Confirm </button>
-          </form>
+            <PinButton
+              numeric={numeric}
+              numericTwo={numericTwo}
+              numericTree={numericTree}
+              numericFour={numericFour}
+              numericFive={numericFive}
+              numericSix={numericSix}
+              onClick={handleChangePin}
+            />
+          </span>
         </section>
       </main>
       <Footer />

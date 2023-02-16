@@ -1,89 +1,57 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import Axios from "axios";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
-import Swal from "sweetalert2";
+import Users from "../../../utils/api/user";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import TitleBar from "../../../components/TitleBar";
+import { HideShowPassword } from "../../../components/Toggle";
+import userIconBlue from "../../../assets/icons/user-blue.png";
 
 import styles from "../../../styles/Password.module.css";
 import passwordIcon from "../../../assets/icons/lock.png";
+import passwordIconBlue from "../../../assets/icons/lock-blue.png";
+import { ChangePasswordButton } from "../../../components/Button";
 
 const Password = () => {
+  const { updatePasswordUser } = Users;
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [show, setShow] = useState(false);
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
-    //
     try {
-      const response = await Axios.patch(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/user/password/${getCookie(
-          "id"
-        )}`,
-        {
-          oldPassword,
-          newPassword,
-          confirmPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
+      const response = await updatePasswordUser(
+        getCookie("id"),
+        { oldPassword, newPassword, confirmPassword },
+        getCookie("token")
       );
-      // console.log(response.data);
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-          window.location.reload();
-      });
+      if (response.data.status === 200) {
+        window.location.reload();
+      }
     } catch (error) {
-      // console.log(error.message);
-      Swal.fire({
-        title: `${error.response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      });
+      setErrorMsg(error.response.data.msg);
     }
-  };
-
-  const showPassword = () => {
-    setShow(!show);
-  };
-  const showPasswordSecond = () => {
-    setShowSecond(!showSecond);
-  };
-  const showPasswordThird = () => {
-    setShowThird(!showThird);
   };
 
   return (
     <>
+      <TitleBar name={"Change Password"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleProfile={styles["focus-style-side-password-button"]}
+          profileStyle={styles["init-button-active"]}
+          userIconBlue={userIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["title"]}>
             <h3>Change Password</h3>
@@ -92,95 +60,111 @@ const Password = () => {
               password twice.
             </p>
           </span>
-          <form onSubmit={handleUpdatePassword}>
+          <form className={styles["form"]} onSubmit={handleUpdatePassword}>
             <ul className={styles["list"]}>
               <li className={styles["content-list"]}>
-                <label className={styles["label-password"]}>
-                  <Image
-                    src={passwordIcon}
-                    alt="password"
-                    className={styles["password-icon"]}
+                <span
+                  className={
+                    styles[
+                      !oldPassword
+                        ? "form__password-content"
+                        : "form__password-content__active"
+                    ]
+                  }
+                >
+                  <label className={styles["label-password"]}>
+                    <Image
+                      src={!oldPassword ? passwordIcon : passwordIconBlue}
+                      alt="password"
+                      className={styles["password-icon"]}
+                    />
+                  </label>
+                  <input
+                    type={show ? "text" : "password"}
+                    placeholder="Current Password"
+                    className={styles["password"]}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    required
                   />
-                </label>
-                <input
-                  type={show ? "text" : "password"}
-                  placeholder="Current Password"
-                  className={styles["password"]}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  required
-                />
-                <span>
-                  <span
-                    onClick={showPassword}
+                  <HideShowPassword
+                    onClick={() => setShow(!show)}
+                    onShow={show}
                     className={styles["show-password"]}
-                  >
-                    {show ? (
-                      <ViewIcon color="#A9A9A9" />
-                    ) : (
-                      <ViewOffIcon color="#A9A9A9" />
-                    )}
-                  </span>
+                  />
                 </span>
               </li>
               <li className={styles["content-list"]}>
-                <label className={styles["label-password"]}>
-                  <Image
-                    src={passwordIcon}
-                    alt="password"
-                    className={styles["password-icon"]}
+                <span
+                  className={
+                    styles[
+                      !newPassword
+                        ? "form__password-content__second"
+                        : "form__password-content__second__active"
+                    ]
+                  }
+                >
+                  <label className={styles["label-password"]}>
+                    <Image
+                      src={!newPassword ? passwordIcon : passwordIconBlue}
+                      alt="password"
+                      className={styles["password-icon"]}
+                    />
+                  </label>
+                  <input
+                    type={showSecond ? "text" : "password"}
+                    placeholder="New Password"
+                    className={styles["password"]}
+                    onChange={(e) => setnewPassword(e.target.value)}
+                    required
                   />
-                </label>
-                <input
-                  type={showSecond ? "text" : "password"}
-                  placeholder="New Password"
-                  className={styles["password"]}
-                  onChange={(e) => setnewPassword(e.target.value)}
-                  required
-                />
-                <span>
-                  <span
-                    onClick={showPasswordSecond}
+                  <HideShowPassword
+                    onClick={() => setShowSecond(!showSecond)}
+                    onShow={showSecond}
                     className={styles["show-password"]}
-                  >
-                    {showSecond ? (
-                      <ViewIcon color="#A9A9A9" />
-                    ) : (
-                      <ViewOffIcon color="#A9A9A9" />
-                    )}
-                  </span>
+                  />
                 </span>
               </li>
               <li className={styles["content-list"]}>
-                <label className={styles["label-password"]}>
-                  <Image
-                    src={passwordIcon}
-                    alt="password"
-                    className={styles["password-icon"]}
+                <span
+                  className={
+                    styles[
+                      !confirmPassword
+                        ? "form__password-content__third"
+                        : "form__password-content__third__active"
+                    ]
+                  }
+                >
+                  <label className={styles["label-password"]}>
+                    <Image
+                      src={!confirmPassword ? passwordIcon : passwordIconBlue}
+                      alt="password"
+                      className={styles["password-icon"]}
+                    />
+                  </label>
+                  <input
+                    type={showThird ? "text" : "password"}
+                    placeholder="Repeat New Password"
+                    className={styles["password"]}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
                   />
-                </label>
-                <input
-                  type={showThird ? "text" : "password"}
-                  placeholder="Repeat New Password"
-                  className={styles["password"]}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-                <span>
-                  <span
-                    onClick={showPasswordThird}
+                  <HideShowPassword
+                    onClick={() => setShowThird(!showThird)}
+                    onShow={showThird}
                     className={styles["show-password"]}
-                  >
-                    {showThird ? (
-                      <ViewIcon color="#A9A9A9" />
-                    ) : (
-                      <ViewOffIcon color="#A9A9A9" />
-                    )}
-                  </span>
+                  />
                 </span>
               </li>
-              <li className={styles["content-list"]}>
-                <button className={styles["btn-manage"]}>Confirm</button>
-              </li>
+              {errorMsg ? (
+                <span className={styles["error-msg"]}>
+                  <p>{errorMsg}</p>
+                </span>
+              ) : null}
+              <ChangePasswordButton
+                currentPassword={oldPassword}
+                newPassword={newPassword}
+                repeatPassword={confirmPassword}
+              />
             </ul>
           </form>
         </section>

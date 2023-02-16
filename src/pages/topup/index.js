@@ -5,15 +5,17 @@ import { useState } from "react";
 import { getCookie } from "cookies-next";
 // import { useRouter} from "next/router"
 
+import TitleBar from "../../components/TitleBar";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
-import Swal from "sweetalert2";
+import plusIconBlue from "../../assets/icons/plus-blue.png";
 
 import styles from "../../styles/TopUp.module.css";
+import { TopupButton } from "../../components/Button";
 
 const Topup = () => {
-  // « Private Route »
+  // Private Route
   privateRoute();
 
   const [amount, setAmount] = useState("");
@@ -34,40 +36,23 @@ const Topup = () => {
         }
       );
       // console.log(response.data)
-      const {redirectUrl} = response.data.data;
-      Swal.fire({
-        title: `${response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#6379F4",
-        color: "#ffffff",
-        width: "18rem",
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer)
-        window.open(redirectUrl, "_blank");
-      });
+      const { redirectUrl } = response.data.data;
+      window.open(redirectUrl, "_blank");
     } catch (error) {
-      // console.log(error.message);
-      Swal.fire({
-        title: `${error.response.data.msg}`,
-        timer: 2000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        position: "top-start",
-        background: "#EB1D36",
-        color: "#ffffff",
-        width: "18rem",
-      });
+      console.log(error.response.data.msg);
     }
   };
 
   return (
     <>
+      <TitleBar name={"Topup"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleTopUp={styles["focus-style-side-topup-button"]}
+          topUpStyle={styles["init-button-active"]}
+          plusIconBlue={plusIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["top-up"]}>
             <span className={styles["top-up__title"]}>
@@ -81,13 +66,15 @@ const Topup = () => {
             <form className={styles["form"]} onSubmit={handleTopUp}>
               <span className={styles["top-up__input"]}>
                 <input
-                  type="text"
-                  className={styles["input-text"]}
+                  type="number"
+                  className={
+                    styles[!amount ? "input-number" : "input-number-active"]
+                  }
                   onChange={(e) => setAmount(e.target.value)}
                   required
                 />
               </span>
-              <button className={styles["top-up-btn"]}>Submit</button>
+              <TopupButton amount={amount} />
             </form>
           </span>
         </section>

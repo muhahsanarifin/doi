@@ -1,8 +1,8 @@
-import React,{ useEffect, useState } from "react";
-import Axios from "axios";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import privateRoute from "../../helpers/private";
 import { getCookie } from "cookies-next";
+import historyTransaction from "../../utils/api/history";
 
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import Header from "../../components/Header";
@@ -10,89 +10,48 @@ import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import TitleBar from "../../components/TitleBar";
 
+import gridIconBlue from "../../assets/icons/grid-blue.png";
 import styles from "../../styles/History.module.css";
 
 const History = () => {
   // Private Route
   privateRoute();
-
   const [histories, setHistory] = useState([]);
-
-  const getHistory = async () => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=YEAR`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      setHistory(response.data.data);
-      // console.log(response.data.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const Week = async () => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=WEEK`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      setHistory(response.data.data);
-      // console.log(response.data.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-  const Month = async () => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=MONTH`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      setHistory(response.data.data);
-      // console.log(response.data.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  const Year = async() => {
-    try {
-      const response = await Axios.get(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/transaction/history?page=1&limit=10&filter=YEAR`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
-      setHistory(response.data.data);
-      // console.log(response.data.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const [filter, setFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const filterMenuItems = ["Week", "Month", "Year"];
 
   useEffect(() => {
+    const getHistory = async () => {
+      try {
+        const response = await historyTransaction(
+          `page=${page}&limit=${limit}&filter=${filter}`,
+          getCookie("token")
+        );
+        setHistory(response.data);
+
+        if (response.data.data.length === 0) {
+          throw new Error("Data Not Found.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getHistory();
-  }, []);
+  }, [page, filter, limit]);
+
   return (
     <>
-      <TitleBar name={"History"}/>
+      <TitleBar name={"History"} />
       <Header />
       <main className={styles["main"]}>
-        <SideBar />
+        <SideBar
+          focusStyleDashbord={styles["focus-style-side-history-button"]}
+          dashboardStyle={styles["init-button-active"]}
+          gridIconBlue={gridIconBlue}
+        />
         <section className={styles["right-side-content"]}>
           <span className={styles["head-content"]}>
             <p className={styles["title"]}>Transaction History</p>
@@ -104,18 +63,22 @@ const History = () => {
                       isActive={isOpen}
                       className={styles["menu-btn"]}
                     >
-                      {isOpen ? "Close Filter" : "--Select Filter--"}
+                      {isOpen
+                        ? "Close Filter"
+                        : filter
+                        ? filter
+                        : "--Select Filter--"}
                     </MenuButton>
                     <MenuList>
-                      <MenuItem onClick={Week} className={styles["menu-item"]}>
-                        Week
-                      </MenuItem>
-                      <MenuItem onClick={Month} className={styles["menu-item"]}>
-                        Month
-                      </MenuItem>
-                      <MenuItem onClick={Year} className={styles["menu-item"]}>
-                        Year
-                      </MenuItem>
+                      {filterMenuItems.map((filterMenuItem, idx) => (
+                        <MenuItem
+                          onClick={() => setFilter(filterMenuItem)}
+                          className={styles["menu-item"]}
+                          key={idx}
+                        >
+                          {filterMenuItem}
+                        </MenuItem>
+                      ))}
                     </MenuList>
                   </>
                 )}
@@ -124,7 +87,7 @@ const History = () => {
           </span>
           <span className={styles["bottom-content"]}>
             <ul className={styles["list"]}>
-              {histories.map((history) => (
+              {histories.data?.map((history) => (
                 <li className={styles["content-list"]} key={history.id}>
                   <span className={styles["sub-content-list"]}>
                     <Image
@@ -136,14 +99,28 @@ const History = () => {
                     />
                     <span className={styles["identity"]}>
                       <p className={styles["name"]}>
-                        {history.firstName} {history.lastName}
+                        {`${history.firstName} ${history.lastName}`}
                       </p>
                       <span className={styles["status-type"]}>
                         <p className={styles["status"]}>{history.status}</p>
                         <p className={styles["type"]}> {history.type}</p>
                       </span>
                     </span>
-                    <p className={styles["value"]}>RP. {history.amount}</p>
+                    <p
+                      className={
+                        styles[
+                          history.type === "topup"
+                            ? "value-income"
+                            : "value-expense"
+                        ]
+                      }
+                    >
+                      {history.type === "topup"
+                        ? `+RP${history.amount}`
+                        : history.type === "send"
+                        ? `-RP${history.amount}`
+                        : null}
+                    </p>
                   </span>
                 </li>
               ))}
