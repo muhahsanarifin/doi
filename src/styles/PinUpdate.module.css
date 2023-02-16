@@ -5,6 +5,7 @@
   flex-direction: row;
   gap: 1rem;
   min-height: 80vh;
+  background: #e5e5e5;
 }
 
 .main {
@@ -12,7 +13,6 @@
 }
 
 .right-side-content {
-  /* border: 1px solid darkblue; */
   position: relative;
   flex: 1;
   background: #ffffff;
@@ -32,6 +32,10 @@
   color: #3a3d42;
 }
 
+.title h3 {
+  font-weight: 700;
+}
+
 .description {
   /* border: 1px solid darkblue; */
   font-size: 12px;
@@ -49,51 +53,50 @@
   text-align: center;
 }
 
-.btn-confirm {
-  /* border: 1px solid darkcyan; */
-  cursor: pointer;
-  width: 25.0625rem;
-  height: 3.5625rem;
-  border-radius: 1rem;
-  font-size: 18px;
-  border: none;
-  /* background: #dadada; */
-  font-size: 16px;
-  font-weight: 800;
-  /* color: #88888f; */
-  background: #6379F4;
-  color: #ffffff;
+.form {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .pin-form {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: row;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
 }
 
-.form {
-  /* border: 1px solid darkblue; */
+/* Pin side button */
+.focus-style-side-pin-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 1rem;
   align-items: center;
-  gap: 2rem;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
     flex-direction: column;
-    padding: 0;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
   .main {
     flex-direction: column;
-    padding: 0;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
@@ -101,21 +104,13 @@
   .main {
     flex-direction: column;
     padding: 0;
-    height: 100vh;
-  }
-
-  .right-side-content {
-    /* border: 1px solid darkblue; */
-    padding: 1rem;
+    min-height: 100vh;
+    padding: 1rem 0.5rem;
   }
 
   .pin-styles {
     width: 32px;
     height: 32px;
     border-radius: 2px;
-  }
-
-  .btn-confirm {
-    width: 8rem;
   }
 }

@@ -1,10 +1,10 @@
 .main {
-  /* border: 1px solid red; */
   position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;
   min-height: 80vh;
+  background: #e5e5e5;
 }
 
 .main {
@@ -48,6 +48,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
 }
 
 .content-list {
@@ -60,10 +62,12 @@
 }
 
 .sub-content-list {
+  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+  height: 2.9125rem;
 }
 
 .description {
@@ -83,9 +87,9 @@
 
 .image {
   /* border: 1px solid darkcyan; */
-  width: 32px;
-  height: 32px;
-  border-radius: 2px;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
 }
 
 .name {
@@ -125,6 +129,16 @@
   color: #b5bdcc;
 }
 
+.amount-active {
+  /* border: 1px solid red; */
+  text-align: center;
+  font-size: 32px;
+  font-weight: 800;
+  border: none;
+  outline: none;
+  color: #6379f4;
+}
+
 .rest-balance {
   /* border: 1px solid green; */
   font-weight: 800;
@@ -139,6 +153,15 @@
   flex-direction: row;
   align-items: center;
   border-bottom: 2px solid var(--bg-btn-color);
+}
+
+.note-active {
+  position: relative;
+  /* border: 1px solid yellow; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 2px solid #6379f4;
 }
 
 .pen-icon-label {
@@ -167,6 +190,17 @@
   padding: 0.8rem 3rem;
   border-radius: 8px;
   font-weight: 800;
+  background: #dadada;
+  color: #88888f;
+  cursor: not-allowed;
+}
+
+.continue-btn-active {
+  /* border: 1px solid darkblue; */
+  border: none;
+  padding: 0.8rem 3rem;
+  border-radius: 8px;
+  font-weight: 800;
   background: var(--primary-bg-color);
   color: var(--primary-font-color);
   cursor: pointer;
@@ -178,27 +212,44 @@
   justify-content: flex-end;
 }
 
+/* Transfer side button */
+.focus-style-side-transfer-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
+}
+
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
     position: relative;
     flex-direction: column;
-    padding: 0;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
   .main {
     flex-direction: column;
-    padding: 0;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (max-width: 480px) {
   .main {
     flex-direction: column;
-    padding: 0;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }

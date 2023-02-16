@@ -2,21 +2,11 @@
   /* border: 1px solid darkgreen; */
   display: flex;
   flex-direction: column;
-  /* gap: 15rem; */
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   width: 12.875rem;
-  padding: 1rem 1rem;
-}
-
-.side-bar__content {
-  /* border: 1px solid darkgoldenrod; */
-  padding-left: 0;
-}
-
-.side-bar__content li {
-  list-style: none;
-  /* border: 1px solid darkblue; */
+  padding: 1rem 0;
+  border-radius: 25px;
 }
 
 .content__one {
@@ -29,11 +19,13 @@
 
 .btn-list {
   /* border: 1px solid darkblue; */
+  list-style: none;
   display: flex;
   flex-direction: row;
   gap: 1rem;
   align-items: center;
   cursor: pointer;
+  padding: 0 1rem;
 }
 
 .btn-icon {

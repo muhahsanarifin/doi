@@ -25,6 +25,10 @@
   gap: 1rem;
 }
 
+.init-logo {
+  font-weight: 800;
+}
+
 .left-content::before {
   position: absolute;
   content: url(../assets/images/vector-3.png);
@@ -56,14 +60,6 @@
 
 /* || Content Image */
 
-/* .init-logo {
-  border: 1px solid darkblue;
-} */
-
-/* .left-content__description {
-  border: 1px solid darkblue;
-} */
-
 .right-content {
   display: flex;
   flex-direction: column;
@@ -82,7 +78,6 @@
   display: none;
 }
 
-
 .right-content__description h3 {
   /* border: 1px solid darkblue; */
   max-width: 20rem;
@@ -95,7 +90,6 @@
 }
 
 .form {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -112,6 +106,24 @@
   align-items: center;
   border-bottom: 2px solid #88888f;
   max-width: 27.0625rem;
+}
+
+.form__firstname-content-active,
+.form__lastname-content-active,
+.form__email-content-active,
+.form__password-content-active {
+  /* border: 1px solid darkgreen; */
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  border-bottom: 2px solid #6379f4;
+  max-width: 27.0625rem;
+}
+
+.show-password {
+  position: relative;
+  cursor: pointer;
 }
 
 .form input[type="text"],
@@ -136,14 +148,18 @@
   width: 14px;
   height: 14px;
 }
-/* 
-.password {
-  border: 1px solid darkgreen;
-} */
 
-/* .link-to-login {
-  border: 1px solid darkblue;
-} */
+.error-msg {
+  width: 27.0625rem;
+  display: flex;
+  justify-content: center;
+}
+
+.error-msg p {
+  color: #ff5b37;
+  font-size: 16px;
+  font-weight: 600;
+}
 
 .link-to-login p {
   text-align: center;
@@ -347,6 +363,7 @@
     background: #ffffff;
     border-top-right-radius: 32px;
     border-top-left-radius: 32px;
+    gap: 2rem;
   }
 
   /* || Non display header and pragraph of right side content */
@@ -411,6 +428,7 @@
   .show-password {
     right: 0;
   }
+
   .form__email-content,
   .form__password-content {
     border-bottom: 2px solid #88888f;

@@ -5,8 +5,7 @@
   justify-content: space-between;
   padding: 1rem 8rem;
   background: #6379f4;
-  /* width: 100vw; */
-  /* bottom: 0; */
+  align-items: center;
 }
 
 .footer__section_one,
@@ -19,6 +18,8 @@
   display: flex;
   flex-direction: row;
   gap: 2rem;
+  font-size: 14px;
+  align-items: center;
 }
 
 /* || Responsive */
@@ -46,6 +47,16 @@
   .footer__section_one,
   .footer__section_two {
     font-size: 10px;
-    /* border: 1px solid darkgreen; */
   }
+
+  .footer__section_two {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* .footer__no-telp,
+  .footer__email {
+    border: 1px solid darkblue;
+  } */
 }

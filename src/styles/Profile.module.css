@@ -5,9 +5,7 @@
   flex-direction: row;
   gap: 1rem;
   min-height: 80vh;
-}
-
-.main {
+  background: #e5e5e5;
   padding: 2.2rem 8rem;
 }
 
@@ -19,31 +17,19 @@
   gap: 1rem;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 25px;
-  padding: 1rem 0;
+  padding: 2rem 0;
+  background: #ffffff;
 }
 
 .profile-side__picture {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
 
-.profile-side-indentity {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 0.5rem;
-  cursor: not-allowed;
-}
-
-.profile-side-indentity p {
-  font-size: 12px;
-}
-
 .profile-side__edit-picture {
-  /* border: 1px solid darkgoldenrod; */
+  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -51,25 +37,25 @@
 }
 
 .profile-side-image {
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   border-radius: 8px;
+  object-fit: fill;
 }
 
 .input-file {
-  /* border: 1px solid darkblue; */
+  /* border: 1px solid darkgoldenrod; */
   position: relative;
 }
 
 .edit {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  /* border: 1px solid darkblue; */
+  width: 11px;
+  height: 11px;
   left: 1.5rem;
   cursor: pointer;
   z-index: 1;
-  top: 0.1rem;
+  top: 0.4rem;
 }
 
 .profile-side__edit-picture input[type="file"] {
@@ -79,17 +65,31 @@
 }
 
 .profile-side__edit-picture input[type="file"]::after {
-  /* border: 1px solid darkblue; */
   visibility: visible;
   position: absolute;
   content: "Edit";
-  right: 1.5rem;
+  right: 1rem;
   cursor: pointer;
-  width: 1.5rem;
-  height: 1rem;
-  font-weight: 800;
   color: #7a7886;
-  font-size: 12px;
+  font-size: 16px;
+}
+
+.profile-side-indentity {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.profile-side-indentity h3 {
+  color: #4d4b57;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.profile-side-indentity p {
+  font-size: 16px;
+  color: #7a7886;
 }
 
 .btn-content {
@@ -130,25 +130,44 @@
   height: 14px;
 }
 
+/* Profile side button */
+.focus-style-side-profile-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
+}
+
 /* || Responsive */
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
     flex-direction: column;
-    padding: 0;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
   .main {
     flex-direction: column;
-    padding: 0;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (max-width: 480px) {
   .main {
     flex-direction: column;
-    padding: 0;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }

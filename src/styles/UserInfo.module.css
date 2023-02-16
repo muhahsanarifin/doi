@@ -5,6 +5,7 @@
   flex-direction: row;
   gap: 1rem;
   min-height: 80vh;
+  background: #e5e5e5;
 }
 
 .main {
@@ -30,6 +31,10 @@
   flex-direction: column;
   gap: 1rem;
   color: #3a3d42;
+}
+
+.title h3 {
+  font-weight: 700;
 }
 
 .description {
@@ -92,9 +97,9 @@
 }
 
 .identify__main-content {
-  /* border: 1px solid darkblue; */
   font-size: 16px;
   font-weight: 800;
+  outline: none;
 }
 .content-header-list {
   /* border: 1px solid darkblue; */
@@ -110,24 +115,43 @@
   cursor: pointer;
 }
 
+/* Info side button */
+.focus-style-side-info-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
+}
+
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
     flex-direction: column;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
   .main {
     flex-direction: column;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (max-width: 480px) {
   .main {
     flex-direction: column;
-    padding: 0.5rem;
-    height: 100vh;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }

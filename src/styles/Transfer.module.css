@@ -5,6 +5,7 @@
   flex-direction: row;
   gap: 1rem;
   min-height: 80vh;
+  background: #e5e5e5;
 }
 
 .main {
@@ -111,23 +112,43 @@
   font-size: 14px;
 }
 
+/* Transfer side button */
+.focus-style-side-transfer-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
+}
+
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
     flex-direction: column;
-    padding: 0;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
   .main {
     flex-direction: column;
-    padding: 0;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }
 
 @media all and (max-width: 480px) {
   .main {
     flex-direction: column;
-    padding: 0;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
   }
 }

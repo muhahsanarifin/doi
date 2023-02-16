@@ -1,10 +1,10 @@
 .main {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  /* min-height: 50vw; */
+  background: #e5e5e5;
 }
 
 .main {
@@ -53,7 +53,7 @@
 }
 
 .identity {
-  border: 1px solid darkblue;
+  /* border: 1px solid darkblue; */
   width: fit-content;
 }
 
@@ -75,7 +75,7 @@
   font-weight: 800;
 }
 .content-header-list {
-  border: 1px solid darkblue;
+  /* border: 1px solid darkblue; */
   padding: 1rem 0;
   font-size: 14px;
   font-weight: 800;
@@ -100,11 +100,43 @@
   gap: 1rem;
 }
 
+/* Transfer side button */
+.focus-style-side-transfer-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
+}
+
 @media all and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    padding: 1rem 0.5rem;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .main {
+    padding: 1rem 0.5rem;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 }
 
 @media all and (max-width: 480px) {
+  .main {
+    padding: 1rem 0.5rem;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 }
