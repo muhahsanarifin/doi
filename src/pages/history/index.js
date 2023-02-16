@@ -42,6 +42,14 @@ const History = () => {
     getHistory();
   }, [page, filter, limit]);
 
+  // Handle currency
+  const idrCurreny = (number) => {
+    return Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
+
   return (
     <>
       <TitleBar name={"History"} />
@@ -116,9 +124,9 @@ const History = () => {
                       }
                     >
                       {history.type === "topup"
-                        ? `+RP${history.amount}`
+                        ? `+${idrCurreny(history.amount)}`
                         : history.type === "send"
-                        ? `-RP${history.amount}`
+                        ? `-${idrCurreny(history.amount)}`
                         : null}
                     </p>
                   </span>

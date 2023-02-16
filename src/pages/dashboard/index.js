@@ -11,6 +11,8 @@ import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import TitleBar from "../../components/TitleBar";
 import Charts from "../../components/Chart";
+import ArrowUpBlueMagenta from "../../assets/icons/arrow-up-blue-magenta.png";
+import PlusBlueMagenta from "../../assets/icons/plus-blue-magenta.png";
 
 import gridIconBlue from "../../assets/icons/grid-blue.png";
 import styles from "../../styles/Dashboard.module.css";
@@ -38,6 +40,14 @@ const Dashbord = () => {
     );
   }, [dispatch, page, limit, filter]);
 
+  // Handle currency
+  const idrCurreny = (number) => {
+    return Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
+
   return (
     <>
       <TitleBar name={"Dashboard"} />
@@ -52,7 +62,7 @@ const Dashbord = () => {
           <span className={styles["balance"]}>
             <span className={styles["balance__content_left"]}>
               <p className={styles["title"]}>Balance</p>
-              <h1 className={styles["fund"]}>{`Rp${user?.balance}`}</h1>
+              <h1 className={styles["fund"]}>{idrCurreny(user?.balance)}</h1>
               <p className={styles["phone-number"]}>{user?.noTelp}</p>
             </span>
             <span className={styles["balance__content_right"]}>
@@ -60,13 +70,27 @@ const Dashbord = () => {
                 className={styles["transfer-btn"]}
                 onClick={() => router.push("/transfer")}
               >
-                Transfer
+                <Image
+                  src={ArrowUpBlueMagenta}
+                  alt="Arrow Up Blue Magenta"
+                  width={500}
+                  height={500}
+                  className={styles["transfer-btn-icon"]}
+                />
+                <p className={styles["transfer-btn-init"]}>Transfer</p>
               </button>
               <button
                 className={styles["top-up-btn"]}
                 onClick={() => router.push("/topup")}
               >
-                Top Up
+                <Image
+                  src={PlusBlueMagenta}
+                  alt="Arrow Up Blue Magenta"
+                  width={500}
+                  height={500}
+                  className={styles["top-up-btn-icon"]}
+                />
+                <p className={styles["top-up-btn-init"]}>Top Up</p>
               </button>
             </span>
           </span>
@@ -109,9 +133,9 @@ const Dashbord = () => {
                         }
                       >
                         {history.type === "topup"
-                          ? `+RP${history.amount}`
+                          ? `+${idrCurreny(history.amount)}`
                           : history.type === "send"
-                          ? `-RP${history.amount}`
+                          ? `-${idrCurreny(history.amount)}`
                           : null}
                       </p>
                     </span>
