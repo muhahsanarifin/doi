@@ -56,7 +56,6 @@
 }
 
 .balance__content_right {
-  /* border: 1px solid darkred; */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -71,6 +70,26 @@
   color: var(--primary-font-color);
   border-radius: 8px;
   cursor: pointer;
+}
+
+.transfer-btn,
+.top-up-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.transfer-btn-icon,
+.top-up-btn-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.transfer-btn-init,
+.top-up-btn-init {
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .history__content_rigth {
