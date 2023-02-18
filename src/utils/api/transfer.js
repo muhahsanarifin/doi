@@ -10,7 +10,7 @@ const config = (accessToken) => {
   };
 };
 
-const transferBalance = (body, accessToken) =>
+const transfer = (body, accessToken) =>
   Axios.post(`${BASE_URL}/transaction/transfer`, body, config(accessToken));
 
-export default transferBalance;
+export default transfer;
