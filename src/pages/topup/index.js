@@ -1,6 +1,6 @@
 import React from "react";
 import Axios from "axios";
-import privateRoute from "../../helpers/private";
+import {PrivateRoute} from "../../helpers/handleRoutes";
 import { useState } from "react";
 import { getCookie } from "cookies-next";
 // import { useRouter} from "next/router"
@@ -15,9 +15,6 @@ import styles from "../../styles/TopUp.module.css";
 import { TopupButton } from "../../components/Button";
 
 const Topup = () => {
-  // Private Route
-  privateRoute();
-
   const [amount, setAmount] = useState("");
 
   const handleTopUp = async (e) => {
@@ -45,41 +42,43 @@ const Topup = () => {
 
   return (
     <>
-      <TitleBar name={"Topup"} />
-      <Header />
-      <main className={styles["main"]}>
-        <SideBar
-          focusStyleTopUp={styles["focus-style-side-topup-button"]}
-          topUpStyle={styles["init-button-active"]}
-          plusIconBlue={plusIconBlue}
-        />
-        <section className={styles["right-side-content"]}>
-          <span className={styles["top-up"]}>
-            <span className={styles["top-up__title"]}>
-              <p className={styles["top-up__title"]}>Topup</p>
-            </span>
-            <span className={styles["top-up__description"]}>
-              <p className={styles["description"]}>
-                Enter the amount of money and click submit
-              </p>
-            </span>
-            <form className={styles["form"]} onSubmit={handleTopUp}>
-              <span className={styles["top-up__input"]}>
-                <input
-                  type="number"
-                  className={
-                    styles[!amount ? "input-number" : "input-number-active"]
-                  }
-                  onChange={(e) => setAmount(e.target.value)}
-                  required
-                />
+      <PrivateRoute>
+        <TitleBar name={"Topup"} />
+        <Header />
+        <main className={styles["main"]}>
+          <SideBar
+            focusStyleTopUp={styles["focus-style-side-topup-button"]}
+            topUpStyle={styles["init-button-active"]}
+            plusIconBlue={plusIconBlue}
+          />
+          <section className={styles["right-side-content"]}>
+            <span className={styles["top-up"]}>
+              <span className={styles["top-up__title"]}>
+                <p className={styles["top-up__title"]}>Topup</p>
               </span>
-              <TopupButton amount={amount} />
-            </form>
-          </span>
-        </section>
-      </main>
-      <Footer />
+              <span className={styles["top-up__description"]}>
+                <p className={styles["description"]}>
+                  Enter the amount of money and click submit
+                </p>
+              </span>
+              <form className={styles["form"]} onSubmit={handleTopUp}>
+                <span className={styles["top-up__input"]}>
+                  <input
+                    type="number"
+                    className={
+                      styles[!amount ? "input-number" : "input-number-active"]
+                    }
+                    onChange={(e) => setAmount(e.target.value)}
+                    required
+                  />
+                </span>
+                <TopupButton amount={amount} />
+              </form>
+            </span>
+          </section>
+        </main>
+        <Footer />
+      </PrivateRoute>
     </>
   );
 };

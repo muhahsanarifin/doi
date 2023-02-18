@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import Users from "../../utils/api/user";
-import privateRoute from "../../helpers/private";
+import { PrivateRoute } from "../../helpers/handleRoutes";
 import TitleBar from "../../components/TitleBar";
 
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
@@ -15,7 +15,6 @@ import SideBar from "../../components/SideBar";
 import styles from "../../styles/Transfer.module.css";
 
 const Transfer = () => {
-  privateRoute();
   const { dataUsers } = Users;
   const [users, setUsers] = useState([]);
   const [identify, setIdentify] = useState("");
@@ -41,70 +40,72 @@ const Transfer = () => {
 
   return (
     <>
-      <TitleBar name={"Transfer"} />
-      <Header />
-      <main className={styles["main"]}>
-        <SideBar
-          focusStyleTransfer={styles["focus-style-side-transfer-button"]}
-          transferStyle={styles["init-button-active"]}
-          arrowUpIconBlue={arrowUpIconBlue}
-        />
-        <section className={styles["right-side-content"]}>
-          <span className={styles["right-side-content__title"]}>
-            <p className={styles["title"]}>Search Receiver</p>
-          </span>
-          <span className={styles["search-input"]}>
-            <InputGroup>
-              {/* <InputLeftElement
+      <PrivateRoute>
+        <TitleBar name={"Transfer"} />
+        <Header />
+        <main className={styles["main"]}>
+          <SideBar
+            focusStyleTransfer={styles["focus-style-side-transfer-button"]}
+            transferStyle={styles["init-button-active"]}
+            arrowUpIconBlue={arrowUpIconBlue}
+          />
+          <section className={styles["right-side-content"]}>
+            <span className={styles["right-side-content__title"]}>
+              <p className={styles["title"]}>Search Receiver</p>
+            </span>
+            <span className={styles["search-input"]}>
+              <InputGroup>
+                {/* <InputLeftElement
                 pointerEvents="none"
                 children={<SearchIcon className={styles["search-icon"]} />}
               /> */}
-              <Input
-                type="text"
-                placeholder="Search receiver here"
-                className={styles["input-receiver"]}
-                onChange={(e) => setIdentify(e.target.value)}
-              />
-            </InputGroup>
-          </span>
-          <span className={styles["bottom-content"]}>
-            <ul className={styles["list"]}>
-              {users.map((user) => (
-                <li
-                  className={styles["content-list"]}
-                  key={user.id}
-                  value={identify}
-                >
-                  <Link
-                    href={{
-                      pathname: "/transfer/[input]",
-                      query: { input: user.id },
-                    }}
-                    className={styles["link-input"]}
+                <Input
+                  type="text"
+                  placeholder="Search receiver here"
+                  className={styles["input-receiver"]}
+                  onChange={(e) => setIdentify(e.target.value)}
+                />
+              </InputGroup>
+            </span>
+            <span className={styles["bottom-content"]}>
+              <ul className={styles["list"]}>
+                {users.map((user) => (
+                  <li
+                    className={styles["content-list"]}
+                    key={user.id}
+                    value={identify}
                   >
-                    <span className={styles["sub-content-list"]}>
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${user.image}`}
-                        alt={user.firstName}
-                        className={styles["image"]}
-                        width={500}
-                        height={500}
-                      />
-                      <span className={styles["identity"]}>
-                        <p className={styles["name"]}>
-                          {user.firstName} {user.lastName}
-                        </p>
-                        <p className={styles["contact"]}>{user.noTelp}</p>
+                    <Link
+                      href={{
+                        pathname: "/transfer/[input]",
+                        query: { input: user.id },
+                      }}
+                      className={styles["link-input"]}
+                    >
+                      <span className={styles["sub-content-list"]}>
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${user.image}`}
+                          alt={user.firstName}
+                          className={styles["image"]}
+                          width={500}
+                          height={500}
+                        />
+                        <span className={styles["identity"]}>
+                          <p className={styles["name"]}>
+                            {user.firstName} {user.lastName}
+                          </p>
+                          <p className={styles["contact"]}>{user.noTelp}</p>
+                        </span>
                       </span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </span>
-        </section>
-      </main>
-      <Footer />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </span>
+          </section>
+        </main>
+        <Footer />
+      </PrivateRoute>
     </>
   );
 };

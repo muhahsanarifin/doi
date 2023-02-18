@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import historyTransactionAction from "../../redux/actions/history";
 
-import privateRoute from "../../helpers/private";
+import {PrivateRoute} from "../../helpers/handleRoutes";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
@@ -18,8 +18,6 @@ import gridIconBlue from "../../assets/icons/grid-blue.png";
 import styles from "../../styles/Dashboard.module.css";
 
 const Dashbord = () => {
-  // Private Route
-  privateRoute();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -50,103 +48,105 @@ const Dashbord = () => {
 
   return (
     <>
-      <TitleBar name={"Dashboard"} />
-      <Header />
-      <main className={styles["main"]}>
-        <SideBar
-          focusStyleDashbord={styles["focus-style-side-dashboard-button"]}
-          dashboardStyle={styles["init-button-active"]}
-          gridIconBlue={gridIconBlue}
-        />
-        <section className={styles["right-side-content"]}>
-          <span className={styles["balance"]}>
-            <span className={styles["balance__content_left"]}>
-              <p className={styles["title"]}>Balance</p>
-              <h1 className={styles["fund"]}>{idrCurreny(user?.balance)}</h1>
-              <p className={styles["phone-number"]}>{user?.noTelp}</p>
-            </span>
-            <span className={styles["balance__content_right"]}>
-              <button
-                className={styles["transfer-btn"]}
-                onClick={() => router.push("/transfer")}
-              >
-                <Image
-                  src={ArrowUpBlueMagenta}
-                  alt="Arrow Up Blue Magenta"
-                  width={500}
-                  height={500}
-                  className={styles["transfer-btn-icon"]}
-                />
-                <p className={styles["transfer-btn-init"]}>Transfer</p>
-              </button>
-              <button
-                className={styles["top-up-btn"]}
-                onClick={() => router.push("/topup")}
-              >
-                <Image
-                  src={PlusBlueMagenta}
-                  alt="Arrow Up Blue Magenta"
-                  width={500}
-                  height={500}
-                  className={styles["top-up-btn-icon"]}
-                />
-                <p className={styles["top-up-btn-init"]}>Top Up</p>
-              </button>
-            </span>
-          </span>
-          <span className={styles["history__content_rigth"]}>
-            <Charts />
-            <span className={styles["transcation-history"]}>
-              <span className={styles["transcation-history__title"]}>
-                <p>Transcation History</p>
-                <p
-                  className={styles["btn-see-all"]}
-                  onClick={() => router.push("/history")}
-                >
-                  See all
-                </p>
+      <PrivateRoute>
+        <TitleBar name={"Dashboard"} />
+        <Header />
+        <main className={styles["main"]}>
+          <SideBar
+            focusStyleDashbord={styles["focus-style-side-dashboard-button"]}
+            dashboardStyle={styles["init-button-active"]}
+            gridIconBlue={gridIconBlue}
+          />
+          <section className={styles["right-side-content"]}>
+            <span className={styles["balance"]}>
+              <span className={styles["balance__content_left"]}>
+                <p className={styles["title"]}>Balance</p>
+                <h1 className={styles["fund"]}>{idrCurreny(user?.balance)}</h1>
+                <p className={styles["phone-number"]}>{user?.noTelp}</p>
               </span>
-              <ul className={styles["list"]}>
-                {histories.data?.map((history) => (
-                  <li className={styles["content-list"]} key={history.id}>
-                    <span className={styles["sub-content-list"]}>
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
-                        alt={history.firstName}
-                        className={styles["image"]}
-                        width={500}
-                        height={500}
-                      />
-                      <span className={styles["identity"]}>
-                        <p className={styles["name"]}>
-                          {history.firstName} {history.lastName}
-                        </p>
-                        <p className={styles["status"]}>{history.status}</p>
-                      </span>
-                      <p
-                        className={
-                          styles[
-                            history.type === "topup"
-                              ? "value-income"
-                              : "value-expense"
-                          ]
-                        }
-                      >
-                        {history.type === "topup"
-                          ? `+${idrCurreny(history.amount)}`
-                          : history.type === "send"
-                          ? `-${idrCurreny(history.amount)}`
-                          : null}
-                      </p>
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <span className={styles["balance__content_right"]}>
+                <button
+                  className={styles["transfer-btn"]}
+                  onClick={() => router.push("/transfer")}
+                >
+                  <Image
+                    src={ArrowUpBlueMagenta}
+                    alt="Arrow Up Blue Magenta"
+                    width={500}
+                    height={500}
+                    className={styles["transfer-btn-icon"]}
+                  />
+                  <p className={styles["transfer-btn-init"]}>Transfer</p>
+                </button>
+                <button
+                  className={styles["top-up-btn"]}
+                  onClick={() => router.push("/topup")}
+                >
+                  <Image
+                    src={PlusBlueMagenta}
+                    alt="Arrow Up Blue Magenta"
+                    width={500}
+                    height={500}
+                    className={styles["top-up-btn-icon"]}
+                  />
+                  <p className={styles["top-up-btn-init"]}>Top Up</p>
+                </button>
+              </span>
             </span>
-          </span>
-        </section>
-      </main>
-      <Footer />
+            <span className={styles["history__content_rigth"]}>
+              <Charts />
+              <span className={styles["transcation-history"]}>
+                <span className={styles["transcation-history__title"]}>
+                  <p>Transcation History</p>
+                  <p
+                    className={styles["btn-see-all"]}
+                    onClick={() => router.push("/history")}
+                  >
+                    See all
+                  </p>
+                </span>
+                <ul className={styles["list"]}>
+                  {histories.data?.map((history) => (
+                    <li className={styles["content-list"]} key={history.id}>
+                      <span className={styles["sub-content-list"]}>
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
+                          alt={history.firstName}
+                          className={styles["image"]}
+                          width={500}
+                          height={500}
+                        />
+                        <span className={styles["identity"]}>
+                          <p className={styles["name"]}>
+                            {history.firstName} {history.lastName}
+                          </p>
+                          <p className={styles["status"]}>{history.status}</p>
+                        </span>
+                        <p
+                          className={
+                            styles[
+                              history.type === "topup"
+                                ? "value-income"
+                                : "value-expense"
+                            ]
+                          }
+                        >
+                          {history.type === "topup"
+                            ? `+${idrCurreny(history.amount)}`
+                            : history.type === "send"
+                            ? `-${idrCurreny(history.amount)}`
+                            : null}
+                        </p>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </span>
+            </span>
+          </section>
+        </main>
+        <Footer />
+      </PrivateRoute>
     </>
   );
 };
