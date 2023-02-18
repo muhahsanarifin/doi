@@ -88,7 +88,7 @@
   </div>
   <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
     <h3 style="font-weight: 600; text-align: center">Top Up</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/TopUp.png" alt="Top Up style="border-radius: 6px;image-rendering: smooth">
+    <img width="500" height="100%" src="src/assets/images-readme/TopUp.png" alt="Top Up" style="border-radius: 6px;image-rendering: smooth">
   </div>
   <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
     <h3 style="font-weight: 600; text-align: center">Transfer</h3>
