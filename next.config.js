@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // « Redirect routes »
+  // Redirect routes
   async redirects() {
     return [
       {
