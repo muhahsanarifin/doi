@@ -136,8 +136,9 @@ const usersReducer = (prevState = intialState, { payload, type }) => {
         ...prevState,
         isLoading: false,
         isFulfilled: false,
+        checkPinUser: payload.error.response?.data.msg, // <= Change state checkPinUser property especially put error msg as it's value.
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -165,7 +166,7 @@ const usersReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -193,7 +194,7 @@ const usersReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -221,7 +222,7 @@ const usersReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -249,7 +250,7 @@ const usersReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -277,7 +278,7 @@ const usersReducer = (prevState = intialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 

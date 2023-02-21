@@ -3,6 +3,7 @@ import { actionStrings } from "../actions/actionStrings";
 
 const initialState = {
   transfer: {},
+  confirmationTransfer: {},
   isLoading: false,
   isError: false,
   isFulfilled: false,
@@ -12,7 +13,7 @@ const initialState = {
 const transferReducer = (prevState = initialState, { payload, type }) => {
   const { Pending, Fulfilled, Rejected } = ActionType;
 
-  const { transfer } = actionStrings;
+  const { transfer, transferConfirmation } = actionStrings;
 
   switch (type) {
     case transfer.concat("-", Pending):
@@ -33,15 +34,25 @@ const transferReducer = (prevState = initialState, { payload, type }) => {
         err: null,
       };
 
-    case transfer.concat("-", Rejected): {
+    case transfer.concat("-", Rejected):
       return {
         ...prevState,
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        transfer: payload.error.response.data.data, // <= Change transfer's property when condition is rejected.
+        err: payload.error.response?.data.msg, // <= Custome error message.
       };
-    }
+
+    case transferConfirmation:
+      return {
+        ...prevState,
+        isLoading: false,
+        isFulfilled: true,
+        isError: false,
+        confirmationTransfer: payload.data,
+      };
+
     default:
       return prevState;
   }

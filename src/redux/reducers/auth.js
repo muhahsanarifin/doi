@@ -45,7 +45,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -73,7 +73,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -101,7 +101,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -129,7 +129,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -157,7 +157,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
@@ -185,7 +185,7 @@ const authReducer = (prevState = initialState, { payload, type }) => {
         isLoading: false,
         isFulfilled: false,
         isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        err: payload.error.response?.data.msg, // <= Custome error message
       };
     }
 
