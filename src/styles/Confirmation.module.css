@@ -44,7 +44,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 .value {
   /* border: 1px solid darkblue; */
@@ -59,9 +59,9 @@
 
 .image {
   /* border: 1px solid darkcyan; */
-  width: 32px;
-  height: 32px;
-  border-radius: 2px;
+  width: 70px;
+  height: 70px;
+  border-radius: 6px;
 }
 
 .identify__title {

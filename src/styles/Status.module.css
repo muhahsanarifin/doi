@@ -32,13 +32,25 @@
   gap: 1rem;
 }
 
-/* .image-status {
-  border: 1px solid darkblue;
-} */
+.sub-title-status {
+  text-align: center;
+  max-width: 591px;
+  color: #7a7886;
+  font-weight: 400;
+  font-size: 16px;
+}
 
-/* .title-status {
-  border: 1px solid darkblue;
-} */
+.image-status {
+  width: 70px;
+  height: 70px;
+}
+
+.title-status {
+  /* border: 1px solid darkblue; */
+  color: #4d4b57;
+  font-weight: 700;
+  font-size: 22px;
+}
 
 .list {
   /* border: 1px solid darkblue; */
@@ -75,9 +87,9 @@
 
 .image {
   /* border: 1px solid darkcyan; */
-  width: 32px;
-  height: 32px;
-  border-radius: 2px;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
 }
 
 .identify__title {
@@ -108,7 +120,8 @@
   color: #6379f4;
   cursor: pointer;
 }
-.home-btn {
+.home-btn,
+.try-again-btn {
   /* border: 1px solid darkblue; */
   border: none;
   padding: 0.8rem 3rem;
@@ -125,6 +138,23 @@
   flex-direction: row;
   justify-content: flex-end;
   gap: 1rem;
+}
+
+/* Transfer side button */
+.focus-style-side-transfer-button {
+  border-left: 4px solid #6379f4;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+.init-button-active {
+  color: #6379f4;
+  font-weight: 700;
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
@@ -154,7 +184,8 @@
   }
 
   .download-btn,
-  .home-btn {
+  .home-btn,
+  .try-again-btn {
     font-size: 14px;
     padding: 0.5rem;
   }
