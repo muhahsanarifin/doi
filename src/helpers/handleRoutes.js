@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 
@@ -26,4 +26,20 @@ const PreventBackPage = ({ children }) => {
 
   return children;
 };
-export { PrivateRoute, PreventBackPage };
+
+const PreventDirectStatusPage = ({ children }) => {
+  const route = useRouter();
+  const confirmationTransferData = useSelector(
+    (state) => state.transfer?.confirmationTransfer
+  );
+
+  useEffect(() => {
+    if (confirmationTransferData === undefined) {
+      route.replace("/dashboard");
+    }
+  }, [confirmationTransferData, route]);
+
+  return children;
+};
+
+export { PrivateRoute, PreventBackPage, PreventDirectStatusPage };
