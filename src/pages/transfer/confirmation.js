@@ -8,6 +8,7 @@ import { getCookie } from "cookies-next";
 import transferAction from "../../redux/actions/transfer";
 import { useRouter } from "next/router";
 
+import TitleBar from "../../components/TitleBar";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
@@ -135,6 +136,7 @@ const Confirmation = () => {
   return (
     <>
       <PrivateRoute>
+        <TitleBar name={"Transfer"} />
         <Header />
         <main className={styles["main"]}>
           <SideBar
