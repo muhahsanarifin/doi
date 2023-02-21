@@ -122,14 +122,29 @@ const EditPhoneNumberButton = ({ noTelp }) => {
   );
 };
 
-const TopupButton = ({ amount }) => {
+const TopupButton = ({ onClick, disabled }) => {
   return (
     <>
       <button
-        className={styles[!amount ? "btn" : "btn-active"]}
-        disabled={!amount}
+        className={styles[!disabled ? "btn" : "btn-active"]}
+        disabled={!disabled}
+        onClick={onClick}
       >
         Submit
+      </button>
+    </>
+  );
+};
+
+const TryAgainButton = ({ onClick, disabled }) => {
+  return (
+    <>
+      <button
+        onClick={onClick}
+        className={styles[!disabled ? "btn" : "btn-active"]}
+        disabled={!disabled}
+      >
+        Try Again
       </button>
     </>
   );
@@ -143,4 +158,5 @@ export {
   ChangePasswordButton,
   EditPhoneNumberButton,
   TopupButton,
+  TryAgainButton,
 };

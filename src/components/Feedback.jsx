@@ -1,4 +1,5 @@
 import { useToast, CircularProgress } from "@chakra-ui/react";
+import Image from "next/image";
 
 const Toast = ({ title, id, status, position }) => {
   const toast = useToast();
@@ -15,10 +16,10 @@ const Toast = ({ title, id, status, position }) => {
   }
 };
 
-const Loader = () => {
+const Loader = ({ onColor }) => {
   return (
     <CircularProgress
-      color="#5464c7"
+      color={onColor}
       isIndeterminate
       size="24px"
       thickness="12px"
@@ -26,4 +27,36 @@ const Loader = () => {
   );
 };
 
-export { Toast, Loader };
+const TopUpMsg = ({ icon, msg }) => {
+  return (
+    <>
+      <span
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <Image
+          src={icon}
+          width={100}
+          height={100}
+          style={{ width: "48px", height: "48px", alignSelf: "center" }}
+          alt="Success Icon"
+        />
+        <p
+          style={{
+            colo: "#4D4B57",
+            textAlign: "center",
+            fontWeight: "700",
+            fontSize: "22px",
+          }}
+        >
+          {msg}
+        </p>
+      </span>
+    </>
+  );
+};
+
+export { Toast, Loader, TopUpMsg };

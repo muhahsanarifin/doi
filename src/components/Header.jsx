@@ -15,53 +15,55 @@ const Header = () => {
 
   return (
     <>
-      <header className={"header"}>
-        <span className={"logo"}>Doi</span>
-        <span className={"header__profile"}>
-          <Image
-            src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user.getDataUser.data?.image}`}
-            alt="Profile"
-            // className={"image-profile"}
-            width={50}
-            height={50}
-            style={{
-              borderRadius: "6px",
-              width: "32px",
-              height: "32px",
-              objectFit: "fill",
-            }}
-          />
-          <span className={"indentity-short"}>
-            <p className={"fullname"}>
-              {`${user.getDataUser.data?.firstName} ${user.getDataUser.data?.lastName}`}
-            </p>
-            <p className={"phonenumber"}>
-              {`${user.getDataUser.data?.noTelp}`}
-            </p>
-          </span>
-          <span className={"bell"}>
-            <span className={"notification"}></span>
-            <Image src={bellIcon} alt="Bell" />
+      <header className={"header-section"}>
+        <span className={"header"}>
+          <span className={"logo"}>Doi</span>
+          <span className={"header__profile"}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user.getDataUser.data?.image}`}
+              alt="Profile"
+              // className={"image-profile"}
+              width={50}
+              height={50}
+              style={{
+                borderRadius: "6px",
+                width: "32px",
+                height: "32px",
+                objectFit: "fill",
+              }}
+            />
+            <span className={"indentity-short"}>
+              <p className={"fullname"}>
+                {`${user.getDataUser.data?.firstName} ${user.getDataUser.data?.lastName}`}
+              </p>
+              <p className={"phonenumber"}>
+                {`${user.getDataUser.data?.noTelp}`}
+              </p>
+            </span>
+            <span className={"bell"}>
+              <span className={"notification"}></span>
+              <Image src={bellIcon} alt="Bell" />
+            </span>
           </span>
         </span>
       </header>
       {/* Functional same as css internal */}
       <style jsx>{`
-        .header {
-          /* border: 1px solid darkblue; */
+
+        .header-section {            
+          background: #E5E5E5;
+        }
+        
+        .header{
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
           box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-          border-bottom: 1px solid #ffffff;
-          border-bottom-left-radius: 8px;
-          border-bottom-right-radius: 8px;
-        }
-
-        .header {
+          border-bottom-left-radius: 16px;
+          border-bottom-right-radius: 16px;
           padding: 2rem 8rem;
-          /* border: 1px solid darkblue; */
+          background: #FFFFFF
         }
 
         .fullname {

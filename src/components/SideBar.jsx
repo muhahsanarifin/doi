@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Auth from "../utils/api/auth";
-import { getCookie, deleteCookie } from "cookies-next";
+import { useDisclosure } from "@chakra-ui/react";
+
+import { LogoutModal } from "../components/Overlay";
 
 import gridIcon from "../assets/icons/grid.png";
 import arrowUpIcon from "../assets/icons/arrow-up.png";
@@ -29,9 +30,8 @@ const SideBar = ({
   logoutStyle,
   logOutIconBlue,
 }) => {
-  const { logout } = Auth;
   const route = useRouter();
-  const [sample, setSample] = useState([
+  const [sideBar, setSample] = useState([
     gridIconBlue,
     arrowUpIconBlue,
     plusIconBlue,
@@ -39,24 +39,7 @@ const SideBar = ({
     logOutIconBlue,
   ]);
 
-  const handleLogout = async () => {
-    try {
-      const response = await logout(getCookie("token"));
-
-      if (response.data.status === 200) {
-        // Delete cookies
-        const values = ["id", "token"];
-        values.map((value) => deleteCookie(value));
-
-        // Clear localstorage
-        window.localStorage.clear();
-
-        route.push("/auth/login");
-      }
-    } catch (error) {
-      console.log(error.response.data.msg);
-    }
-  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -69,7 +52,7 @@ const SideBar = ({
             onClick={() => route.push("/dashboard")}
           >
             <Image
-              src={sample[0] ? gridIconBlue : gridIcon}
+              src={sideBar[0] ? gridIconBlue : gridIcon}
               alt="Dashboard"
               className={styles["btn-icon"]}
             />
@@ -80,7 +63,7 @@ const SideBar = ({
             onClick={() => route.push("/transfer")}
           >
             <Image
-              src={sample[1] ? arrowUpIconBlue : arrowUpIcon}
+              src={sideBar[1] ? arrowUpIconBlue : arrowUpIcon}
               alt="Transfer"
               className={styles["btn-icon"]}
             />
@@ -91,7 +74,7 @@ const SideBar = ({
             onClick={() => route.push("/topup")}
           >
             <Image
-              src={sample[2] ? plusIconBlue : plusIcon}
+              src={sideBar[2] ? plusIconBlue : plusIcon}
               alt="Top Up"
               className={styles["btn-icon"]}
             />
@@ -102,7 +85,7 @@ const SideBar = ({
             onClick={() => route.push("/user/profile")}
           >
             <Image
-              src={sample[3] ? userIconBlue : userIcon}
+              src={sideBar[3] ? userIconBlue : userIcon}
               alt="Profile"
               className={styles["btn-icon"]}
             />
@@ -114,16 +97,23 @@ const SideBar = ({
         >
           <li
             className={`${styles["btn-list"]} ${focusStyleLogOut}`}
-            onClick={handleLogout}
+            onClick={onOpen}
           >
             <Image
-              src={sample[4] ? logOutIconBlue : logOutIcon}
+              src={sideBar[4] ? logOutIconBlue : logOutIcon}
               alt="Log Out"
               className={styles["btn-icon"]}
             />
             <p className={logoutStyle}>Logout</p>
           </li>
         </ul>
+        {/* Logout Modal */}
+        <LogoutModal
+          initBtn="Logout"
+          body="Are you sure want to logout ?"
+          isOpen={isOpen}
+          onClose={onClose}
+        />
       </aside>
     </>
   );
