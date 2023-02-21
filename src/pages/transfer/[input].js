@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import transferBalance from "../../utils/api/transfer";
+import transferAction from "../../redux/actions/transfer";
 import usersAction from "../../redux/actions/user";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
+import { DateTime } from "luxon";
+
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
+
 import penIcon from "../../assets/icons/edit-2.png";
-import penIconBlue from "../../assets/icons/edit-2-blue.png"
+import penIconBlue from "../../assets/icons/edit-2-blue.png";
 import arrowUpIconBlue from "../../assets/icons/arrow-up-blue.png";
 import styles from "../../styles/InputTransfer.module.css";
 
@@ -26,20 +29,41 @@ const Input = () => {
     dispatch(usersAction.getDataReceiverThunk(receiverId, getCookie("token")));
   }, [dispatch, receiverId]);
 
-  const handleTransfer = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await transferBalance(
-        { receiverId, amount, notes },
-        getCookie("token")
-      );
+  console.log("Entity receiver: ", receiver.getDataReceiver.data);
+  // console.log("Entity user: ", user);
 
-      console.log("Success response message: ", response.data.msg);
-      window.location.reload();
-    } catch (error) {
-      console.log(error.response.data.msg);
-    }
+  // Data & Time
+  const dt = (dateTime) => {
+    return dateTime;
   };
+
+  // Balance left
+  const bl = (tempBalance, amountTf) => {
+    const balanceLeft = tempBalance - amountTf;
+    return balanceLeft;
+  };
+
+  // Handle Confirm Transfer
+  const handleConfirmTransfer = () => {
+    const body = {
+      id: receiver.getDataReceiver.data?.id,
+      firstName: receiver.getDataReceiver.data?.firstName,
+      lastName: receiver.getDataReceiver.data?.lastName,
+      image: receiver.getDataReceiver.data?.image,
+      noTelp: receiver.getDataReceiver.data?.noTelp,
+      amount: parseFloat(amount),
+      balanceLeft: bl(user?.balance, parseFloat(amount)),
+      date: dt(DateTime.now().toFormat("ff")),
+      notes: notes,
+    };
+    // console.log("Sample body: ", body);
+
+    dispatch(transferAction.transferConfirmationThunk(body));
+
+    router.replace("/transfer/confirmation");
+  };
+
+  console.log("Amount: ", amount);
 
   // Handle currency
   const idrCurreny = (number) => {
@@ -92,13 +116,15 @@ const Input = () => {
             </span>
             <span className={styles["form"]}>
               <span className={styles["input-section"]}>
-                <input
-                  type="text"
-                  placeholder={`0.00`}
-                  className={styles[!amount ? "amount" : "amount-active"]}
-                  onChange={(e) => setAmount(e.target.value)}
-                  required
-                />
+                {
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className={styles[!amount ? "amount" : "amount-active"]}
+                    onChange={(e) => setAmount(e.target.value)}
+                    value={"-Infinity" < amount ? amount : !amount}
+                  />
+                }
                 <p className={styles["rest-balance"]}>
                   {`${idrCurreny(user?.balance)} Availabe`}
                 </p>
@@ -123,7 +149,7 @@ const Input = () => {
                   className={
                     styles[!amount ? "continue-btn" : "continue-btn-active"]
                   }
-                  onClick={handleTransfer}
+                  onClick={handleConfirmTransfer}
                   disabled={!amount}
                 >
                   Continue

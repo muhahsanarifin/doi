@@ -181,7 +181,7 @@ const Login = () => {
                 <LoginButton
                   email={email}
                   password={password}
-                  init={loader ? <Loader /> : "Login"}
+                  init={loader ? <Loader onColor="#5464c7" /> : "Login"}
                 />
               </form>
               <span className={styles["link-to-sign-up"]}>

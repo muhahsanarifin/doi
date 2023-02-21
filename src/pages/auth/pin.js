@@ -11,7 +11,7 @@ import TitleBar from "../../components/TitleBar";
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 
-import styles from "../../styles/Pin.module.css";
+import styles from "../../styles/PinReset.module.css";
 
 const Pin = () => {
   const { updatePinUser } = Users;
@@ -111,7 +111,7 @@ const Pin = () => {
             </span>
             <span className={styles["form"]}>
               <span className={styles["pin-form"]}>
-                <PinInput otp placeholder="…">
+                <PinInput otp placeholder="_">
                   <PinInputField
                     className={styles["pin-styles"]}
                     onChange={(e) => setPin(e.target.value)}

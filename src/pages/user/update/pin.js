@@ -74,7 +74,7 @@ const Pin = () => {
           </span>
           <span className={styles["form"]}>
             <span className={styles["pin-form"]}>
-              <PinInput otp placeholder="…">
+              <PinInput otp placeholder="_">
                 <PinInputField
                   className={styles["pin-styles"]}
                   onChange={(e) => setPin(e.target.value)}

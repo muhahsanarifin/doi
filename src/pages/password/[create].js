@@ -15,7 +15,7 @@ import passwordIcon from "../../assets/icons/lock.png";
 const CreateNewPassword = () => {
   const router = useRouter();
 
-  const keyChangePassword = parseInt(router.query.create);
+  // const keyChangePassword = parseInt(router.query.create);
   // console.log(keyChangePassword);
 
   const [newPassword, setNewPassword] = useState("");
