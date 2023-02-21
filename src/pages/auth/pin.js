@@ -11,7 +11,7 @@ import TitleBar from "../../components/TitleBar";
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 
-import styles from "../../styles/PinReset.module.css";
+import styles from "../../styles/PinCreate.module.css";
 
 const Pin = () => {
   const { updatePinUser } = Users;
@@ -70,7 +70,7 @@ const Pin = () => {
 
   return (
     <>
-      <TitleBar name={" Create Pin"}/>
+      <TitleBar name={"Create Pin"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>
@@ -107,6 +107,14 @@ const Pin = () => {
                 Create 6 digits pin to secure all your money and your data in
                 Doi app. Keep it secret and don’t tell anyone about your Doi
                 account password and the PIN.
+              </p>
+            </span>
+            <span className={styles["right-content__description-mobile"]}>
+              <h3>Create PIN</h3>
+              <p>
+                Create 6 digits pin to secure all your money and your data in
+                FazzPay app. Keep it secret and don’t tell anyone about your
+                FazzPay account password and the PIN.
               </p>
             </span>
             <span className={styles["form"]}>
