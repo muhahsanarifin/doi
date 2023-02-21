@@ -123,7 +123,7 @@
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
-  border-bottom: 2px solid #FF5B37;
+  border-bottom: 2px solid #ff5b37;
   max-width: 27.0625rem;
 }
 
@@ -177,7 +177,7 @@
 }
 
 .error-msg p {
-  color: #FF5B37;
+  color: #ff5b37;
   font-size: 16px;
   font-weight: 600;
 }
@@ -407,36 +407,6 @@
   .right-content__description-mobile p {
     color: #a9a9a9;
   }
-
-  /* || Content Image */
-
-  .left-content_image {
-    /* border: 1px solid darkblue; */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .image {
-    /* border: 1px solid red; */
-    max-width: 12.4069rem;
-    max-height: 22.5294rem;
-  }
-
-  .image-one {
-    /* border: 1px solid red; */
-    position: relative;
-    transform: rotate(-8deg);
-    left: 3.5rem;
-  }
-
-  .image-second {
-    /* border: 1px solid darkblue; */
-    position: relative;
-    transform: rotate(8deg);
-    right: 4rem;
-  }
-  /* || Content Image */
 
   .form input[type="text"],
   .form input[type="password"] {
