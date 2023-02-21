@@ -63,50 +63,57 @@
 
 ## Features
 
-<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+### Login
 
-<div style="display:grid; grid-template-columns: auto auto; gap: 1rem">
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Login</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/login.png" alt="Login" style="border-radius: 6px; image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Sign Up</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/register.png" alt="Sign Up" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Forgot Password</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/forgot-password.png" alt="Forgot Password" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Dashboard</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/dashboard.png" alt="Dashboard" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Personal Info</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/personal-information.png" alt="Personal Info" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Top Up</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/TopUp.png" alt="Top Up" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Transfer</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/transfer.png" alt="Transfer" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Transaction History </h3>
-    <img width="500" height="100%" src="src/assets/images-readme/history-transaction.png" alt="History Transaction" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Change Password</h3>
-    <img width="500" height="100%" src="src/assets/images-readme/change-password.png" alt="Change Password" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center">
-    <h3 style="font-weight: 600; text-align: center">Update Pin </h3>
-    <img width="500" height="100%" src="src/assets/images-readme/update-pin.png" alt="Update Pin" style="border-radius: 6px;image-rendering: smooth">
-  </div>
-</div>
+<img width="500" height="100%" src="src/assets/images-readme/login.png" alt="Login" style="border-radius: 6px; image-rendering: smooth">
+
+### Sign Up
+
+<img width="500" height="100%" src="src/assets/images-readme/register.png" alt="Sign Up" style="border-radius: 6px; image-rendering: smooth">
+
+### Forgot Password
+
+<img width="500" height="100%" src="src/assets/images-readme/forgot-password.png" alt="Forgot Password" style="border-radius: 6px; image-rendering: smooth">
+
+### Dashboard
+
+<img width="500" height="100%" src="src/assets/images-readme/dashboard.png" alt="Dashboard" style="border-radius: 6px; image-rendering: smooth">
+
+### Personal Info
+
+<img width="500" height="100%" src="src/assets/images-readme/personal-information.png" alt="Personal Info" style="border-radius: 6px; image-rendering: smooth">
+
+### Top Up
+
+<img width="500" height="100%" src="src/assets/images-readme/top-up.png" alt="Top Up" style="border-radius: 6px; image-rendering: smooth">
+
+### Top Up | #2
+
+<img width="500" height="100%" src="src/assets/images-readme/top-up-confirmation.png" alt="Top Up" style="border-radius: 6px; image-rendering: smooth">
+
+### Transfer
+
+<img width="500" height="100%" src="src/assets/images-readme/transfer.png" alt="Transfer" style="border-radius: 6px; image-rendering: smooth">
+
+### Transfer Status | Success
+
+<img width="500" height="100%" src="src/assets/images-readme/transfer-status-success.png" alt="Transfer" style="border-radius: 6px; image-rendering: smooth">
+
+### Transfer Status | Failed
+
+<img width="500" height="100%" src="src/assets/images-readme/transfer-status-failed.png" alt="Transfer" style="border-radius: 6px; image-rendering: smooth">
+
+### History Transaction
+
+<img width="500" height="100%" src="src/assets/images-readme/history-transaction.png" alt="History Transaction" style="border-radius: 6px; image-rendering: smooth">
+
+### Change Password
+
+<img width="500" height="100%" src="src/assets/images-readme/change-password.png" alt="Change Password" style="border-radius: 6px; image-rendering: smooth">
+
+### Update Pin
+
+<img width="500" height="100%" src="src/assets/images-readme/update-pin.png" alt="Update Pin" style="border-radius: 6px; image-rendering: smooth">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,10 +127,21 @@
 
 ## Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/muhahsanarifin/doi.git
-   ```
+» Clone the repo
+
+```sh
+git clone https://github.com/muhahsanarifin/doi.git
+```
+
+## Demo
+
+» Demo account
+
+```sh
+Email: wonsbso678@qemail.org
+Password: 123456789
+Pin: 445566
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
