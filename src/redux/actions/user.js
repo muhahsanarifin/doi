@@ -226,7 +226,8 @@ const checkPinUserThunk = (
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError
+  cbError,
+  cbFinally
 ) => {
   return async (dispatch) => {
     try {
@@ -234,10 +235,13 @@ const checkPinUserThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await checkPinUser(pin, accessToken);
       dispatch(checkPinUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      console.log(response);
+      typeof cbFulfilled === "function" && cbFulfilled(response);
     } catch (error) {
       dispatch(checkPinUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error.response);
+    }finally{
+      typeof cbFinally === "function" && cbFinally();
     }
   };
 };
@@ -255,7 +259,7 @@ const updateProfileUserThunk = (
       dispatch(updateProfileUserPending());
       typeof cbPending === "function" && cbPending();
       const response = await updateProfileUser(id, body, accessToken);
-      dispatch(updateProfileUserFulfilled(response.data));
+      dispatch(updateProfileUserFulfilled(response));
       typeof cbFulfilled === "function" && cbFulfilled();
     } catch (error) {
       dispatch(updateProfileUserRejected(error));
@@ -278,7 +282,7 @@ const updateImageUserThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await updateImageUser(id, body, accessToken);
       dispatch(updateImageUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(updateImageUserRejected(error));
       typeof cbError === "function" && cbError();

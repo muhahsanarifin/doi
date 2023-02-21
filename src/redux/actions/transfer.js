@@ -1,5 +1,6 @@
 import { ActionType } from "redux-promise-middleware";
 import transfer from "../../utils/api/transfer";
+import { actionStrings } from "./actionStrings";
 
 const { Pending, Fulfilled, Rejected } = ActionType;
 
@@ -15,7 +16,13 @@ const transferBalanceFulfilled = (data) => ({
 
 const transferBalanceRejected = (error) => ({
   type: actionStrings.transfer.concat("-", Rejected),
-  paylaod: { error },
+  payload: { error },
+});
+
+// Transfer confirmation
+const transferConfrimationAction = (data) => ({
+  type: actionStrings.transferConfirmation,
+  payload: { data },
 });
 
 const transferBalanceUserThunk = (
@@ -39,8 +46,15 @@ const transferBalanceUserThunk = (
   };
 };
 
+const transferConfirmationThunk = (payload) => {
+  return async (dispatch) => {
+    dispatch(transferConfrimationAction(payload));
+  };
+};
+
 const transferAction = {
   transferBalanceUserThunk,
+  transferConfirmationThunk,
 };
 
 export default transferAction;

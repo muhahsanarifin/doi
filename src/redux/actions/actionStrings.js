@@ -29,4 +29,5 @@ export const actionStrings = {
 
   // Transfer
   transfer: "TRANSFER",
+  transferConfirmation: "TRANSFER_CONFIRMATION"
 };

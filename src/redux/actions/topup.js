@@ -33,10 +33,10 @@ const topUpThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await topUp(body, accessToken);
       dispatch(topUpFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response);
     } catch (error) {
       dispatch(topUpRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
