@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import authsAction from "../redux/actions/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getCookie, deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Pin from "./Pin";
@@ -196,7 +196,6 @@ const PinModalTopUp = ({
   initBtn,
   isOpen,
   onClose,
-  // onCloseComplete,
   onClick,
   onSetPin,
   onSetPinTwo,
@@ -251,7 +250,15 @@ const PinModalTopUp = ({
                   justifyContent: "center",
                 }}
               >
-                <p style={{ color: "#1EC15F", fontWeight: "700" }}>
+                <p
+                  style={{
+                    color: "#1EC15F",
+                    fontWeight: "700",
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#1ec15f0a",
+                    borderRadius: "6px",
+                  }}
+                >
                   {onSetSuccess}
                 </p>
               </div>
@@ -262,7 +269,15 @@ const PinModalTopUp = ({
                   justifyContent: "center",
                 }}
               >
-                <p style={{ color: "#FF5B37", fontWeight: "700" }}>
+                <p
+                  style={{
+                    color: "#FF5B37",
+                    fontWeight: "700",
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#ff5c3710",
+                    borderRadius: "6px",
+                  }}
+                >
                   {onSetFailed}
                 </p>
               </div>

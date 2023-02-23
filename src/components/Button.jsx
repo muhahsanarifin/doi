@@ -1,12 +1,13 @@
 import React from "react";
 import styles from "../styles/Button.module.css";
 
-const LoginButton = ({ password, email, init }) => {
+const LoginButton = ({ password, email, init, onClick }) => {
   return (
     <>
       <button
         className={styles[!password || !email ? "btn" : "btn-active"]}
         disabled={!password || !email}
+        onClick={onClick}
       >
         {init}
       </button>
@@ -14,7 +15,14 @@ const LoginButton = ({ password, email, init }) => {
   );
 };
 
-const SignUpButton = ({ firstName, lastName, email, password }) => {
+const SignUpButton = ({
+  firstName,
+  lastName,
+  email,
+  password,
+  onClick,
+  init,
+}) => {
   return (
     <>
       <button
@@ -25,8 +33,9 @@ const SignUpButton = ({ firstName, lastName, email, password }) => {
               : "btn-active"
           ]
         }
+        onClick={onClick}
       >
-        SignUp
+        {init}
       </button>
     </>
   );
@@ -90,6 +99,8 @@ const ChangePasswordButton = ({
   currentPassword,
   newPassword,
   repeatPassword,
+  onClick,
+  init,
 }) => {
   return (
     <>
@@ -102,21 +113,23 @@ const ChangePasswordButton = ({
           ]
         }
         disabled={!currentPassword || !newPassword || !repeatPassword}
+        onClick={onClick}
       >
-        Confirm
+        {init}
       </button>
     </>
   );
 };
 
-const EditPhoneNumberButton = ({ noTelp }) => {
+const EditPhoneNumberButton = ({ noTelp, onClick, init }) => {
   return (
     <>
       <button
         className={styles[!noTelp ? "btn" : "btn-active"]}
         disabled={!noTelp}
+        onClick={onClick}
       >
-        Edit Phone Number
+        {init}
       </button>
     </>
   );
@@ -150,6 +163,60 @@ const TryAgainButton = ({ onClick, disabled }) => {
   );
 };
 
+const UpdatedPinButton = ({
+  numeric,
+  numericTwo,
+  numericTree,
+  numericFour,
+  numericFive,
+  numericSix,
+  initBtn,
+  onClick,
+}) => {
+  return (
+    <>
+      <button
+        className={
+          styles[
+            !numeric ||
+            !numericTwo ||
+            !numericTree ||
+            !numericFour ||
+            !numericFive ||
+            !numericSix
+              ? "btn"
+              : "btn-active"
+          ]
+        }
+        disabled={
+          !numeric ||
+          !numericTwo ||
+          !numericTree ||
+          !numericFour ||
+          !numericFive ||
+          !numericSix
+        }
+        onClick={onClick}
+      >
+        {initBtn}
+      </button>
+    </>
+  );
+};
+
+const GoToDashboardButton = ({ onClick }) => {
+  return (
+    <>
+      <button
+        onClick={onClick}
+        className={styles["btn-active"]}
+      >
+        Got To Dashboard
+      </button>
+    </>
+  );
+};
+
 export {
   LoginButton,
   SignUpButton,
@@ -159,4 +226,6 @@ export {
   EditPhoneNumberButton,
   TopupButton,
   TryAgainButton,
+  UpdatedPinButton,
+  GoToDashboardButton,
 };
