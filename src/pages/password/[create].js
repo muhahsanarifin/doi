@@ -1,18 +1,24 @@
 import React from "react";
-import Axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import authsAction from "../../redux/actions/auth";
+import { useDispatch } from "react-redux";
 
-// import styles from "../../styles/createNewPassword.module.css";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ResetPasswordButton } from "../../components/Button";
+import { ErrorMsg } from "../../components/Feedback";
+import { ChangePasswordMsg } from "../../components/Feedback";
 
 import styles from "../../styles/CreateNewPassword.module.css";
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
 import passwordIcon from "../../assets/icons/lock.png";
+import passwordIconBlue from "../../assets/icons/lock-blue.png";
+import successIcon from "../../assets/icons/success.png";
 
 const CreateNewPassword = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   // const keyChangePassword = parseInt(router.query.create);
@@ -22,25 +28,46 @@ const CreateNewPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [show, setShow] = useState(false);
   const [showSecond, setShowSecond] = useState(false);
+  const [failedMsg, setFailedMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
-  const handleCreateNewPassword = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await Axios.patch(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/reset-password`,
-        {
-          keysChangePassword: parseInt(router.query.create),
-          newPassword,
-          confirmPassword,
-        }
-      );
-      // console.log("Success response message: ", response.data.msg);
-      if (response.data.status === 200) {
-        router.push("/auth/login");
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  const body = {
+    keysChangePassword: parseInt(router.query.create),
+    newPassword: newPassword,
+    confirmPassword: confirmPassword,
+  };
+
+  const handleCreateNewPassword = () => {
+    dispatch(
+      authsAction.resetPasswordThunk(
+        body,
+        resCreateNewPasswordPending,
+        resCreateNewPasswordFulfilled,
+        resCreateNewPasswordRejected,
+        resCreateNewPasswordFinally
+      )
+    );
+  };
+
+  const resCreateNewPasswordPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+
+  const resCreateNewPasswordFulfilled = (response) => {
+    setTimeout(() => {
+      setSuccessMsg(response?.msg);
+    }, 1000);
+
+    setTimeout(() => {
+      router.push("/auth/login");
+    }, 1500);
+  };
+  const resCreateNewPasswordRejected = (error) => {
+    setFailedMsg(error.response.data?.msg);
+  };
+
+  const resCreateNewPasswordFinally = () => {
+    setTimeout(() => {
+      setFailedMsg(false);
+    }, 1500);
   };
 
   const showPassword = () => {
@@ -73,78 +100,115 @@ const CreateNewPassword = () => {
               <p>
                 Doi is an application that focussing in banking needs for all
                 users in the world. Always updated and always following world
-                trends. 5000+ users registered in FazzPay everyday with
-                worldwide users coverage.
+                trends. 5000+ users registered in Doi everyday with worldwide
+                users coverage.
               </p>
             </span>
           </aside>
           <div className={styles["right-content"]}>
-            <span className={styles["right-content__description"]}>
-              <h3>
-                Did You Forgot Your Password? Don’t Worry, You Can Reset Your
-                Password In a Minutes.
-              </h3>
-              <p>
-                To reset your password, you must type your e-mail and we will
-                send a link to your email and you will be directed to the reset
-                password screens.
-              </p>
+            {!successMsg ? (
+              <>
+                <span className={styles["right-content__description"]}>
+                  <h3>
+                    Did You Forgot Your Password? Don’t Worry, You Can Reset
+                    Your Password In a Minutes.
+                  </h3>
+                  <p>
+                    Now you can create a new password for your FazzPay account.
+                    Type your password twice so we can confirm your new
+                    passsword.
+                  </p>
+                </span>
+                <span className={styles["right-content__description-mobile"]}>
+                  <h3>Reset Password</h3>
+                  <p>Enter your new password.</p>
+                </span>
+              </>
+            ) : null}
+            <span className={styles["form"]}>
+              {!successMsg ? (
+                <>
+                  <span
+                    className={
+                      styles[
+                        !newPassword
+                          ? "form__password-content"
+                          : "form__password-content-active"
+                      ]
+                    }
+                  >
+                    <label className={styles["label-password"]}>
+                      <Image
+                        src={!newPassword ? passwordIcon : passwordIconBlue}
+                        alt="password"
+                        className={styles["password-icon"]}
+                      />
+                    </label>
+                    <input
+                      type={show ? "text" : "password"}
+                      placeholder="Create new password"
+                      className={styles["password"]}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                    />
+                    <span
+                      onClick={showPassword}
+                      className={styles["show-password"]}
+                    >
+                      {show ? (
+                        <ViewIcon color="#A9A9A9" />
+                      ) : (
+                        <ViewOffIcon color="#A9A9A9" />
+                      )}
+                    </span>
+                  </span>
+                  <span
+                    className={
+                      styles[
+                        !confirmPassword
+                          ? "form__password-content-second"
+                          : "form__password-content-second-active"
+                      ]
+                    }
+                  >
+                    <label className={styles["label-password"]}>
+                      <Image
+                        src={!confirmPassword ? passwordIcon : passwordIconBlue}
+                        alt="password"
+                        className={styles["password-icon"]}
+                      />
+                    </label>
+                    <input
+                      type={showSecond ? "text" : "password"}
+                      placeholder="Create new password"
+                      className={styles["password"]}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                    />
+                    <span
+                      onClick={showPasswordSecond}
+                      className={styles["show-password"]}
+                    >
+                      {show ? (
+                        <ViewIcon color="#A9A9A9" />
+                      ) : (
+                        <ViewOffIcon color="#A9A9A9" />
+                      )}
+                    </span>
+                  </span>
+                  <span className={styles["error-msg-section"]}>
+                    {failedMsg ? <ErrorMsg failedMsg={failedMsg} /> : null}
+                  </span>
+                  <ResetPasswordButton
+                    onClick={handleCreateNewPassword}
+                    disabled={newPassword && confirmPassword}
+                    init={"Reset Password"}
+                  />
+                </>
+              ) : (
+                <ChangePasswordMsg icon={successIcon} msg={successMsg} />
+              )}
             </span>
-            <form className={styles["form"]} onSubmit={handleCreateNewPassword}>
-              <span className={styles["form__password-content"]}>
-                <label className={styles["label-password"]}>
-                  <Image
-                    src={passwordIcon}
-                    alt="password"
-                    className={styles["password-icon"]}
-                  />
-                </label>
-                <input
-                  type={show ? "text" : "password"}
-                  placeholder="Create new password"
-                  className={styles["password"]}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                />
-                <span
-                  onClick={showPassword}
-                  className={styles["show-password"]}
-                >
-                  {show ? (
-                    <ViewIcon color="#A9A9A9" />
-                  ) : (
-                    <ViewOffIcon color="#A9A9A9" />
-                  )}
-                </span>
-              </span>
-              <span className={styles["form__password-content"]}>
-                <label className={styles["label-password"]}>
-                  <Image
-                    src={passwordIcon}
-                    alt="password"
-                    className={styles["password-icon"]}
-                  />
-                </label>
-                <input
-                  type={showSecond ? "text" : "password"}
-                  placeholder="Create new password"
-                  className={styles["password"]}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-                <span
-                  onClick={showPasswordSecond}
-                  className={styles["show-password"]}
-                >
-                  {show ? (
-                    <ViewIcon color="#A9A9A9" />
-                  ) : (
-                    <ViewOffIcon color="#A9A9A9" />
-                  )}
-                </span>
-              </span>
-              <button className={styles["btn-confirm"]}> Confirm </button>
-            </form>
           </div>
         </section>
       </main>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import Axios from "axios";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import authsAction from "../../redux/actions/auth";
 
 import { ForgotPasswordButton } from "../../components/Button";
+import { ErrorMsg } from "../../components/Feedback";
 
 import styles from "../../styles/ResetPassword.module.css";
 import phone from "../../assets/images/png-phone.png";
@@ -11,22 +13,41 @@ import emailIcon from "../../assets/icons/mail.png";
 import TitleBar from "../../components/TitleBar";
 
 const ResetPassword = () => {
+  const dispatch = useDispatch();
+  const [failedMsg, setFailedMsg] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await Axios.post(
-        `${process.env.NEXT_PUBLIC_DOI_BACKEND_API}/auth/forgot-password`,
-        {
-          email,
-          linkDirect: "https://doi.vercel.app/password/",
-        }
-      );
-      // console.log(response);
-    } catch (error) {
-      console.log(error.message);
-    }
+  const body = {
+    email: email,
+    linkDirect: "https://doi.vercel.app/password/",
+  };
+
+  const handleResetPassword = () => {
+    dispatch(
+      authsAction.forgotPasswordThunk(
+        body,
+        resResetPasswordPending,
+        resResetPasswordFulfilled,
+        resResetPasswordRejected,
+        resResetPasswordFinally
+      )
+    );
+  };
+
+  const resResetPasswordPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+
+  const resResetPasswordFulfilled = () => {
+    window.location.reload();
+  };
+
+  const resResetPasswordRejected = (error) => {
+    setFailedMsg(error.response.data?.msg);
+  };
+
+  const resResetPasswordFinally = () => {
+    setTimeout(() => {
+      setFailedMsg(false);
+    }, 1500);
   };
 
   return (
@@ -76,7 +97,7 @@ const ResetPassword = () => {
                 Enter your Doi e-mail so we can send you a password reset link.
               </p>
             </span>
-            <form className={styles["form"]} onSubmit={handleResetPassword}>
+            <span className={styles["form"]}>
               <span className={styles["form__email-content"]}>
                 <label className={styles["label-email"]}>
                   <Image
@@ -93,8 +114,14 @@ const ResetPassword = () => {
                   required
                 />
               </span>
-              <ForgotPasswordButton email={email} />
-            </form>
+              <span className={styles["error-msg-section"]}>
+                {failedMsg ? <ErrorMsg failedMsg={failedMsg} /> : null}
+              </span>
+              <ForgotPasswordButton
+                email={email}
+                onClick={handleResetPassword}
+              />
+            </span>
           </div>
         </section>
       </main>

@@ -33,27 +33,6 @@ const Register = () => {
   const [successRegisterMsg, setSuccessRegisterMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await register({
-  //       firstName,
-  //       lastName,
-  //       email,
-  //       password,
-  //     });
-
-  //     if (response.data.status === 200) {
-  //       const response = await login({ email, password });
-
-  //       const { pin } = response.data.data;
-  //       if (pin === null) return router.push("/auth/pin");
-  //     }
-  //   } catch (error) {
-  //     setErrorMsg(error.response.data.msg);
-  //   }
-  // };
-
   const body = {
     firstName: firstName,
     lastName: lastName,
@@ -246,9 +225,11 @@ const Register = () => {
                     className={styles["show-password"]}
                   />
                 </span>
-                {errorRegisterMsg ? (
-                  <ErrorMsg failedMsg={errorRegisterMsg} />
-                ) : null}
+                <span className={styles["error-msg-section"]}>
+                  {errorRegisterMsg ? (
+                    <ErrorMsg failedMsg={errorRegisterMsg} />
+                  ) : null}
+                </span>
                 <SignUpButton
                   firstName={firstName}
                   lastName={lastName}

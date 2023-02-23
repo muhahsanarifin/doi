@@ -220,7 +220,10 @@ const Password = () => {
                     />
                   </span>
                 </li>
-                {failedMsg ? <ErrorMsg failedMsg={failedMsg} /> : null}
+                <span className={styles["error-msg-section"]}>
+                  {failedMsg ? <ErrorMsg failedMsg={failedMsg} /> : null}
+                </span>
+
                 <ChangePasswordButton
                   currentPassword={oldPassword}
                   newPassword={newPassword}

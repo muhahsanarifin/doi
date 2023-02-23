@@ -88,6 +88,8 @@ const Topup = () => {
   };
 
   const resCPCbFulfilled = (response) => {
+    setFailedMsgTopUp(false);
+
     const minValue = 20000;
     if (amount < minValue)
       return setFailedMsgTopUp(
@@ -95,7 +97,6 @@ const Topup = () => {
       );
 
     setSuccess(response.data?.msg);
-
     setTimeout(() => {
       setTruSuccessMsg(true);
       setTruFailedMsg(false);
@@ -136,7 +137,7 @@ const Topup = () => {
 
     // setTimeout(() => {
     //   setFailedMsgTopUp(false);
-    // }, 1500);
+    // }, 2000);
   };
 
   // Top Up Condition

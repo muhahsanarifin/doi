@@ -195,7 +195,11 @@ const Login = () => {
                 >
                   <p>Forgot password ?</p>
                 </span>
-                {errorLoginMsg ? <ErrorMsg failedMsg={errorLoginMsg} /> : null}
+                <span className={styles["error-msg-section"]}>
+                  {errorLoginMsg ? (
+                    <ErrorMsg failedMsg={errorLoginMsg} />
+                  ) : null}
+                </span>
                 <LoginButton
                   email={email}
                   password={password}
