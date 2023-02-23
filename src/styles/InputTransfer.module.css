@@ -111,7 +111,6 @@
 }
 
 .input-section {
-  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,23 +119,23 @@
 }
 
 .amount {
-  /* border: 1px solid red; */
   text-align: center;
   font-size: 32px;
   font-weight: 800;
   border: none;
   outline: none;
   color: #b5bdcc;
+  width: 100%;
 }
 
 .amount-active {
-  /* border: 1px solid red; */
   text-align: center;
   font-size: 32px;
   font-weight: 800;
   border: none;
   outline: none;
   color: #6379f4;
+  width: 100%;
 }
 
 .rest-balance {

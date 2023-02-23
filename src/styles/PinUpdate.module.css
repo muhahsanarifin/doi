@@ -57,14 +57,49 @@
   align-self: center;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  /* border: 1px solid darkblue;  */
 }
 
 .pin-form {
+  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: row;
   gap: 1rem;
   align-items: center;
+}
+
+.check-pin-section {
+  /* border: 1px solid darkgreen; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+/* Pin msg */
+.pin-msg-section {
+  /* border: 1px solid darkblue; */
+  display: flex;
+  flex-direction: column;
+}
+
+.success-msg {
+  align-self: center;
+  color: #1EC15F;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  background-color: #1ec15f0a;
+  border-radius: 6px;
+}
+
+.failed-msg {
+  align-self: center;
+  color: #FF5B37;
+  font-weight: 700;
+  padding: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background-color: #ff5c3710;
 }
 
 /* Pin side button */
