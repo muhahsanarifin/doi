@@ -116,7 +116,7 @@ const updatePinUserFulfilled = (data) => ({
 
 const updatePinUserRejected = (error) => ({
   type: actionStrings.updatePinUser.concat("-", Rejected),
-  paylaod: { error },
+  payload: { error },
 });
 
 // Update password user action
@@ -235,12 +235,12 @@ const checkPinUserThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await checkPinUser(pin, accessToken);
       dispatch(checkPinUserFulfilled(response.data));
-      console.log(response);
+      // console.log(response);
       typeof cbFulfilled === "function" && cbFulfilled(response);
     } catch (error) {
       dispatch(checkPinUserRejected(error));
       typeof cbError === "function" && cbError(error.response);
-    }finally{
+    } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
@@ -252,18 +252,21 @@ const updateProfileUserThunk = (
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError
+  cbError,
+  cbFinally
 ) => {
   return async (dispatch) => {
     try {
       dispatch(updateProfileUserPending());
       typeof cbPending === "function" && cbPending();
       const response = await updateProfileUser(id, body, accessToken);
-      dispatch(updateProfileUserFulfilled(response));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      dispatch(updateProfileUserFulfilled(response.data));
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(updateProfileUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
+    } finally {
+      typeof cbFinally === "function" && cbFinally();
     }
   };
 };
@@ -274,7 +277,8 @@ const updateImageUserThunk = (
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError
+  cbError,
+  cbFinally
 ) => {
   return async (dispatch) => {
     try {
@@ -286,6 +290,8 @@ const updateImageUserThunk = (
     } catch (error) {
       dispatch(updateImageUserRejected(error));
       typeof cbError === "function" && cbError();
+    } finally {
+      typeof cbFinally === "function" && cbFinally();
     }
   };
 };
@@ -296,18 +302,21 @@ const updatePinUserThunk = (
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError
+  cbError,
+  cbFinally
 ) => {
   return async (dispatch) => {
     try {
       dispatch(updatePinUserPending());
       typeof cbPending === "function" && cbPending();
-      const response = updatePinUser(id, body, accessToken);
+      const response = await updatePinUser(id, body, accessToken);
       dispatch(updatePinUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(updatePinUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
+    } finally {
+      typeof cbFinally === "function" && cbFinally();
     }
   };
 };
@@ -318,7 +327,8 @@ const updatePasswordUserThunk = (
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError
+  cbError,
+  cbFinally
 ) => {
   return async (dispatch) => {
     try {
@@ -326,10 +336,12 @@ const updatePasswordUserThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await updatePasswordUser(id, body, accessToken);
       dispatch(updatePasswordUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(updatedPasswordUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
+    } finally {
+      typeof cbFinally === "function" && cbFinally();
     }
   };
 };

@@ -102,10 +102,10 @@ const registerThunk = (body, cbPending, cbFulfilled, cbError, cbFinally) => {
       typeof cbPending === "function" && cbPending();
       const response = await register(body);
       dispatch(registerFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(registerRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
@@ -119,10 +119,10 @@ const loginThunk = (body, cbPending, cbFulfilled, cbError, cbFinally) => {
       typeof cbPending === "function" && cbPending();
       const response = await login(body);
       dispatch(loginFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(loginRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
