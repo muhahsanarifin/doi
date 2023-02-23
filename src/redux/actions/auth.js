@@ -154,7 +154,6 @@ const logoutThunk = (
 
 const forgotPasswordThunk = (
   body,
-  accessToken,
   cbPending,
   cbFulfilled,
   cbError,
@@ -164,12 +163,12 @@ const forgotPasswordThunk = (
     try {
       dispatch(forgotPasswordPending());
       typeof cbPending === "function" && cbPending();
-      const response = await forgotPassword(body, accessToken);
+      const response = await forgotPassword(body);
       dispatch(forgotPasswordFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(forgotPasswordRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
@@ -178,7 +177,6 @@ const forgotPasswordThunk = (
 
 const resetPasswordThunk = (
   body,
-  accessToken,
   cbPending,
   cbFulfilled,
   cbError,
@@ -188,12 +186,12 @@ const resetPasswordThunk = (
     try {
       dispatch(resetPasswordPending());
       typeof cbPending === "function" && cbPending();
-      const response = await resetPassword(body, accessToken);
+      const response = await resetPassword(body);
       dispatch(resetPasswordFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(resetPasswordRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
@@ -214,10 +212,10 @@ const verifyThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await verify(pin, accessToken);
       dispatch(verifyFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(verifyRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbError === "function" && cbError(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }

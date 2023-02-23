@@ -21,12 +21,12 @@ const logout = (accessToken) =>
   Axios.post(`${BASE_URL}/auth/logout`, config(accessToken));
 
 // Forgot Password
-const forgotPassword = (body, accessToken) =>
-  Axios.post(`${BASE_URL}/auth/forgot-password`, body, config(accessToken));
+const forgotPassword = (body) =>
+  Axios.post(`${BASE_URL}/auth/forgot-password`, body);
 
 // Reset Password
-const resetPassword = (body, accessToken) =>
-  Axios.patch(`${BASE_URL}/auth/reset-password`, body, config(accessToken));
+const resetPassword = (body) =>
+  Axios.patch(`${BASE_URL}/auth/reset-password`, body);
 
 // Verify
 const verify = (pin, accessToken) =>
