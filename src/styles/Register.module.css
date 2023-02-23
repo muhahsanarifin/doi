@@ -149,6 +149,11 @@
   height: 14px;
 }
 
+.error-msg-section {
+  display: flex;
+  justify-content: center;
+}
+
 .error-msg {
   width: 27.0625rem;
   display: flex;

@@ -87,7 +87,7 @@
 .input-number-failed {
   border: none;
   outline: none;
-  border: 1px solid #FE5C38;
+  border: 1px solid #fe5c38;
   box-shadow: 0px 10px 75px rgba(147, 147, 147, 0.1);
   border-radius: 10px;
   height: 3rem;
@@ -161,7 +161,9 @@
 
   .form,
   .top-up,
-  .input-number {
+  .input-number,
+  .input-number-active,
+  .input-number-failed {
     width: 100%;
   }
 }

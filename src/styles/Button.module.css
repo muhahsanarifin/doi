@@ -35,6 +35,6 @@
 @media all and (min-width: 480px) and (max-width: 768px) {
   .btn {
     align-self: center;
-    width: 27.0625rem;
+    max-width: 27.0625rem;
   }
 }

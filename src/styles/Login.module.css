@@ -170,16 +170,10 @@
   color: #3a3d42;
 }
 
-.error-msg {
-  width: 27.0625rem;
+.error-msg-section {
   display: flex;
   justify-content: center;
-}
-
-.error-msg p {
-  color: #ff5b37;
-  font-size: 16px;
-  font-weight: 600;
+  /* border: 1px solid darkblue; */
 }
 
 .link-to-sign-up p {

@@ -25,10 +25,7 @@
 /* || Responsive */
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .footer {
-    padding-top: auto;
-    padding-bottom: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem;
   }
 }
 
@@ -37,11 +34,7 @@
 
 @media all and (max-width: 480px) {
   .footer {
-    /* border: 1px solid darkblue; */
-    padding-top: auto;
-    padding-bottom: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem;
   }
 
   .footer__section_one,
