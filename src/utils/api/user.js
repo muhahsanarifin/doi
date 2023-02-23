@@ -20,7 +20,7 @@ const checkPinUser = (pin, accessToken) =>
   Axios.get(`${BASE_URL}/user/pin/${pin}`, config(accessToken));
 
 const updateProfileUser = (id, body, accessToken) =>
-  Axios.patch(`${BASE_URL}/user/profile${id}`, body, config(accessToken)); // <- It's used by Update Firstname, Lastname and including No Telp.
+  Axios.patch(`${BASE_URL}/user/profile/${id}`, body, config(accessToken)); // <- It's used by Update Firstname, Lastname and including No Telp.
 
 const updateImageUser = (id, body, accessToken) =>
   Axios.patch(`${BASE_URL}/user/image/${id}`, body, config(accessToken));
