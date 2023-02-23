@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "cookies-next";
-import Auth from "../../utils/api/auth";
+import { useDispatch } from "react-redux";
 
 import TitleBar from "../../components/TitleBar";
 
 import { LoginButton } from "../../components/Button";
 import { HideShowPassword } from "../../components/Toggle";
-import { Loader } from "../../components/Feedback";
-import {PreventBackPage} from "../../helpers/handleRoutes" 
+import { ErrorMsg, Loader } from "../../components/Feedback";
+import { PreventBackPage } from "../../helpers/handleRoutes";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -20,34 +20,56 @@ import passwordIcon from "../../assets/icons/lock.png";
 import passwordIconBlue from "../../assets/icons/lock-blue.png";
 import passwordIconRed from "../../assets/icons/lock-red.png";
 import styles from "../../styles/Login.module.css";
+import authsAction from "../../redux/actions/auth";
 
 const Login = () => {
-  const { login } = Auth; // <= Import Login API function from "utils/api" folder.
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorLoginMsg, setErrorLoginMsg] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setLoader(true);
-      const response = await login({ email, password });
+  const body = {
+    email: email,
+    password: password,
+  };
 
-      if (response.data.status === 200) {
-        // Set cookies ↴
-        setCookie("id", `${response.data.data.id}`);
-        setCookie("token", `${response.data.data.token}`);
+  const handleLogin = () => {
+    dispatch(
+      authsAction.loginThunk(
+        body,
+        resLoginPending,
+        resLoginFulfilled,
+        resLoginRejected,
+        resLoginFinally
+      )
+    );
+  };
 
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      setErrorMsg(error.response.data.msg);
-    } finally {
-      setLoader(false);
+  const resLoginPending = () => {
+    setLoading(true);
+  };
+
+  const resLoginFulfilled = (response) => {
+    if (response.status === 200) {
+      setCookie("id", response.data?.id);
+      setCookie("token", response.data?.token);
+
+      router.push("/dashboard");
     }
+  };
+
+  const resLoginRejected = (error) => {
+    setErrorLoginMsg(error.response.data?.msg);
+  };
+
+  const resLoginFinally = () => {
+    setTimeout(() => {
+      setErrorLoginMsg(false);
+      setLoading(false);
+    }, 1500);
   };
 
   return (
@@ -99,11 +121,11 @@ const Login = () => {
                   Doi.
                 </p>
               </span>
-              <form className={styles["form"]} onSubmit={handleSubmit}>
+              <span className={styles["form"]}>
                 <span
                   className={
                     styles[
-                      errorMsg
+                      errorLoginMsg
                         ? "form__email-content-active-error-msg"
                         : !email
                         ? "form__email-content"
@@ -114,7 +136,7 @@ const Login = () => {
                   <label className={styles["label-email"]}>
                     <Image
                       src={
-                        errorMsg
+                        errorLoginMsg
                           ? emailIconRed
                           : !email
                           ? emailIcon
@@ -134,7 +156,7 @@ const Login = () => {
                 <span
                   className={
                     styles[
-                      errorMsg
+                      errorLoginMsg
                         ? "form__password-content-active-error-msg"
                         : !password
                         ? "form__password-content"
@@ -145,7 +167,7 @@ const Login = () => {
                   <label className={styles["label-password"]}>
                     <Image
                       src={
-                        errorMsg
+                        errorLoginMsg
                           ? passwordIconRed
                           : !password
                           ? passwordIcon
@@ -173,17 +195,14 @@ const Login = () => {
                 >
                   <p>Forgot password ?</p>
                 </span>
-                {errorMsg ? (
-                  <span className={styles["error-msg"]}>
-                    <p>{errorMsg}</p>
-                  </span>
-                ) : null}
+                {errorLoginMsg ? <ErrorMsg failedMsg={errorLoginMsg} /> : null}
                 <LoginButton
                   email={email}
                   password={password}
-                  init={loader ? <Loader onColor="#5464c7" /> : "Login"}
+                  init={loading ? <Loader onColor="#5464c7" /> : "Login"}
+                  onClick={handleLogin}
                 />
-              </form>
+              </span>
               <span className={styles["link-to-sign-up"]}>
                 <p>
                   Don&apos;t have an account? Let&apos;s{" "}

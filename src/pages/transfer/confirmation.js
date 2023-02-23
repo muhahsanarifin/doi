@@ -107,7 +107,7 @@ const Confirmation = () => {
   };
 
   const resCPCbRejected = (error) => {
-    setFalied(error?.data.msg);
+    setFalied(error.data?.msg);
     setTimeout(() => {
       setTruFailedMsg(true);
       setTruSuccessMsg(false);

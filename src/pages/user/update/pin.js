@@ -1,26 +1,37 @@
 import React, { useState } from "react";
 import { getCookie } from "cookies-next";
-import Users from "../../../utils/api/user";
+import usersAction from "../../../redux/actions/user";
+import { useDispatch } from "react-redux";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
 import TitleBar from "../../../components/TitleBar";
-import { PinButton } from "../../../components/Button";
-import { PinInput, PinInputField } from "@chakra-ui/react";
-import userIconBlue from "../../../assets/icons/user-blue.png";
+import { UpdatedPinButton } from "../../../components/Button";
+import PinForm from "../../../components/Pin";
+import { ChangePinMsg } from "../../../components/Feedback";
 
+import userIconBlue from "../../../assets/icons/user-blue.png";
 import styles from "../../../styles/PinUpdate.module.css";
+import successIcon from "../../../assets/icons/success.png";
+import failedIcon from "../../../assets/icons/failed.png";
 
 const Pin = () => {
-  const { updatePinUser } = Users;
-
+  const dispatch = useDispatch();
   const [numeric, setPin] = useState("");
   const [numericTwo, setPinTwo] = useState("");
   const [numericTree, setPinThree] = useState("");
   const [numericFour, setPinFour] = useState("");
   const [numericFive, setPinFive] = useState("");
   const [numericSix, setPinSix] = useState("");
+
+  const [successCheckPinMsg, setSuccessCheckPinMsg] = useState("");
+  const [failedCheckPinMsg, setFailedCheckPinMsg] = useState("");
+
+  const [successUpdatePinMsg, setSuccessUpdatePinMsg] = useState("");
+  const [failedUpdatePinMsg, setFailedUpdatePinMsg] = useState("");
+
+  const [success, setSuccess] = useState(false); // <- The state declaration is used for conditional rendering.
 
   let numerics = [
     numeric,
@@ -39,20 +50,88 @@ const Pin = () => {
     return parseFloat(result);
   };
 
-  const handleChangePin = async () => {
-    try {
-      const response = await updatePinUser(
-        getCookie("id"),
+  // Check pin
+  const handleCheckPin = () => {
+    dispatch(
+      usersAction.checkPinUserThunk(
         pin(numerics),
-        getCookie("token")
-      );
-      if (response.data.status === 200) {
-        window.location.reload();
-      }
-    } catch (error) {
-      console.log(error.response.data.msg);
-    }
+        getCookie("token"),
+        resCheckPinCBPending,
+        resCheckPinCBFulfilled,
+        resCheckPinCBRejected,
+        resCheckPinCBFinally
+      )
+    );
   };
+
+  // Check pin condition
+  const resCheckPinCBPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+
+  const resCheckPinCBFulfilled = (response) => {
+    setTimeout(() => {
+      setSuccessCheckPinMsg(response.data?.msg);
+    }, 1000);
+
+    setTimeout(() => {
+      setSuccess(true);
+
+      setPin("");
+      setPinTwo("");
+      setPinThree("");
+      setPinFour("");
+      setPinFive("");
+      setPinSix("");
+    }, 1500);
+  };
+
+  const resCheckPinCBRejected = (error) => {
+    setFailedCheckPinMsg(error.data?.msg);
+  };
+
+  const resCheckPinCBFinally = () => {
+    setTimeout(() => {
+      setSuccessCheckPinMsg(false);
+      setFailedCheckPinMsg(false);
+    }, 2000);
+  };
+
+  // Change pin
+  const body = {
+    pin: pin(numerics),
+  };
+
+  const handleChangePin = () => {
+    dispatch(
+      usersAction.updatePinUserThunk(
+        getCookie("id"),
+        body,
+        getCookie("token"),
+        resChangePinPending,
+        resChangePinFulfilled,
+        resChangePinRejected,
+        resChangePinFinally
+      )
+    );
+  };
+
+  // Change pin condition
+  const resChangePinPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+
+  const resChangePinFulfilled = (response) => {
+    setTimeout(() => {
+      setSuccessUpdatePinMsg(response?.msg);
+    }, 1000);
+
+    setTimeout(() => {
+      window.location.replace("/user/profile");
+    }, 2000);
+  };
+
+  const resChangePinRejected = (error) => {
+    setFailedUpdatePinMsg(error.response.data?.msg);
+  };
+
+  const resChangePinFinally = () => {};
 
   return (
     <>
@@ -67,55 +146,104 @@ const Pin = () => {
         <section className={styles["right-side-content"]}>
           <span className={styles["title"]}>
             <h3>Change Pin</h3>
-            <p className={styles["description"]}>
-              Enter your current 6 digits Fazzpay PIN below to continue to the
-              next steps.
-            </p>
+            {!success ? (
+              <p className={styles["description"]}>
+                Enter your current 6 digits Doi PIN below to continue to the
+                next steps.
+              </p>
+            ) : (
+              <>
+                {!successUpdatePinMsg || failedUpdatePinMsg ? (
+                  <p className={styles["description"]}>
+                    Type your new 6 digits security PIN to use in Doi.
+                  </p>
+                ) : null}
+              </>
+            )}
           </span>
           <span className={styles["form"]}>
-            <span className={styles["pin-form"]}>
-              <PinInput otp placeholder="_">
-                <PinInputField
-                  className={styles["pin-styles"]}
-                  onChange={(e) => setPin(e.target.value)}
-                  required
+            {!success ? (
+              <>
+                <span className={styles["pin-form"]}>
+                  <div className={styles["check-pin-section"]}>
+                    <PinForm
+                      onSetPin={(e) => setPin(e.target.value)}
+                      onSetPinTwo={(e) => setPinTwo(e.target.value)}
+                      onSetPinThree={(e) => setPinThree(e.target.value)}
+                      onSetPinFour={(e) => setPinFour(e.target.value)}
+                      onSetPinFive={(e) => setPinFive(e.target.value)}
+                      onSetPinSix={(e) => setPinSix(e.target.value)}
+                      onSetPinFailed={failedCheckPinMsg}
+                      onSetPinTrue={successCheckPinMsg}
+                    />
+                    <div className={styles["pin-msg-section"]}>
+                      {successCheckPinMsg ? (
+                        <p className={styles["success-msg"]}>
+                          {successCheckPinMsg}
+                        </p>
+                      ) : failedCheckPinMsg ? (
+                        <p className={styles["failed-msg"]}>
+                          {failedCheckPinMsg}
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                </span>
+                <UpdatedPinButton
+                  numeric={numeric}
+                  numericTwo={numericTwo}
+                  numericTree={numericTree}
+                  numericFour={numericFour}
+                  numericFive={numericFive}
+                  numericSix={numericSix}
+                  initBtn="Continue"
+                  onClick={handleCheckPin}
                 />
-                <PinInputField
-                  className={styles["pin-styles"]}
-                  onChange={(e) => setPinTwo(e.target.value)}
-                  required
-                />
-                <PinInputField
-                  className={styles["pin-styles"]}
-                  onChange={(e) => setPinThree(e.target.value)}
-                  required
-                />
-                <PinInputField
-                  className={styles["pin-styles"]}
-                  onChange={(e) => setPinFour(e.target.value)}
-                  required
-                />
-                <PinInputField
-                  className={styles["pin-styles"]}
-                  onChange={(e) => setPinFive(e.target.value)}
-                  required
-                />
-                <PinInputField
-                  className={styles["pin-styles"]}
-                  onChange={(e) => setPinSix(e.target.value)}
-                  required
-                />
-              </PinInput>
-            </span>
-            <PinButton
-              numeric={numeric}
-              numericTwo={numericTwo}
-              numericTree={numericTree}
-              numericFour={numericFour}
-              numericFive={numericFive}
-              numericSix={numericSix}
-              onClick={handleChangePin}
-            />
+              </>
+            ) : (
+              <>
+                {!successUpdatePinMsg ? (
+                  <>
+                    <span className={styles["pin-form"]}>
+                      <PinForm
+                        onSetPin={(e) => setPin(e.target.value)}
+                        onSetPinTwo={(e) => setPinTwo(e.target.value)}
+                        onSetPinThree={(e) => setPinThree(e.target.value)}
+                        onSetPinFour={(e) => setPinFour(e.target.value)}
+                        onSetPinFive={(e) => setPinFive(e.target.value)}
+                        onSetPinSix={(e) => setPinSix(e.target.value)}
+                        // onSetPinFailed={failedCheckPinMsg}
+                        // onSetPinTrue={successCheckPinMsg}
+                      />
+                    </span>
+                    <UpdatedPinButton
+                      numeric={numeric}
+                      numericTwo={numericTwo}
+                      numericTree={numericTree}
+                      numericFour={numericFour}
+                      numericFive={numericFive}
+                      numericSix={numericSix}
+                      initBtn="Change PIN"
+                      onClick={handleChangePin}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {successUpdatePinMsg ? (
+                      <ChangePinMsg
+                        icon={successIcon}
+                        msg={successUpdatePinMsg}
+                      />
+                    ) : failedUpdatePinMsg ? (
+                      <ChangePinMsg
+                        icon={failedIcon}
+                        msg={failedUpdatePinMsg}
+                      />
+                    ) : null}
+                  </>
+                )}
+              </>
+            )}
           </span>
         </section>
       </main>

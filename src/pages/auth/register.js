@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Auth from "../../utils/api/auth";
+import authsAction from "../../redux/actions/auth";
+import { useDispatch } from "react-redux";
 
 import { SignUpButton } from "../../components/Button";
 import { PreventBackPage } from "../../helpers/handleRoutes";
+import { ErrorMsg, Loader } from "../../components/Feedback";
+import { HideShowPassword } from "../../components/Toggle";
+import TitleBar from "../../components/TitleBar";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -16,38 +20,82 @@ import personIcon from "../../assets/icons/person.png";
 import personIconBlue from "../../assets/icons/person-blue.png";
 
 import styles from "../../styles/Register.module.css";
-import TitleBar from "../../components/TitleBar";
-import { HideShowPassword } from "../../components/Toggle";
 
 const Register = () => {
-  const { register, login } = Auth;
+  const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorRegisterMsg, setErrorRegisterMsg] = useState("");
+  const [successRegisterMsg, setSuccessRegisterMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await register({
-        firstName,
-        lastName,
-        email,
-        password,
-      });
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await register({
+  //       firstName,
+  //       lastName,
+  //       email,
+  //       password,
+  //     });
 
-      if (response.data.status === 200) {
-        const response = await login({ email, password });
+  //     if (response.data.status === 200) {
+  //       const response = await login({ email, password });
 
-        const { pin } = response.data.data;
-        if (pin === null) return router.push("/auth/pin");
-      }
-    } catch (error) {
-      setErrorMsg(error.response.data.msg);
+  //       const { pin } = response.data.data;
+  //       if (pin === null) return router.push("/auth/pin");
+  //     }
+  //   } catch (error) {
+  //     setErrorMsg(error.response.data.msg);
+  //   }
+  // };
+
+  const body = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+  };
+
+  const handleRegister = () => {
+    dispatch(
+      authsAction.registerThunk(
+        body,
+        resRegisterPending,
+        resRegisterFulfilled,
+        resRegisterRejected,
+        resRegisterFinally
+      )
+    );
+  };
+
+  const resRegisterPending = () => {
+    setLoading(true);
+  };
+
+  const resRegisterFulfilled = (response) => {
+    if (response.status === 200) {
+      setCookie("id", response.data?.id);
+      setCookie("token", response.data?.token);
+
+      const { pin } = response.data;
+      if (pin === null) return router.push("auth/pin"); // If value of pin property is null, Fulfilled result is going to auth/pin path.
     }
+  };
+
+  const resRegisterRejected = (error) => {
+    setErrorRegisterMsg(error.response.data?.msg);
+  };
+
+  const resRegisterFinally = () => {
+    setTimeout(() => {
+      setErrorRegisterMsg(false);
+      setLoading(false);
+    }, 1500);
   };
 
   return (
@@ -96,7 +144,7 @@ const Register = () => {
                 <h3>Sign Up</h3>
                 <p>Create your account to access Doi.</p>
               </span>
-              <form className={styles["form"]} onSubmit={handleRegister}>
+              <span className={styles["form"]}>
                 <span
                   className={
                     styles[
@@ -198,18 +246,18 @@ const Register = () => {
                     className={styles["show-password"]}
                   />
                 </span>
-                {errorMsg ? (
-                  <span className={styles["error-msg"]}>
-                    <p>{errorMsg}</p>
-                  </span>
+                {errorRegisterMsg ? (
+                  <ErrorMsg failedMsg={errorRegisterMsg} />
                 ) : null}
                 <SignUpButton
                   firstName={firstName}
                   lastName={lastName}
                   email={email}
                   password={password}
+                  onClick={handleRegister}
+                  init={loading ? <Loader onColor="#5464c7" /> : "SignUp"}
                 />
-              </form>
+              </span>
               <span className={styles["link-to-login"]}>
                 <p>
                   Don&apos;t have an account? Let&apos;s{" "}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import usersAction from "../../redux/actions/user";
 import { useDisclosure } from "@chakra-ui/react";
@@ -16,7 +16,6 @@ import SideBar from "../../components/SideBar";
 import plusIconBlue from "../../assets/icons/plus-blue.png";
 import successIcon from "../../assets/icons/success.png";
 import failedIcon from "../../assets/icons/failed.png";
-
 import styles from "../../styles/TopUp.module.css";
 
 const Topup = () => {
@@ -135,13 +134,13 @@ const Topup = () => {
       setTruSuccessMsg(false);
     }, 3500);
 
-    setTimeout(() => {
-      setFailedMsgTopUp(false);
-    }, 1500);
+    // setTimeout(() => {
+    //   setFailedMsgTopUp(false);
+    // }, 1500);
   };
 
   // Top Up Condition
-  const resTUCbPending = () => {};
+  const resTUCbPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
 
   const resTUCbFulfilled = (response) => {
     setTimeout(() => {
@@ -217,7 +216,7 @@ const Topup = () => {
                         value={"-Infinity" < amount ? amount : !amount}
                       />
                     </span>
-                    {failedTopUp ? (
+                    {failedTopUp || failedMsgTopUp ? (
                       <TryAgainButton disabled={amount} onClick={onOpen} />
                     ) : (
                       <TopupButton disabled={amount} onClick={onOpen} />
