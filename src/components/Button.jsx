@@ -41,12 +41,13 @@ const SignUpButton = ({
   );
 };
 
-const ForgotPasswordButton = ({ email }) => {
+const ForgotPasswordButton = ({ email, onClick }) => {
   return (
     <>
       <button
         className={styles[!email ? "btn" : "btn-active"]}
         disabled={!email}
+        onClick={onClick}
       >
         Confirm
       </button>
@@ -163,6 +164,20 @@ const TryAgainButton = ({ onClick, disabled }) => {
   );
 };
 
+const ResetPasswordButton = ({ onClick, disabled, init }) => {
+  return (
+    <>
+      <button
+        onClick={onClick}
+        className={styles[!disabled ? "btn" : "btn-active"]}
+        disabled={!disabled}
+      >
+        {init}
+      </button>
+    </>
+  );
+};
+
 const UpdatedPinButton = ({
   numeric,
   numericTwo,
@@ -207,10 +222,7 @@ const UpdatedPinButton = ({
 const GoToDashboardButton = ({ onClick }) => {
   return (
     <>
-      <button
-        onClick={onClick}
-        className={styles["btn-active"]}
-      >
+      <button onClick={onClick} className={styles["btn-active"]}>
         Got To Dashboard
       </button>
     </>
@@ -228,4 +240,5 @@ export {
   TryAgainButton,
   UpdatedPinButton,
   GoToDashboardButton,
+  ResetPasswordButton,
 };

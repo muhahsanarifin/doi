@@ -125,7 +125,7 @@ const CreatePinMsg = ({ icon, msg }) => {
   );
 };
 
-// Including used by contact page for hadle fulfilled & rejected response.
+// Including used by contact page for handle fulfilled & rejected response.
 const ChangePasswordMsg = ({ icon, msg }) => {
   return (
     <>
