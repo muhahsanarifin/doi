@@ -46,7 +46,7 @@ const TopUpMsg = ({ icon, msg }) => {
         />
         <p
           style={{
-            colo: "#4D4B57",
+            color: "#4D4B57",
             textAlign: "center",
             fontWeight: "700",
             fontSize: "22px",
@@ -78,7 +78,7 @@ const ChangePinMsg = ({ icon, msg }) => {
         />
         <p
           style={{
-            colo: "#4D4B57",
+            color: "#4D4B57",
             textAlign: "center",
             fontWeight: "700",
             fontSize: "22px",
@@ -111,7 +111,7 @@ const CreatePinMsg = ({ icon, msg }) => {
         />
         <p
           style={{
-            colo: "#4D4B57",
+            color: "#4D4B57",
             textAlign: "center",
             fontWeight: "700",
             fontSize: "22px",
@@ -145,7 +145,7 @@ const ChangePasswordMsg = ({ icon, msg }) => {
         />
         <p
           style={{
-            colo: "#4D4B57",
+            color: "#4D4B57",
             textAlign: "center",
             fontWeight: "700",
             fontSize: "22px",
@@ -184,6 +184,25 @@ const ErrorMsg = ({ failedMsg }) => {
   );
 };
 
+const SuccessMsg = ({ fulfilledMsg }) => {
+  return (
+    <>
+      <p
+        style={{
+          color: "#1EC15F",
+          fontWeight: "700",
+          padding: "0.5rem 1rem",
+          backgroundColor: "#1ec15f0a",
+          borderRadius: "6px",
+          fontSize: "14px",
+        }}
+      >
+        {fulfilledMsg}
+      </p>
+    </>
+  );
+};
+
 export {
   Toast,
   Loader,
@@ -192,4 +211,5 @@ export {
   ChangePinMsg,
   ChangePasswordMsg,
   ErrorMsg,
+  SuccessMsg,
 };

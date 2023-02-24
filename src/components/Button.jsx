@@ -229,6 +229,27 @@ const GoToDashboardButton = ({ onClick }) => {
   );
 };
 
+const PersonalInfoButton = ({ setEdictOnClick, setSaveOnClick, disabledEdit, disabledSave, disabledStyleEdit, disabledStyleSave }) => {
+  return (
+    <span className={styles["btn-section"]}>
+      <button
+        className={styles[ disabledStyleEdit ? "btn-section__edit" : "btn-section__edit-active"]}
+        onClick={setEdictOnClick}
+        disabled={disabledEdit}
+      >
+        Edit
+      </button>
+      <button
+        className={styles[ disabledStyleSave ? "btn-section__save": "btn-section__save-active"]}
+        onClick={setSaveOnClick}
+        disabled={disabledSave}
+      >
+        Save
+      </button>
+    </span>
+  );
+};
+
 export {
   LoginButton,
   SignUpButton,
@@ -241,4 +262,5 @@ export {
   UpdatedPinButton,
   GoToDashboardButton,
   ResetPasswordButton,
+  PersonalInfoButton,
 };
