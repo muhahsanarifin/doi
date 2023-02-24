@@ -186,7 +186,6 @@ const PinConfirmationModal = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      ;
     </>
   );
 };
