@@ -54,9 +54,9 @@ const Profile = () => {
     );
   };
 
-  const resCbFulfilled = (data) => {
+  const resCbFulfilled = (response) => {
     setTimeout(() => {
-      console.log(data?.msg);
+      console.log(response?.msg);
     }, 500);
 
     setTimeout(() => {

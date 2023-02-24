@@ -9,6 +9,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { ResetPasswordButton } from "../../components/Button";
 import { ErrorMsg } from "../../components/Feedback";
 import { ChangePasswordMsg } from "../../components/Feedback";
+import TitleBar from "../../components/TitleBar";
 
 import styles from "../../styles/CreateNewPassword.module.css";
 import phone from "../../assets/images/png-phone.png";
@@ -79,6 +80,7 @@ const CreateNewPassword = () => {
 
   return (
     <>
+      <TitleBar name={"Create New Password"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>
