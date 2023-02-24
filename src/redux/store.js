@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import reducers from "./reducers/index";
-import logger from "redux-logger";
+// import logger from "redux-logger"; // <- Disable log
 
 const persitConfig = {
   key: "doi",
@@ -13,9 +13,10 @@ const persistedReducer = persistReducer(persitConfig, reducers);
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: true, serializableCheck: false }).concat(
-      logger
-    ),
+    getDefaultMiddleware({ thunk: true, serializableCheck: false }),
+  // .concat(
+  //   logger
+  // ),
 });
 
 export const persistedStore = persistStore(store);
