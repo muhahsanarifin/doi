@@ -52,7 +52,6 @@
 }
 
 .content-list {
-  /* border: 1px solid darkgoldenrod; */
   list-style: none;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
@@ -79,7 +78,6 @@
 }
 
 .identity {
-  /* border: 1px solid darkblue; */
   width: fit-content;
 }
 
@@ -100,7 +98,15 @@
   font-size: 16px;
   font-weight: 800;
   outline: none;
+  cursor: no-drop;
 }
+
+.identify__main-content-active {
+  font-size: 16px;
+  font-weight: 800;
+  outline: none;
+}
+
 .content-header-list {
   /* border: 1px solid darkblue; */
   padding: 1rem 0;
@@ -113,6 +119,7 @@
   border: none;
   color: #6379f4;
   cursor: pointer;
+  font-weight: 700;
 }
 
 /* Info side button */

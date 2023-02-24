@@ -173,7 +173,7 @@
 .error-msg-section {
   display: flex;
   justify-content: center;
-  /* border: 1px solid darkblue; */
+  max-width: 27.0625rem;
 }
 
 .link-to-sign-up p {

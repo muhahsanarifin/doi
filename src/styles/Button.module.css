@@ -24,6 +24,34 @@
   font-weight: 800;
 }
 
+/* Personal information button style */
+.btn-section {
+  /* border: 1px solid darkblue; */
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-section__edit,
+.btn-section__save {
+  font-size: 12px;
+  padding: 0.2rem;
+  border-radius: 4px;
+  font-weight: 700;
+  color: #77777794;
+  cursor: no-drop;
+}
+
+.btn-section__edit-active,
+.btn-section__save-active {
+  font-size: 12px;
+  padding: 0.2rem;
+  border-radius: 4px;
+  font-weight: 700;
+  color: #6379f4;
+  cursor: pointer;
+}
+
 /* || Responsive */
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .btn {
