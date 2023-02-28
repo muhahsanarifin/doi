@@ -14,7 +14,6 @@
 }
 
 .right-side-content {
-  /* border: 1px solid darkblue; */
   position: relative;
   flex: 1;
   background: #ffffff;
@@ -24,6 +23,7 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
+  max-height: 36.2625rem;
 }
 
 /* .right-side-content__title {
@@ -59,9 +59,9 @@
   height: 14px !important;
 }
 
-/* .bottom-content {
-  border: 1px solid darkblue;
-} */
+.bottom-content {
+  height: 28.1625rem;
+}
 
 .list {
   /* border: 1px solid darkblue; */
@@ -128,6 +128,10 @@
   color: #6379f4;
   font-weight: 700;
 }
+
+/* .data-not-fount {
+
+} */
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
