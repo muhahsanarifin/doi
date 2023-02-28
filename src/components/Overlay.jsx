@@ -154,7 +154,15 @@ const PinConfirmationModal = ({
                   justifyContent: "center",
                 }}
               >
-                <p style={{ color: "#1EC15F", fontWeight: "700" }}>
+                <p
+                  style={{
+                    color: "#1EC15F",
+                    fontWeight: "700",
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#1ec15f0a",
+                    borderRadius: "6px",
+                  }}
+                >
                   {onSetSuccess}
                 </p>
               </div>
@@ -165,7 +173,15 @@ const PinConfirmationModal = ({
                   justifyContent: "center",
                 }}
               >
-                <p style={{ color: "#FF5B37", fontWeight: "700" }}>
+                <p
+                  style={{
+                    color: "#FF5B37",
+                    fontWeight: "700",
+                    padding: "0.5rem 1rem",
+                    backgroundColor: "#ff5c3710",
+                    borderRadius: "6px",
+                  }}
+                >
                   {onSetFailed}
                 </p>
               </div>

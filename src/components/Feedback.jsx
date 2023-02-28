@@ -1,5 +1,6 @@
 import { useToast, CircularProgress } from "@chakra-ui/react";
 import Image from "next/image";
+import styles from "../styles/Feedback.module.css";
 
 const Toast = ({ title, id, status, position }) => {
   const toast = useToast();
@@ -203,6 +204,20 @@ const SuccessMsg = ({ fulfilledMsg }) => {
   );
 };
 
+const LdsFacebook = () => {
+  return (
+    <>
+      <div className={styles["loader-saction"]}>
+        <div className={styles["lds-facebook"]}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 export {
   Toast,
   Loader,
@@ -212,4 +227,5 @@ export {
   ChangePasswordMsg,
   ErrorMsg,
   SuccessMsg,
+  LdsFacebook,
 };

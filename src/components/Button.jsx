@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import styles from "../styles/Button.module.css";
 
 const LoginButton = ({ password, email, init, onClick }) => {
@@ -137,9 +137,15 @@ const EditPhoneNumberButton = ({ noTelp, onClick, init }) => {
 };
 
 const TopupButton = ({ onClick, disabled }) => {
+  const inputRefence = useRef(null);
+
+  useEffect(() => {
+    inputRefence.current.focus();
+  }, []);
   return (
     <>
       <button
+        ref={inputRefence}
         className={styles[!disabled ? "btn" : "btn-active"]}
         disabled={!disabled}
         onClick={onClick}
@@ -151,9 +157,15 @@ const TopupButton = ({ onClick, disabled }) => {
 };
 
 const TryAgainButton = ({ onClick, disabled }) => {
+  const inputRefence = useRef(null);
+
+  useEffect(() => {
+    inputRefence.current.focus();
+  }, []);
   return (
     <>
       <button
+        ref={inputRefence}
         onClick={onClick}
         className={styles[!disabled ? "btn" : "btn-active"]}
         disabled={!disabled}
@@ -229,18 +241,33 @@ const GoToDashboardButton = ({ onClick }) => {
   );
 };
 
-const PersonalInfoButton = ({ setEdictOnClick, setSaveOnClick, disabledEdit, disabledSave, disabledStyleEdit, disabledStyleSave }) => {
+const PersonalInfoButton = ({
+  setEdictOnClick,
+  setSaveOnClick,
+  disabledEdit,
+  disabledSave,
+  disabledStyleEdit,
+  disabledStyleSave,
+}) => {
   return (
     <span className={styles["btn-section"]}>
       <button
-        className={styles[ disabledStyleEdit ? "btn-section__edit" : "btn-section__edit-active"]}
+        className={
+          styles[
+            disabledStyleEdit ? "btn-section__edit" : "btn-section__edit-active"
+          ]
+        }
         onClick={setEdictOnClick}
         disabled={disabledEdit}
       >
         Edit
       </button>
       <button
-        className={styles[ disabledStyleSave ? "btn-section__save": "btn-section__save-active"]}
+        className={
+          styles[
+            disabledStyleSave ? "btn-section__save" : "btn-section__save-active"
+          ]
+        }
         onClick={setSaveOnClick}
         disabled={disabledSave}
       >
