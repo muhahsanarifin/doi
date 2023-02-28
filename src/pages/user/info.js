@@ -21,7 +21,8 @@ const Info = () => {
   const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [disableInput, setDisableInput] = useState(true);
+  const [disableInputFirstName, setDisableInputFirstName] = useState(true);
+  const [disableInputLastName, setDisableInputLastName] = useState(true);
   const [successUpdateFirstName, setSuccessUpdateFirstName] = useState("");
   // const [failedUpdateFirstName, setFailedUpdateFirstName] = useState("");
   const [successUpdateLastName, setSuccessUpdateLastName] = useState("");
@@ -67,7 +68,6 @@ const Info = () => {
 
   const resUpdateProfileRejected = (error) => {
     // setFailedUpdateFirstName(error.response.data?.msg);
-    // setFailedUpdateLastName(error.response.data?.msg);
     console.log(error.response.data?.msg);
   };
 
@@ -109,14 +109,14 @@ const Info = () => {
                           type="text"
                           className={
                             styles[
-                              disableInput
+                              disableInputFirstName
                                 ? "identify__main-content"
                                 : "identify__main-content-active"
                             ]
                           }
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          disabled={disableInput}
+                          disabled={disableInputFirstName}
                         />
                       </>
                     ) : (
@@ -124,10 +124,12 @@ const Info = () => {
                     )}
                   </span>
                   <PersonalInfoButton
-                    setEdictOnClick={() => setDisableInput(!disableInput)}
+                    setEdictOnClick={() =>
+                      setDisableInputFirstName(!disableInputFirstName)
+                    }
                     setSaveOnClick={handleSaveName}
-                    disabledSave={!firstName || !lastName}
-                    disabledStyleSave={!firstName || !lastName}
+                    disabledSave={!firstName}
+                    disabledStyleSave={!firstName}
                   />
                 </span>
               </li>
@@ -141,20 +143,28 @@ const Info = () => {
                           type="text"
                           className={
                             styles[
-                              disableInput
+                              disableInputLastName
                                 ? "identify__main-content"
                                 : "identify__main-content-active"
                             ]
                           }
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          disabled={disableInput}
+                          disabled={disableInputLastName}
                         />
                       </>
                     ) : (
                       <SuccessMsg fulfilledMsg={"Updated Lastname"} />
                     )}
                   </span>
+                  <PersonalInfoButton
+                    setEdictOnClick={() =>
+                      setDisableInputLastName(!disableInputLastName)
+                    }
+                    setSaveOnClick={handleSaveName}
+                    disabledSave={!lastName}
+                    disabledStyleSave={!lastName}
+                  />
                 </span>
               </li>
               <li className={styles["content-list"]}>

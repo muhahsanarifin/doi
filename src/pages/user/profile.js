@@ -12,6 +12,7 @@ import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import TitleBar from "../../components/TitleBar";
 import { LogoutModal } from "../../components/Overlay";
+import { SuccessMsg } from "../../components/Feedback";
 
 import edit from "../../assets/icons/edit-2.png";
 import arrowLeft from "../../assets/icons/arrow-left.png";
@@ -25,6 +26,7 @@ const Profile = () => {
   const user = useSelector((state) => state.users.getDataUser?.data);
   const [image, setImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
+  const [successUpdateMsg, setSuccessUpdateMSg] = useState("");
 
   const handleImage = (e) => {
     let uploaded = e.target.files[0];
@@ -47,21 +49,31 @@ const Profile = () => {
         getCookie("id"),
         body,
         getCookie("token"),
-        "",
-        resCbFulfilled,
-        ""
+        resCBUpdateImagePending,
+        resCBUpdateImageFulfilled,
+        resCBUpdateImageRejected,
+        resCBUpdateImageFinally
       )
     );
   };
 
-  const resCbFulfilled = (response) => {
+  const resCBUpdateImagePending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+
+  const resCBUpdateImageFulfilled = (response) => {
     setTimeout(() => {
-      console.log(response?.msg);
-    }, 500);
+      setSuccessUpdateMSg(response?.msg);
+    }, 1000);
+  };
+
+  const resCBUpdateImageRejected = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+
+  const resCBUpdateImageFinally = () => {
+    // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
 
     setTimeout(() => {
+      setSuccessUpdateMSg(false);
       router.reload();
-    }, 1000);
+    }, 1500);
   };
 
   return (
@@ -78,23 +90,33 @@ const Profile = () => {
           <section className={styles["profile-side"]}>
             <span className={styles["profile-side__picture"]}>
               <span className={styles["profile-side__edit-picture"]}>
-                <Image
-                  src={
-                    prevImage
-                      ? prevImage
-                      : `${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user?.image}`
-                  }
-                  alt={user.firstName}
-                  width={500}
-                  height={500}
-                  className={styles["profile-side-image"]}
-                />
-                <span className={styles["input-file"]}>
-                  <label onClick={handleUpdateImage}>
-                    <Image src={edit} alt="edit" className={styles["edit"]} />
-                  </label>
-                  <input name="image" type="file" onChange={handleImage} />
-                </span>
+                {!successUpdateMsg ? (
+                  <>
+                    <Image
+                      src={
+                        prevImage
+                          ? prevImage
+                          : `${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user?.image}`
+                      }
+                      alt={user.firstName}
+                      width={500}
+                      height={500}
+                      className={styles["profile-side-image"]}
+                    />
+                    <span className={styles["input-file"]}>
+                      <label onClick={handleUpdateImage}>
+                        <Image
+                          src={edit}
+                          alt="edit"
+                          className={styles["edit"]}
+                        />
+                      </label>
+                      <input name="image" type="file" onChange={handleImage} />
+                    </span>
+                  </>
+                ) : (
+                  <SuccessMsg fulfilledMsg={successUpdateMsg} />
+                )}
               </span>
               <span className={styles["profile-side-indentity"]}>
                 <h3>{`${user.firstName} ${user.lastName}`}</h3>

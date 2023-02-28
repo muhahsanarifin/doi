@@ -67,7 +67,6 @@ const Login = () => {
 
   const resLoginFinally = () => {
     setTimeout(() => {
-      setErrorLoginMsg(false);
       setLoading(false);
     }, 1500);
   };

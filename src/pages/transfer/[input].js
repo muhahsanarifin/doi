@@ -29,7 +29,7 @@ const Input = () => {
     dispatch(usersAction.getDataReceiverThunk(receiverId, getCookie("token")));
   }, [dispatch, receiverId]);
 
-  console.log("Entity receiver: ", receiver.getDataReceiver.data);
+  // console.log("Entity receiver: ", receiver.getDataReceiver.data);
   // console.log("Entity user: ", user);
 
   // Data & Time
@@ -62,8 +62,6 @@ const Input = () => {
 
     router.replace("/transfer/confirmation");
   };
-
-  console.log("Amount: ", amount);
 
   // Handle currency
   const idrCurreny = (number) => {

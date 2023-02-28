@@ -98,13 +98,13 @@ const Topup = () => {
 
     setSuccess(response.data?.msg);
     setTimeout(() => {
-      setTruSuccessMsg(true);
       setTruFailedMsg(false);
+      setTruSuccessMsg(true);
     }, 1500);
 
     setTimeout(() => {
       setCloseModal(true);
-    }, 4500);
+    }, 3500);
 
     setTimeout(() => {
       dispatch(
@@ -117,7 +117,7 @@ const Topup = () => {
           resTUCbFinally
         )
       );
-    }, 3500);
+    }, 2500);
   };
 
   const resCPCbRejected = (error) => {
@@ -131,7 +131,7 @@ const Topup = () => {
   const resCPCbFinally = () => {
     setLoading(false);
     setTimeout(() => {
-      setTruFailedMsg(false);
+      // setTruFailedMsg(false);
       setTruSuccessMsg(false);
     }, 3500);
 
@@ -141,7 +141,7 @@ const Topup = () => {
   };
 
   // Top Up Condition
-  const resTUCbPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resTUCbPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
 
   const resTUCbFulfilled = (response) => {
     setTimeout(() => {

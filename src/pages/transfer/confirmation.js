@@ -103,7 +103,7 @@ const Confirmation = () => {
           resTBRejected
         )
       );
-    }, 3500);
+    }, 2500);
   };
 
   const resCPCbRejected = (error) => {
@@ -117,13 +117,13 @@ const Confirmation = () => {
   const resCPCbFinally = () => {
     setLoading(false);
     setTimeout(() => {
-      setTruFailedMsg(false);
+      // setTruFailedMsg(false);
       setTruSuccessMsg(false);
     }, 3500);
   };
 
   // Transfer condtition
-  const resTBPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resTBPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
 
   const resTBFulfilled = () => {
     router.replace("/transfer/status");

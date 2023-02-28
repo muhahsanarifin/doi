@@ -65,7 +65,7 @@ const Pin = () => {
   };
 
   // Check pin condition
-  const resCheckPinCBPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resCheckPinCBPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
 
   const resCheckPinCBFulfilled = (response) => {
     setTimeout(() => {
@@ -115,7 +115,7 @@ const Pin = () => {
   };
 
   // Change pin condition
-  const resChangePinPending = () => {}; // <- Devloper don't use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resChangePinPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
 
   const resChangePinFulfilled = (response) => {
     setTimeout(() => {
