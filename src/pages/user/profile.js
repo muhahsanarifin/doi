@@ -49,27 +49,25 @@ const Profile = () => {
         getCookie("id"),
         body,
         getCookie("token"),
-        resCBUpdateImagePending,
-        resCBUpdateImageFulfilled,
-        resCBUpdateImageRejected,
-        resCBUpdateImageFinally
+        resPendingUpdateImage,
+        resFulfilledUpdateImage,
+        resRejectedUpdateImage,
+        resFinallyUpdateImage
       )
     );
   };
 
-  const resCBUpdateImagePending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resPendingUpdateImage = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
-  const resCBUpdateImageFulfilled = (response) => {
+  const resFulfilledUpdateImage = (response) => {
     setTimeout(() => {
       setSuccessUpdateMSg(response?.msg);
     }, 1000);
   };
 
-  const resCBUpdateImageRejected = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resRejectedUpdateImage = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
-  const resCBUpdateImageFinally = () => {
-    // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
-
+  const resFinallyUpdateImage = () => {
     setTimeout(() => {
       setSuccessUpdateMSg(false);
       router.reload();

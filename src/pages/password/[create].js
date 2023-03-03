@@ -50,7 +50,7 @@ const CreateNewPassword = () => {
     );
   };
 
-  const resCreateNewPasswordPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resCreateNewPasswordPending = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
   const resCreateNewPasswordFulfilled = (response) => {
     setTimeout(() => {

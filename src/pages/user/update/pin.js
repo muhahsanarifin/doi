@@ -56,18 +56,18 @@ const Pin = () => {
       usersAction.checkPinUserThunk(
         pin(numerics),
         getCookie("token"),
-        resCheckPinCBPending,
-        resCheckPinCBFulfilled,
-        resCheckPinCBRejected,
-        resCheckPinCBFinally
+        resPendingCheckPin,
+        resFulfilledCheckPin,
+        resRejectedCheckPin,
+        resFinallyCheckPin
       )
     );
   };
 
   // Check pin condition
-  const resCheckPinCBPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resPendingCheckPin = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
-  const resCheckPinCBFulfilled = (response) => {
+  const resFulfilledCheckPin = (response) => {
     setTimeout(() => {
       setSuccessCheckPinMsg(response.data?.msg);
     }, 1000);
@@ -84,14 +84,14 @@ const Pin = () => {
     }, 1500);
   };
 
-  const resCheckPinCBRejected = (error) => {
+  const resRejectedCheckPin = (error) => {
     setFailedCheckPinMsg(error.data?.msg);
   };
 
-  const resCheckPinCBFinally = () => {
+  const resFinallyCheckPin = () => {
     setTimeout(() => {
       setSuccessCheckPinMsg(false);
-      setFailedCheckPinMsg(false);
+      // setFailedCheckPinMsg(false);
     }, 2000);
   };
 
@@ -106,18 +106,18 @@ const Pin = () => {
         getCookie("id"),
         body,
         getCookie("token"),
-        resChangePinPending,
-        resChangePinFulfilled,
-        resChangePinRejected,
-        resChangePinFinally
+        resPendingChangePin,
+        resFulfilledChangePin,
+        resRejectedChangePin,
+        resFinallyChangePin
       )
     );
   };
 
   // Change pin condition
-  const resChangePinPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resPendingChangePin = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
-  const resChangePinFulfilled = (response) => {
+  const resFulfilledChangePin = (response) => {
     setTimeout(() => {
       setSuccessUpdatePinMsg(response?.msg);
     }, 1000);
@@ -127,11 +127,11 @@ const Pin = () => {
     }, 2000);
   };
 
-  const resChangePinRejected = (error) => {
+  const resRejectedChangePin = (error) => {
     setFailedUpdatePinMsg(error.response.data?.msg);
   };
 
-  const resChangePinFinally = () => {};
+  const resFinallyChangePin = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
   return (
     <>

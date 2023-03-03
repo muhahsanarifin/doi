@@ -70,16 +70,16 @@ const Topup = () => {
       usersAction.checkPinUserThunk(
         pin(numerics),
         getCookie("token"),
-        resCPCbPending,
-        resCPCbFulfilled,
-        resCPCbRejected,
-        resCPCbFinally
+        resPendingCheckPinUser,
+        resFulfilledCheckPinUser,
+        resRejectedCheckPinUser,
+        resFinallyCheckPinUser
       )
     );
   };
 
   // Check pin user condition
-  const resCPCbPending = () => {
+  const resPendingCheckPinUser = () => {
     setLoading(true);
   };
 
@@ -87,7 +87,7 @@ const Topup = () => {
     amount: amount,
   };
 
-  const resCPCbFulfilled = (response) => {
+  const resFulfilledCheckPinUser = (response) => {
     setFailedMsgTopUp(false);
 
     const minValue = 20000;
@@ -111,16 +111,16 @@ const Topup = () => {
         topUpAction.topUpThunk(
           body,
           getCookie("token"),
-          resTUCbPending,
-          resTUCbFulfilled,
-          resTUCbRejected,
-          resTUCbFinally
+          resPendingTopUp,
+          resFulfilledTopUp,
+          resRejectedTopUp,
+          resFinallyTopUp
         )
       );
     }, 2500);
   };
 
-  const resCPCbRejected = (error) => {
+  const resRejectedCheckPinUser = (error) => {
     setFailed(error?.data.msg);
     setTimeout(() => {
       setTruFailedMsg(true);
@@ -128,7 +128,7 @@ const Topup = () => {
     }, 1500);
   };
 
-  const resCPCbFinally = () => {
+  const resFinallyCheckPinUser = () => {
     setLoading(false);
     setTimeout(() => {
       // setTruFailedMsg(false);
@@ -141,9 +141,9 @@ const Topup = () => {
   };
 
   // Top Up Condition
-  const resTUCbPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resPendingTopUp = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
-  const resTUCbFulfilled = (response) => {
+  const resFulfilledTopUp = (response) => {
     setTimeout(() => {
       setSuccessTopUp(true);
       setSuccessMsgTopUp(response.data?.msg);
@@ -159,14 +159,14 @@ const Topup = () => {
     }, 3000);
   };
 
-  const resTUCbRejected = (response) => {
+  const resRejectedTopUp = (response) => {
     setFailedTopUp(true);
     setTimeout(() => {
       setFailedMsgTopUp(response.response.data?.msg);
     }, 1000);
   };
 
-  const resTUCbFinally = () => {
+  const resFinallyTopUp = () => {
     setTimeout(() => {
       setSuccessTopUp(false);
     }, 2000);

@@ -34,7 +34,7 @@ const ResetPassword = () => {
     );
   };
 
-  const resResetPasswordPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resResetPasswordPending = () => {}; /// Developer does not use it temporary to make some condition when request Transfer API.
 
   const resResetPasswordFulfilled = () => {
     window.location.reload();

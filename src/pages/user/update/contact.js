@@ -44,19 +44,19 @@ const Contact = () => {
         getCookie("id"),
         body,
         getCookie("token"),
-        resUpdatePhoneNumberPending,
-        resUpdatePhoneNumberFulfilled,
-        resUpdatePhoneNumberRejected,
-        resUpdatePhoneNumberFinally
+        resPendingUpdatePhoneNumber,
+        resFulfilledUpdatePhoneNumber,
+        resRejectedUpdatePhoneNumber,
+        resFinallyUpdatePhoneNumber
       )
     );
   };
 
-  const resUpdatePhoneNumberPending = () => {
+  const resPendingUpdatePhoneNumber = () => {
     setLoading(true);
   };
 
-  const resUpdatePhoneNumberFulfilled = (response) => {
+  const resFulfilledUpdatePhoneNumber = (response) => {
     setTimeout(() => {
       seUpdatePhoneNumberSuccessMSg(response?.msg);
     }, 1000);
@@ -66,11 +66,11 @@ const Contact = () => {
     }, 1500);
   };
 
-  const resUpdatePhoneNumberRejected = (error) => {
+  const resRejectedUpdatePhoneNumber = (error) => {
     seUpdatePhoneNumberFailedMsg(error.response.data?.msg);
   };
 
-  const resUpdatePhoneNumberFinally = () => {
+  const resFinallyUpdatePhoneNumber = () => {
     setLoading(false);
     setTimeout(() => {
       seUpdatePhoneNumberFailedMsg(false);

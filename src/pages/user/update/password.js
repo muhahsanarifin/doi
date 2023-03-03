@@ -47,19 +47,19 @@ const Password = () => {
         getCookie("id"),
         body,
         getCookie("token"),
-        resUpdatePasswodCBPending,
-        resUpdatePasswodCBFulfilled,
-        resUpdatePasswodCBRejected,
-        resUpdatePasswordFinally
+        resPendingUpdatePassword,
+        resFulfilledUpdatePassword,
+        resRejectedUpdatePassword,
+        resFinallyUpdatePassword
       )
     );
   };
 
-  const resUpdatePasswodCBPending = () => {
+  const resPendingUpdatePassword = () => {
     setLoading(true);
   };
 
-  const resUpdatePasswodCBFulfilled = (response) => {
+  const resFulfilledUpdatePassword = (response) => {
     setTimeout(() => {
       setSuccessMsg(response?.msg);
     }, 1000);
@@ -69,11 +69,11 @@ const Password = () => {
     }, 1500);
   };
 
-  const resUpdatePasswodCBRejected = (error) => {
+  const resRejectedUpdatePassword = (error) => {
     setFailedMsg(error.response.data?.msg);
   };
 
-  const resUpdatePasswordFinally = () => {
+  const resFinallyUpdatePassword = () => {
     setLoading(false);
     setTimeout(() => {
       setFailedMsg(false);

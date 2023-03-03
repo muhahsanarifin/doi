@@ -44,17 +44,17 @@ const Info = () => {
         getCookie("id"),
         body,
         getCookie("token"),
-        resUpdateProfilePending,
-        resUpdateProfileFulfilled,
-        resUpdateProfileRejected,
-        resUpdatProfileFinally
+        resPendingUpdateProfile,
+        resFulfilledUpdateProfile,
+        resRejectedUpdateProfile,
+        resFinallyUpdateProfile
       )
     );
   };
 
-  const resUpdateProfilePending = () => {};
+  const resPendingUpdateProfile = () => {};
 
-  const resUpdateProfileFulfilled = (response) => {
+  const resFulfilledUpdateProfile = (response) => {
     if (response.data?.firstName != user.firstName)
       setSuccessUpdateFirstName(response?.msg);
 
@@ -66,12 +66,12 @@ const Info = () => {
     }, 1000);
   };
 
-  const resUpdateProfileRejected = (error) => {
+  const resRejectedUpdateProfile = (error) => {
     // setFailedUpdateFirstName(error.response.data?.msg);
     console.log(error.response.data?.msg);
   };
 
-  const resUpdatProfileFinally = () => {
+  const resFinallyUpdateProfile = () => {
     setTimeout(() => {
       setSuccessUpdateFirstName(false);
       setSuccessUpdateLastName(false);

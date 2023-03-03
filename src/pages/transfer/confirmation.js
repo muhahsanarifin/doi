@@ -73,20 +73,20 @@ const Confirmation = () => {
       usersAction.checkPinUserThunk(
         pin(numerics),
         getCookie("token"),
-        resCPCbPending,
-        resCPCbFulfilled,
-        resCPCbRejected,
-        resCPCbFinally
+        resPendingCheckPinUser,
+        resFulfilledCheckPinUser,
+        resRejectedCheckPinUser,
+        resFinallyCheckPinUser
       )
     );
   };
 
   // Check pin user condition
-  const resCPCbPending = () => {
+  const resPendingCheckPinUser = () => {
     setLoading(true);
   };
 
-  const resCPCbFulfilled = (response) => {
+  const resFulfilledCheckPinUser = (response) => {
     setSuccess(response.data?.msg);
     setTimeout(() => {
       setTruSuccessMsg(true);
@@ -98,15 +98,15 @@ const Confirmation = () => {
         transferAction.transferBalanceUserThunk(
           body,
           getCookie("token"),
-          resTBPending,
-          resTBFulfilled,
-          resTBRejected
+          resPendingTransferBalanceUser,
+          resFulfilledTransferBalanceUser,
+          resRejectedTransferBalanceUser
         )
       );
     }, 2500);
   };
 
-  const resCPCbRejected = (error) => {
+  const resRejectedCheckPinUser = (error) => {
     setFalied(error.data?.msg);
     setTimeout(() => {
       setTruFailedMsg(true);
@@ -114,7 +114,7 @@ const Confirmation = () => {
     }, 1500);
   };
 
-  const resCPCbFinally = () => {
+  const resFinallyCheckPinUser = () => {
     setLoading(false);
     setTimeout(() => {
       // setTruFailedMsg(false);
@@ -123,13 +123,13 @@ const Confirmation = () => {
   };
 
   // Transfer condtition
-  const resTBPending = () => {}; // <- Devloper does not use resTBPending callback function temporary to make some condition when request Transfer API.
+  const resPendingTransferBalanceUser = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
 
-  const resTBFulfilled = () => {
+  const resFulfilledTransferBalanceUser = () => {
     router.replace("/transfer/status");
   };
 
-  const resTBRejected = () => {
+  const resRejectedTransferBalanceUser = () => {
     router.replace("/transfer/status");
   };
 

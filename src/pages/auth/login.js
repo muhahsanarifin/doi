@@ -40,19 +40,19 @@ const Login = () => {
     dispatch(
       authsAction.loginThunk(
         body,
-        resLoginPending,
-        resLoginFulfilled,
-        resLoginRejected,
-        resLoginFinally
+        resPendingLogin,
+        resFulfilledLogin,
+        resRejectedLogin,
+        resFinallyLogin
       )
     );
   };
 
-  const resLoginPending = () => {
+  const resPendingLogin = () => {
     setLoading(true);
   };
 
-  const resLoginFulfilled = (response) => {
+  const resFulfilledLogin = (response) => {
     if (response.status === 200) {
       setCookie("id", response.data?.id);
       setCookie("token", response.data?.token);
@@ -61,11 +61,11 @@ const Login = () => {
     }
   };
 
-  const resLoginRejected = (error) => {
+  const resRejectedLogin = (error) => {
     setErrorLoginMsg(error.response.data?.msg);
   };
 
-  const resLoginFinally = () => {
+  const resFinallyLogin = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
