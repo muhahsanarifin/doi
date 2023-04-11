@@ -13,6 +13,7 @@ import SideBar from "../../components/SideBar";
 import TitleBar from "../../components/TitleBar";
 import Pagination from "../../components/Pagination";
 import { LdsFacebook } from "../../components/Feedback";
+import { ErrorMessage } from "../../utils/response";
 
 import gridIconBlue from "../../assets/icons/grid-blue.png";
 import styles from "../../styles/History.module.css";
@@ -27,6 +28,8 @@ const History = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const [error, setError] = useState();
+
   useEffect(() => {
     const getHistory = async () => {
       try {
@@ -37,11 +40,13 @@ const History = () => {
         );
         setHistory(response.data);
 
+        setError(response.data.data?.length === 0);
+
         if (response.data.data.length === 0) {
-          throw new Error("Data Not Found.");
+          throw new ErrorMessage("Data Not Found.");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error.message);
       } finally {
         setLoading(false);
       }
@@ -110,56 +115,69 @@ const History = () => {
             {!loading ? (
               <>
                 <span className={styles["bottom-content"]}>
-                  <ul className={styles["list"]}>
-                    {histories.data?.map((history) => (
-                      <li className={styles["content-list"]} key={history.id}>
-                        <span className={styles["sub-content-list"]}>
-                          <Image
-                            src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
-                            alt={history.firstname}
-                            className={styles["image"]}
-                            width={500}
-                            height={500}
-                          />
-                          <span className={styles["identity"]}>
-                            <p className={styles["name"]}>
-                              {`${history.firstName} ${history.lastName}`}
-                            </p>
-                            <span className={styles["status-type"]}>
-                              <p className={styles["status"]}>
-                                {history.status}
+                  {error ? (
+                    <h1 className={styles["error-info"]}>
+                      Does not exist transaction
+                    </h1>
+                  ) : (
+                    <ul className={styles["list"]}>
+                      {histories.data?.map((history) => (
+                        <li className={styles["content-list"]} key={history.id}>
+                          <span className={styles["sub-content-list"]}>
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
+                              alt={history.firstname}
+                              className={styles["image"]}
+                              width={500}
+                              height={500}
+                            />
+                            <span className={styles["identity"]}>
+                              <p className={styles["name"]}>
+                                {`${history.firstName} ${history.lastName}`}
                               </p>
-                              <p className={styles["type"]}> {history.type}</p>
+                              <span className={styles["status-type"]}>
+                                <p className={styles["status"]}>
+                                  {history.status}
+                                </p>
+                                <p className={styles["type"]}>
+                                  {" "}
+                                  {history.type}
+                                </p>
+                              </span>
                             </span>
+                            <p
+                              className={
+                                styles[
+                                  history.type === "topup"
+                                    ? "value-income"
+                                    : "value-expense"
+                                ]
+                              }
+                            >
+                              {history.type === "topup"
+                                ? `+${idrCurreny(history.amount)}`
+                                : history.type === "send"
+                                ? `-${idrCurreny(history.amount)}`
+                                : null}
+                            </p>
                           </span>
-                          <p
-                            className={
-                              styles[
-                                history.type === "topup"
-                                  ? "value-income"
-                                  : "value-expense"
-                              ]
-                            }
-                          >
-                            {history.type === "topup"
-                              ? `+${idrCurreny(history.amount)}`
-                              : history.type === "send"
-                              ? `-${idrCurreny(history.amount)}`
-                              : null}
-                          </p>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </span>
-                <Pagination
-                  onPage={page}
-                  onSetPage={setPage}
-                  historyData={histories}
-                />
               </>
             ) : (
-              <LdsFacebook />
+              <span className={styles["bottom-content-loader"]}>
+                <LdsFacebook />
+              </span>
+            )}
+            {error ? null : (
+              <Pagination
+                onPage={page}
+                onSetPage={setPage}
+                historyData={histories}
+              />
             )}
           </section>
         </main>
