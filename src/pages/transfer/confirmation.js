@@ -123,7 +123,7 @@ const Confirmation = () => {
   };
 
   // Transfer condtition
-  const resPendingTransferBalanceUser = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resPendingTransferBalanceUser = () => {}; // Developer does not use it temporarily.
 
   const resFulfilledTransferBalanceUser = () => {
     router.replace("/transfer/status");

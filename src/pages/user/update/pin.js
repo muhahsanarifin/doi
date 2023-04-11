@@ -65,7 +65,7 @@ const Pin = () => {
   };
 
   // Check pin condition
-  const resPendingCheckPin = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resPendingCheckPin = () => {}; // Developer does not use it temporarily.
 
   const resFulfilledCheckPin = (response) => {
     setTimeout(() => {
@@ -115,7 +115,7 @@ const Pin = () => {
   };
 
   // Change pin condition
-  const resPendingChangePin = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resPendingChangePin = () => {}; // Developer does not use it temporarily.
 
   const resFulfilledChangePin = (response) => {
     setTimeout(() => {
@@ -131,7 +131,7 @@ const Pin = () => {
     setFailedUpdatePinMsg(error.response.data?.msg);
   };
 
-  const resFinallyChangePin = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resFinallyChangePin = () => {}; // Developer does not use it temporarily.
 
   return (
     <>

@@ -50,7 +50,7 @@ const CreateNewPassword = () => {
     );
   };
 
-  const resCreateNewPasswordPending = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resCreateNewPasswordPending = () => {}; // Developer does not use it temporarily.
 
   const resCreateNewPasswordFulfilled = (response) => {
     setTimeout(() => {

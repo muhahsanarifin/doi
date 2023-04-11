@@ -34,7 +34,7 @@ const ResetPassword = () => {
     );
   };
 
-  const resResetPasswordPending = () => {}; /// Developer does not use it temporary to make some condition when request Transfer API.
+  const resResetPasswordPending = () => {}; // Developer does not use it temporarily.
 
   const resResetPasswordFulfilled = () => {
     window.location.reload();

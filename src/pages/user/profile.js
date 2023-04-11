@@ -57,7 +57,7 @@ const Profile = () => {
     );
   };
 
-  const resPendingUpdateImage = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resPendingUpdateImage = () => {}; // Developer does not use it temporarily.
 
   const resFulfilledUpdateImage = (response) => {
     setTimeout(() => {
@@ -65,7 +65,7 @@ const Profile = () => {
     }, 1000);
   };
 
-  const resRejectedUpdateImage = () => {}; // Developer does not use it temporary to make some condition when request Transfer API.
+  const resRejectedUpdateImage = () => {}; // Developer does not use it temporarily.
 
   const resFinallyUpdateImage = () => {
     setTimeout(() => {
