@@ -235,7 +235,6 @@ const checkPinUserThunk = (
       typeof cbPending === "function" && cbPending();
       const response = await checkPinUser(pin, accessToken);
       dispatch(checkPinUserFulfilled(response.data));
-      // console.log(response);
       typeof cbFulfilled === "function" && cbFulfilled(response);
     } catch (error) {
       dispatch(checkPinUserRejected(error));
