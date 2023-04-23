@@ -13,6 +13,7 @@ import Footer from "../../components/Footer";
 import TitleBar from "../../components/TitleBar";
 import { LogoutModal } from "../../components/Overlay";
 import { SuccessMsg } from "../../components/Feedback";
+import { Icon } from "@iconify/react";
 
 import edit from "../../assets/icons/edit-2.png";
 import arrowLeft from "../../assets/icons/arrow-left.png";
@@ -26,7 +27,7 @@ const Profile = () => {
   const user = useSelector((state) => state.users.getDataUser?.data);
   const [image, setImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
-  const [successUpdateMsg, setSuccessUpdateMSg] = useState("");
+  const [successUpdateImage, setSuccessUpdateImage] = useState("");
 
   const handleImage = (e) => {
     let uploaded = e.target.files[0];
@@ -43,7 +44,7 @@ const Profile = () => {
   const body = handleBody(image); // <- Clouser
 
   const handleUpdateImage = () => {
-    if (image.length === 0) return console.log("Must be fill image.");
+    if (image.length === 0) return console.error("Must be fill image.");
     dispatch(
       usersAction.updateImageUserThunk(
         getCookie("id"),
@@ -61,7 +62,7 @@ const Profile = () => {
 
   const resFulfilledUpdateImage = (response) => {
     setTimeout(() => {
-      setSuccessUpdateMSg(response?.msg);
+      setSuccessUpdateImage(response?.msg);
     }, 1000);
   };
 
@@ -69,7 +70,7 @@ const Profile = () => {
 
   const resFinallyUpdateImage = () => {
     setTimeout(() => {
-      setSuccessUpdateMSg(false);
+      setSuccessUpdateImage(false);
       router.reload();
     }, 1500);
   };
@@ -88,19 +89,38 @@ const Profile = () => {
           <section className={styles["profile-side"]}>
             <span className={styles["profile-side__picture"]}>
               <span className={styles["profile-side__edit-picture"]}>
-                {!successUpdateMsg ? (
+                {!successUpdateImage ? (
                   <>
-                    <Image
-                      src={
-                        prevImage
-                          ? prevImage
-                          : `${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user?.image}`
-                      }
-                      alt={user.firstName}
-                      width={500}
-                      height={500}
-                      className={styles["profile-side-image"]}
-                    />
+                    {user?.image ? (
+                      <Image
+                        src={
+                          prevImage
+                            ? prevImage
+                            : `${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user?.image}`
+                        }
+                        alt={user.firstName}
+                        width={500}
+                        height={500}
+                        className={styles["profile-side-image"]}
+                      />
+                    ) : !prevImage ? (
+                      <Icon
+                        icon="radix-icons:avatar"
+                        style={{ width: "80px", height: "80px" }}
+                      />
+                    ) : (
+                      <Image
+                        src={
+                          prevImage
+                            ? prevImage
+                            : `${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user?.image}`
+                        }
+                        alt={user.firstName}
+                        width={500}
+                        height={500}
+                        className={styles["profile-side-image"]}
+                      />
+                    )}
                     <span className={styles["input-file"]}>
                       <label onClick={handleUpdateImage}>
                         <Image
@@ -113,7 +133,7 @@ const Profile = () => {
                     </span>
                   </>
                 ) : (
-                  <SuccessMsg fulfilledMsg={successUpdateMsg} />
+                  <SuccessMsg fulfilledMsg={successUpdateImage} />
                 )}
               </span>
               <span className={styles["profile-side-indentity"]}>

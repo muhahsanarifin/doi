@@ -10,6 +10,7 @@ import { GoToDashboardButton, PinButton } from "../../components/Button";
 import TitleBar from "../../components/TitleBar";
 import successIcon from "../../assets/icons/success.png";
 import { CreatePinMsg, ErrorMsg } from "../../components/Feedback";
+import { Loader } from "../../components/Feedback";
 
 import phone from "../../assets/images/png-phone.png";
 import phoneSecond from "../../assets/images/png-phone-2.png";
@@ -26,6 +27,7 @@ const Pin = () => {
   const [numericSix, setPinSix] = useState("");
   const [successCreatePinMsg, setSuccessCreatePinMsg] = useState("");
   const [failedCreatePinMsg, setFailedCreatePinMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const numerics = [
     numeric,
@@ -75,17 +77,22 @@ const Pin = () => {
     );
   };
 
-  const resCreatePinPending = () => {};
+  const resCreatePinPending = () => {
+    setLoading(true);
+  };
 
   const resCreatePinFulfilled = (response) => {
-    setSuccessCreatePinMsg(response.data?.msg);
+    setSuccessCreatePinMsg(response?.msg);
   };
 
   const resCreatePinRejected = (error) => {
-    setFailedCreatePinMsg(error.data?.msg);
+    setFailedCreatePinMsg(error.response.data?.msg);
+    console.error(error.response.data?.msg);
   };
 
-  const resCreatePinFinally = () => {};
+  const resCreatePinFinally = () => {
+    setLoading(false);
+  };
 
   return (
     <>
@@ -117,7 +124,9 @@ const Pin = () => {
             </span>
           </aside>
           <div className={styles["right-content"]}>
-            {!successCreatePinMsg ? (
+            {successCreatePinMsg ? (
+              <CreatePinMsg icon={successIcon} msg={successCreatePinMsg} />
+            ) : (
               <>
                 <span className={styles["right-content__description"]}>
                   <h3>
@@ -139,42 +148,46 @@ const Pin = () => {
                   </p>
                 </span>
               </>
-            ) : (
-              <CreatePinMsg icon={successIcon} />
             )}
             <span className={styles["form"]}>
-              <span className={styles["pin-form"]}>
-                <PinInput otp placeholder="_">
-                  <PinInputField
-                    className={styles["pin-styles"]}
-                    onChange={(e) => setPin(e.target.value)}
-                  />
-                  <PinInputField
-                    className={styles["pin-styles"]}
-                    onChange={(e) => setPinTwo(e.target.value)}
-                  />
-                  <PinInputField
-                    className={styles["pin-styles"]}
-                    onChange={(e) => setPinThree(e.target.value)}
-                  />
-                  <PinInputField
-                    className={styles["pin-styles"]}
-                    onChange={(e) => setPinFour(e.target.value)}
-                  />
-                  <PinInputField
-                    className={styles["pin-styles"]}
-                    onChange={(e) => setPinFive(e.target.value)}
-                  />
-                  <PinInputField
-                    className={styles["pin-styles"]}
-                    onChange={(e) => setPinSix(e.target.value)}
-                  />
-                </PinInput>
-              </span>
+              {successCreatePinMsg ? null : (
+                <span className={styles["pin-form"]}>
+                  <PinInput otp placeholder="_">
+                    <PinInputField
+                      className={styles["pin-styles"]}
+                      onChange={(e) => setPin(e.target.value)}
+                    />
+                    <PinInputField
+                      className={styles["pin-styles"]}
+                      onChange={(e) => setPinTwo(e.target.value)}
+                    />
+                    <PinInputField
+                      className={styles["pin-styles"]}
+                      onChange={(e) => setPinThree(e.target.value)}
+                    />
+                    <PinInputField
+                      className={styles["pin-styles"]}
+                      onChange={(e) => setPinFour(e.target.value)}
+                    />
+                    <PinInputField
+                      className={styles["pin-styles"]}
+                      onChange={(e) => setPinFive(e.target.value)}
+                    />
+                    <PinInputField
+                      className={styles["pin-styles"]}
+                      onChange={(e) => setPinSix(e.target.value)}
+                    />
+                  </PinInput>
+                </span>
+              )}
               {failedCreatePinMsg ? (
                 <ErrorMsg failedMsg={failedCreatePinMsg} />
               ) : null}
-              {!successCreatePinMsg ? (
+              {successCreatePinMsg ? (
+                <GoToDashboardButton
+                  onClick={() => router.replace("/dashboard")}
+                />
+              ) : (
                 <PinButton
                   numeric={numeric}
                   numericTwo={numericTwo}
@@ -183,10 +196,6 @@ const Pin = () => {
                   numericFive={numericFive}
                   numericSix={numericSix}
                   onClick={handleSetPin}
-                />
-              ) : (
-                <GoToDashboardButton
-                  onClick={() => router.replace("/dashboard")}
                 />
               )}
             </span>

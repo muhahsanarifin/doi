@@ -88,38 +88,32 @@ const Confirmation = () => {
 
   const resFulfilledCheckPinUser = (response) => {
     setSuccess(response.data?.msg);
-    setTimeout(() => {
-      setTruSuccessMsg(true);
-      setTruFailedMsg(false);
-    }, 1500);
 
     setTimeout(() => {
-      dispatch(
-        transferAction.transferBalanceUserThunk(
-          body,
-          getCookie("token"),
-          resPendingTransferBalanceUser,
-          resFulfilledTransferBalanceUser,
-          resRejectedTransferBalanceUser
-        )
-      );
-    }, 2500);
+      setTruFailedMsg(false);
+      setTruSuccessMsg(true);
+    }, 1000);
+
+    dispatch(
+      transferAction.transferBalanceUserThunk(
+        body,
+        getCookie("token"),
+        resPendingTransferBalanceUser,
+        resFulfilledTransferBalanceUser,
+        resRejectedTransferBalanceUser
+      )
+    );
   };
 
   const resRejectedCheckPinUser = (error) => {
+    setLoading(false);
     setFalied(error.data?.msg);
-    setTimeout(() => {
-      setTruFailedMsg(true);
-      setTruSuccessMsg(false);
-    }, 1500);
+    setTruFailedMsg(true);
+    setTruSuccessMsg(false);
   };
 
   const resFinallyCheckPinUser = () => {
-    setLoading(false);
-    setTimeout(() => {
-      // setTruFailedMsg(false);
-      setTruSuccessMsg(false);
-    }, 3500);
+    setTruSuccessMsg(false);
   };
 
   // Transfer condtition

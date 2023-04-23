@@ -68,7 +68,7 @@ const Info = () => {
 
   const resRejectedUpdateProfile = (error) => {
     // setFailedUpdateFirstName(error.response.data?.msg);
-    console.log(error.response.data?.msg);
+    console.error(error.response.data?.msg);
   };
 
   const resFinallyUpdateProfile = () => {

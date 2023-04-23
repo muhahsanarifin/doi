@@ -70,15 +70,11 @@ const Password = () => {
   };
 
   const resRejectedUpdatePassword = (error) => {
+    setLoading(false);
     setFailedMsg(error.response.data?.msg);
   };
 
-  const resFinallyUpdatePassword = () => {
-    setLoading(false);
-    setTimeout(() => {
-      setFailedMsg(false);
-    }, 1500);
-  };
+  const resFinallyUpdatePassword = () => {}; // Developer does not use it temporarily.
 
   return (
     <>

@@ -57,6 +57,9 @@ const Login = () => {
       setCookie("id", response.data?.id);
       setCookie("token", response.data?.token);
 
+      const { pin } = response.data;
+      if (pin === null) return router.push("/auth/pin"); // If value of pin property is null, Fulfilled result is going to auth/pin path.
+
       router.push("/dashboard");
     }
   };

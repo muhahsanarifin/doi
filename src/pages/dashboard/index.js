@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import historyTransactionAction from "../../redux/actions/history";
 
-import {PrivateRoute} from "../../helpers/handleRoutes";
+import { PrivateRoute } from "../../helpers/handleRoutes";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
@@ -62,7 +62,20 @@ const Dashbord = () => {
               <span className={styles["balance__content_left"]}>
                 <p className={styles["title"]}>Balance</p>
                 <h1 className={styles["fund"]}>{idrCurreny(user?.balance)}</h1>
-                <p className={styles["phone-number"]}>{user?.noTelp}</p>
+                <p className={styles["phone-number"]}>
+                  {user?.noTelp === null ? (
+                    <span
+                      style={{
+                        fontWeight: 700,
+                        color: "#ff8c90",
+                      }}
+                    >
+                      Please, set your phone number!
+                    </span>
+                  ) : (
+                    user?.noTelp
+                  )}
+                </p>
               </span>
               <span className={styles["balance__content_right"]}>
                 <button

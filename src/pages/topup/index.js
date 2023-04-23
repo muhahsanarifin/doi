@@ -29,8 +29,8 @@ const Topup = () => {
   const [numericSix, setPinSix] = useState("");
   const [succes, setSuccess] = useState("");
   const [failed, setFailed] = useState("");
-  const [trueSuccessMsg, setTruSuccessMsg] = useState(false);
-  const [trueFailedMsg, setTruFailedMsg] = useState(false);
+  const [trueSuccessMsg, setTrueSuccessMsg] = useState(false);
+  const [trueFailedMsg, setTrueFailedMsg] = useState(false);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [closeModal, setCloseModal] = useState(false);
@@ -98,78 +98,61 @@ const Topup = () => {
 
     setSuccess(response.data?.msg);
     setTimeout(() => {
-      setTruFailedMsg(false);
-      setTruSuccessMsg(true);
-    }, 1500);
+      setTrueFailedMsg(false);
+      setTrueSuccessMsg(true);
+    }, 1000);
 
     setTimeout(() => {
       setCloseModal(true);
-    }, 3500);
+    }, 2000);
 
-    setTimeout(() => {
-      dispatch(
-        topUpAction.topUpThunk(
-          body,
-          getCookie("token"),
-          resPendingTopUp,
-          resFulfilledTopUp,
-          resRejectedTopUp,
-          resFinallyTopUp
-        )
-      );
-    }, 2500);
+    dispatch(
+      topUpAction.topUpThunk(
+        body,
+        getCookie("token"),
+        resPendingTopUp,
+        resFulfilledTopUp,
+        resRejectedTopUp,
+        resFinallyTopUp
+      )
+    );
   };
 
   const resRejectedCheckPinUser = (error) => {
+    setLoading(false);
+    setTrueSuccessMsg(false);
     setFailed(error?.data.msg);
-    setTimeout(() => {
-      setTruFailedMsg(true);
-      setTruSuccessMsg(false);
-    }, 1500);
+    setTrueFailedMsg(true);
   };
 
   const resFinallyCheckPinUser = () => {
-    setLoading(false);
-    setTimeout(() => {
-      // setTruFailedMsg(false);
-      setTruSuccessMsg(false);
-    }, 3500);
-
-    // setTimeout(() => {
-    //   setFailedMsgTopUp(false);
-    // }, 2000);
+    setTrueSuccessMsg(false);
   };
 
   // Top Up Condition
   const resPendingTopUp = () => {}; // Developer does not use it temporarily.
 
   const resFulfilledTopUp = (response) => {
+    setSuccessMsgTopUp(response.data?.msg);
+
     setTimeout(() => {
       setSuccessTopUp(true);
-      setSuccessMsgTopUp(response.data?.msg);
-    }, 1500);
+    }, 1000);
 
     setTimeout(() => {
       const { redirectUrl } = response.data.data;
       window.open(redirectUrl, "_blank");
-    }, 2000);
-
-    setTimeout(() => {
       window.location.replace("/dashboard");
-    }, 3000);
+    }, 2000);
   };
 
   const resRejectedTopUp = (response) => {
     setFailedTopUp(true);
-    setTimeout(() => {
-      setFailedMsgTopUp(response.response.data?.msg);
-    }, 1000);
+    setFailedMsgTopUp(response.response.data?.msg);
   };
 
   const resFinallyTopUp = () => {
-    setTimeout(() => {
-      setSuccessTopUp(false);
-    }, 2000);
+    setSuccessTopUp(false);
   };
 
   return (

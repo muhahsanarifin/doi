@@ -11,7 +11,7 @@ import { EditPhoneNumberButton } from "../../../components/Button";
 import TitleBar from "../../../components/TitleBar";
 import { PrivateRoute } from "../../../helpers/handleRoutes";
 import { ErrorMsg, Loader } from "../../../components/Feedback";
-import { ChangePasswordMsg } from "../../../components/Feedback";
+import { SuccessPhoneNumberMsg } from "../../../components/Feedback";
 
 import styles from "../../../styles/Contact.module.css";
 import phoneIcon from "../../../assets/icons/phone.png";
@@ -24,10 +24,8 @@ const Contact = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.getDataUser);
   const [noTelp, setNoTelp] = useState("");
-  const [updatePhoneNumberSuccessMsg, seUpdatePhoneNumberSuccessMSg] =
-    useState("");
-  const [updatePhoneNumberFailedMsg, seUpdatePhoneNumberFailedMsg] =
-    useState("");
+  const [successUpdatePhoneNumber, setSuccessUpdatePhoneNumber] = useState("");
+  const [failedUpdatePhoneNumber, seUpdatePhoneNumberFailedMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -58,7 +56,7 @@ const Contact = () => {
 
   const resFulfilledUpdatePhoneNumber = (response) => {
     setTimeout(() => {
-      seUpdatePhoneNumberSuccessMSg(response?.msg);
+      setSuccessUpdatePhoneNumber(response?.msg);
     }, 1000);
 
     setTimeout(() => {
@@ -67,14 +65,12 @@ const Contact = () => {
   };
 
   const resRejectedUpdatePhoneNumber = (error) => {
+    setLoading(false);
     seUpdatePhoneNumberFailedMsg(error.response.data?.msg);
   };
 
   const resFinallyUpdatePhoneNumber = () => {
-    setLoading(false);
-    setTimeout(() => {
-      seUpdatePhoneNumberFailedMsg(false);
-    }, 1500);
+    seUpdatePhoneNumberFailedMsg(false);
   };
 
   return (
@@ -91,21 +87,21 @@ const Contact = () => {
           <section className={styles["right-side-content"]}>
             <span className={styles["title"]}>
               <h3>Edit Phone Number</h3>
-              {!updatePhoneNumberSuccessMsg ? (
+              {!successUpdatePhoneNumber ? (
                 <p className={styles["description"]}>
                   Add at least one phone number for the transfer ID so you can
                   start transfering your money to another user.
                 </p>
               ) : null}
             </span>
-            {!updatePhoneNumberSuccessMsg ? (
+            {!successUpdatePhoneNumber ? (
               <span className={styles["form"]}>
                 <ul className={styles["list"]}>
                   <li className={styles["content-list"]}>
                     <span
                       className={
                         styles[
-                          updatePhoneNumberFailedMsg
+                          failedUpdatePhoneNumber
                             ? "form__telp-content-active-rejected"
                             : !noTelp
                             ? "form__telp-content"
@@ -116,7 +112,7 @@ const Contact = () => {
                       <label className={styles["label-phone"]}>
                         <Image
                           src={
-                            updatePhoneNumberFailedMsg
+                            failedUpdatePhoneNumber
                               ? phoneIconRed
                               : !noTelp
                               ? phoneIcon
@@ -138,8 +134,8 @@ const Contact = () => {
                       />
                     </span>
                   </li>
-                  {updatePhoneNumberFailedMsg ? (
-                    <ErrorMsg failedMsg={updatePhoneNumberFailedMsg} />
+                  {failedUpdatePhoneNumber ? (
+                    <ErrorMsg failedMsg={failedUpdatePhoneNumber} />
                   ) : null}
                   <EditPhoneNumberButton
                     noTelp={noTelp}
@@ -155,9 +151,9 @@ const Contact = () => {
                 </ul>
               </span>
             ) : (
-              <ChangePasswordMsg
+              <SuccessPhoneNumberMsg
                 icon={successIcon}
-                msg={updatePhoneNumberSuccessMsg}
+                msg={successUpdatePhoneNumber}
               />
             )}
           </section>

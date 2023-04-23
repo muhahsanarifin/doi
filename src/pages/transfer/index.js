@@ -52,7 +52,7 @@ const Transfer = () => {
           throw new Error("Data Not Found!");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -101,33 +101,45 @@ const Transfer = () => {
             {!loading ? (
               <span className={styles["bottom-content"]}>
                 <ul className={styles["list"]}>
-                  {users.map((user) => (
-                    <li className={styles["content-list"]} key={user.id}>
-                      <Link
-                        href={{
-                          pathname: "/transfer/[input]",
-                          query: { input: user.id },
-                        }}
-                        className={styles["link-input"]}
-                      >
-                        <span className={styles["sub-content-list"]}>
-                          <Image
-                            src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${user.image}`}
-                            alt={user.firstName}
-                            className={styles["image"]}
-                            width={500}
-                            height={500}
-                          />
-                          <span className={styles["identity"]}>
-                            <p className={styles["name"]}>
-                              {user.firstName} {user.lastName}
-                            </p>
-                            <p className={styles["contact"]}>{user.noTelp}</p>
+                  {users.length > 0 &&
+                    users.map((user) => (
+                      <li className={styles["content-list"]} key={user.id}>
+                        <Link
+                          href={{
+                            pathname: "/transfer/[input]",
+                            query: { input: user.id },
+                          }}
+                          className={styles["link-input"]}
+                        >
+                          <span className={styles["sub-content-list"]}>
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${user.image}`}
+                              alt={user.firstName}
+                              className={styles["image"]}
+                              width={500}
+                              height={500}
+                            />
+                            <span className={styles["identity"]}>
+                              <p className={styles["name"]}>
+                                {user.firstName} {user.lastName}
+                              </p>
+                              <p className={styles["contact"]}>{user.noTelp}</p>
+                            </span>
                           </span>
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
+                        </Link>
+                      </li>
+                    ))}
+                  {users.length === 0 && (
+                    <div className={styles["not-found-section"]}>
+                      <span className={styles["not-found"]}>
+                        <h1>We can&apos;t find that</h1>
+                        <p className={styles["not-found-decs"]}>
+                          Sorry, the receiver you are looking for doesn&apos;t
+                          exist.
+                        </p>
+                      </span>
+                    </div>
+                  )}
                 </ul>
               </span>
             ) : (
