@@ -24,7 +24,7 @@ const ResetPassword = () => {
 
   const body = {
     email: email,
-    linkDirect: "http://localhost:3000/password/",
+    linkDirect: "https://doi.vercel.app/password/",
   };
 
   const handleResetPassword = () => {
