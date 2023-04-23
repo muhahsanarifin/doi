@@ -67,6 +67,18 @@
   min-width: 50vw;
 }
 
+.success-msg-section {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  row-gap: 1.2rem;
+}
+
+.success-msg {
+  font-size: 24px;
+  font-weight: 700;
+}
+
 .right-content__description {
   /* border: 1px solid darkblue; */
   display: flex;
@@ -152,18 +164,7 @@
 .error-msg-section {
   display: flex;
   justify-content: center;
-}
-
-.error-msg {
-  width: 27.0625rem;
-  display: flex;
-  justify-content: center;
-}
-
-.error-msg p {
-  color: #ff5b37;
-  font-size: 16px;
-  font-weight: 600;
+  max-width: 27.0625rem;
 }
 
 .link-to-login p {
