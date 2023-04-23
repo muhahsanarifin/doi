@@ -41,7 +41,7 @@ const SignUpButton = ({
   );
 };
 
-const ForgotPasswordButton = ({ email, onClick }) => {
+const ForgotPasswordButton = ({ email, onClick, init }) => {
   return (
     <>
       <button
@@ -49,7 +49,7 @@ const ForgotPasswordButton = ({ email, onClick }) => {
         disabled={!email}
         onClick={onClick}
       >
-        Confirm
+        {init}
       </button>
     </>
   );

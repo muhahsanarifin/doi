@@ -306,7 +306,7 @@ const PinModalTopUp = ({
               maxWidth="10.625rem"
               fontWeight="700"
               onClick={onClick}
-              disabled={disabled}
+              disabled={onLoading ? disabled : disabled}
             >
               {onLoading ? <Loader onColor="#5464c7" /> : initBtn}
             </Button>

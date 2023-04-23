@@ -92,6 +92,7 @@ const ChangePinMsg = ({ icon, msg }) => {
   );
 };
 
+// Including used by reset password page for handle fulfilled
 const CreatePinMsg = ({ icon, msg }) => {
   return (
     <>
@@ -113,7 +114,6 @@ const CreatePinMsg = ({ icon, msg }) => {
         <p
           style={{
             color: "#4D4B57",
-            textAlign: "center",
             fontWeight: "700",
             fontSize: "22px",
           }}
@@ -228,4 +228,6 @@ export {
   ErrorMsg,
   SuccessMsg,
   LdsFacebook,
+  ChangePinMsg as SuccessResetPasswordMsg,
+  ChangePasswordMsg as SuccessPhoneNumberMsg, 
 };

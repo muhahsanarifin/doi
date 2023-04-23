@@ -4,6 +4,8 @@ import usersAction from "../redux/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
 import bellIcon from "../assets/icons/bell.png";
+import { Icon } from "@iconify/react";
+import { color } from "@chakra-ui/react";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -19,25 +21,43 @@ const Header = () => {
         <span className={"header"}>
           <span className={"logo"}>Doi</span>
           <span className={"header__profile"}>
-            <Image
-              src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user.getDataUser.data?.image}`}
-              alt="Profile"
-              // className={"image-profile"}
-              width={50}
-              height={50}
-              style={{
-                borderRadius: "6px",
-                width: "32px",
-                height: "32px",
-                objectFit: "fill",
-              }}
-            />
+            {user.getDataUser.data?.image ? (
+              <Image
+                src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${user.getDataUser.data?.image}`}
+                alt="Profile"
+                // className={"image-profile"}
+                width={50}
+                height={50}
+                style={{
+                  borderRadius: "6px",
+                  width: "32px",
+                  height: "32px",
+                  objectFit: "fill",
+                }}
+              />
+            ) : (
+              <Icon
+                icon="radix-icons:avatar"
+                style={{ width: "32px", height: "32px" }}
+              />
+            )}
             <span className={"indentity-short"}>
               <p className={"fullname"}>
                 {`${user.getDataUser.data?.firstName} ${user.getDataUser.data?.lastName}`}
               </p>
               <p className={"phonenumber"}>
-                {`${user.getDataUser.data?.noTelp}`}
+                {user.getDataUser.data?.noTelp === null ? (
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      color: "#ff8c90",
+                    }}
+                  >
+                    Please, set your phone number!
+                  </span>
+                ) : (
+                  `${user.getDataUser.data?.noTelp}`
+                )}
               </p>
             </span>
             <span className={"bell"}>
