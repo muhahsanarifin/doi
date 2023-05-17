@@ -133,7 +133,20 @@ const Dashbord = () => {
                           <p className={styles["name"]}>
                             {history.firstName} {history.lastName}
                           </p>
-                          <p className={styles["status"]}>{history.status}</p>
+                          <span className={styles["status-type"]}>
+                            <p
+                              className={
+                                styles[
+                                  history.status === "success"
+                                    ? "success-status"
+                                    : "failed-status"
+                                ]
+                              }
+                            >
+                              {history.status}
+                            </p>
+                            <p className={styles["type"]}> {history.type}</p>
+                          </span>
                         </span>
                         <p
                           className={

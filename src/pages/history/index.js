@@ -142,7 +142,15 @@ const History = () => {
                                 {`${history.firstName} ${history.lastName}`}
                               </p>
                               <span className={styles["status-type"]}>
-                                <p className={styles["status"]}>
+                                <p
+                                  className={
+                                    styles[
+                                      history.status === "success"
+                                        ? "success-status"
+                                        : "failed-status"
+                                    ]
+                                  }
+                                >
                                   {history.status}
                                 </p>
                                 <p className={styles["type"]}>
