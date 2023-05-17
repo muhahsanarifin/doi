@@ -61,9 +61,20 @@
   cursor: pointer;
 }
 
+.active-menu-item {
+  background: #e5e5e5 !important;
+  width: 4rem !important;
+  margin: 0.2rem;
+  border: none;
+  padding: 0.2rem;
+  border-radius: 2px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .bottom-content {
   display: flex;
-  height: 100%;
+  height: 28.1625rem;
 }
 
 .bottom-content-loader {
@@ -81,7 +92,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   height: 100%;
   width: 100%;
 }
@@ -102,7 +113,6 @@
   margin-left: auto;
   font-weight: 700;
   font-size: 14px;
-  color: #1ec15f;
 }
 
 .value-expense {
@@ -190,5 +200,18 @@
     flex-direction: column;
     padding: 1rem 0.5rem;
     min-height: 100vh;
+  }
+
+  .bottom-content,
+  .bottom-content-loader {
+    flex: 1;
+  }
+
+  .error-info {
+    font-size: 16px;
+  }
+
+  .list {
+    gap: 1.5rem;
   }
 }

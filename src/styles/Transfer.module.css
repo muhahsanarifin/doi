@@ -67,7 +67,6 @@
   flex-direction: column;
   gap: 1rem;
   height: 100%;
-
 }
 
 .link-input {
@@ -124,7 +123,7 @@
 }
 
 .not-found-decs {
-  color: #6B7280;
+  color: #6b7280;
   font-size: 16px;
 }
 
@@ -144,10 +143,6 @@
   color: #6379f4;
   font-weight: 700;
 }
-
-/* .data-not-fount {
-
-} */
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .main {
@@ -170,5 +165,22 @@
     flex-direction: column;
     padding: 1rem 0.5rem;
     min-height: 100vh;
+  }
+
+  .bottom-content {
+    height: fit-content;
+  }
+
+  .not-found-section {
+    height: 28.1625rem;
+    text-align: center;
+  }
+
+  .not-found {
+    font-size: 18px;
+  }
+
+  .not-found-decs {
+    font-size: 12px;
   }
 }
