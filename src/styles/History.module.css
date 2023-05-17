@@ -113,6 +113,7 @@
   margin-left: auto;
   font-weight: 700;
   font-size: 14px;
+  color: #1ec15f;
 }
 
 .value-expense {
@@ -156,10 +157,14 @@
   font-weight: 800;
 }
 
-.status {
-  /* border: 1px solid darkblue; */
+.success-status {
   font-size: 12px;
-  color: #7a7886;
+  color: #1ec15f;
+}
+
+.failed-status {
+  font-size: 12px;
+  color: #ff5b37;
 }
 
 /* History side button */
