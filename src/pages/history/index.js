@@ -100,7 +100,13 @@ const History = () => {
                               setFilter(filterMenuItem);
                               setPage(1);
                             }}
-                            className={styles["menu-item"]}
+                            className={
+                              styles[
+                                filter === filterMenuItem
+                                  ? "active-menu-item"
+                                  : "menu-item"
+                              ]
+                            }
                             key={idx}
                           >
                             {filterMenuItem}
