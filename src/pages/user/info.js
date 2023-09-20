@@ -16,7 +16,7 @@ import { SuccessMsg } from "../../components/Feedback";
 
 
 import icon from "../../utils/icon";
-import styles from "../../styles/UserInfo.module.css";
+import styles from "../../styles/userInfo.module.css";
 
 const Info = () => {
   const dispatch = useDispatch();

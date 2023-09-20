@@ -10,7 +10,7 @@ import { PrivateRoute } from "../../helpers/handleRoutes";
 import {PreventDirectStatusPage} from "../../helpers/handleRoutes"
 
 import icon from "../../utils/icon";
-import styles from "../../styles/Status.module.css";
+import styles from "../../styles/status.module.css";
 
 const Status = () => {
   return (

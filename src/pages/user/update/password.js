@@ -11,7 +11,6 @@ import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
 import TitleBar from "../../../components/TitleBar";
 import { HideShowPassword } from "../../../components/Toggle";
-import userIconBlue from "../../../assets/icons/user-blue.png";
 import {
   ChangePasswordMsg,
   Loader,
