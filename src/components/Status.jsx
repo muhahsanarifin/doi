@@ -8,7 +8,7 @@ import transferAction from "../redux/actions/transfer";
 import { rupiah } from "../helpers/intl";
 
 import icon from "../utils/icon";
-import styles from "../styles/Status.module.css";
+import styles from "../styles/statusFPnC.module.css";
 
 const Status = () => {
   const componentRef = useRef();
