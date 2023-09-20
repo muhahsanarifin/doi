@@ -1,0 +1,85 @@
+.chart {
+  width: 60%;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));
+}
+
+.chart-section {
+  display: flex;
+  flex: 1;
+}
+
+.chart-data {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.income-expense {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* .income-section {
+      border: 1px solid darkblue}; */
+
+/*.income-expense-image {
+      width: 24px;
+      height: 24px; }*/
+
+.income-title,
+.expense-title {
+  font-size: 10px;
+}
+
+.income-section__value,
+.expense-section__value {
+  font-weight: 800;
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    padding: 0 0.5rem;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .history__content_rigth {
+    flex-direction: column;
+  }
+  .history__content_rigth {
+    flex-direction: column;
+  }
+  .chart {
+    width: auto;
+  }
+  .transcation-history {
+    width: auto;
+  }
+  .content-list {
+    /* border: 1px solid darkblue; */
+    margin: 1rem 0;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .chart {
+    width: auto;
+    padding: 0;
+  }
+}
+
+@media all and (max-width: 480px) {
+  .chart {
+    width: auto;
+  }
+
+  .chart-data {
+    height: 10rem;
+  }
+
+}

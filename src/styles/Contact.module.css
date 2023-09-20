@@ -13,7 +13,6 @@
 }
 
 .right-side-content {
-  /* border: 1px solid darkblue; */
   position: relative;
   flex: 1;
   background: #ffffff;
@@ -26,7 +25,6 @@
 }
 
 .title {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -38,21 +36,20 @@
 }
 
 .description {
-  /* border: 1px solid darkblue; */
   font-size: 12px;
   width: 15rem;
   color: #7a7886;
 }
 
 .form {
-  align-self: center;
+  min-width: 26.9375rem;
+  margin: auto;
 }
 
 .list {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 4rem;
 }
 
 .content-list {
@@ -67,8 +64,9 @@
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  width: 100%;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid #88888f;
-  max-width: 27.0625rem;
 }
 
 .form__telp-content-active {
@@ -76,8 +74,9 @@
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  width: 100%;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid #6379f4;
-  max-width: 27.0625rem;
 }
 
 .form__telp-content-active-rejected {
@@ -85,25 +84,36 @@
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  width: 100%;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid #ff5b37;
-  max-width: 27.0625rem;
 }
 
 .label-phone {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
 
-/* .country-phone-code {
-  border: 1px solid darkcyan;
-} */
+.country-phone-code {
+  font-weight: 800;
+}
 
 .phone {
   border: none;
-  max-width: 22rem;
+  flex: 1;
   height: 2rem;
   outline: none;
   padding: 1rem 0;
+}
+
+.phone-active {
+  border: none;
+  flex: 1;
+  height: 2rem;
+  outline: none;
+  padding: 1rem 0;
+  font-weight: 800;
 }
 
 .phone-icon {
@@ -159,5 +169,15 @@
     flex-direction: column;
     padding: 1rem 0.5rem;
     min-height: 100vh;
+  }
+
+  .form {
+    /* border: 1px solid darkblue; */
+    min-width: 0;
+    width: 100%;
+  }
+
+  .phone, .phone-active {
+    flex: none;
   }
 }

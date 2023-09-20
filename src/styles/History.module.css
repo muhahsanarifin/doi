@@ -1,14 +1,9 @@
 .main {
-  /* border: 1px solid red; */
   position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;
   min-height: 100vh;
-  background: #e5e5e5;
-}
-
-.main {
   padding: 2.2rem 8rem;
 }
 
@@ -16,16 +11,16 @@
   position: relative;
   flex: 1;
   background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));
   border-radius: 18px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
+  row-gap: 1rem;
+  padding: 2rem;
+  /* justify-content: center; */
 }
 
 .head-content {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -36,12 +31,7 @@
   font-weight: 800;
 }
 
-/* .select-filter {
-  border: 1px solid darkgoldenrod;
-} */
-
 .menu-btn {
-  /* border: 1px solid darkblue; */
   border: none;
   width: 8rem;
   height: 2rem;
@@ -49,6 +39,7 @@
   cursor: pointer;
   font-weight: 800;
   font-size: 12px;
+  background-color: #ececed;
 }
 
 .menu-item {
@@ -75,6 +66,7 @@
 .bottom-content {
   display: flex;
   height: 28.1625rem;
+  margin: auto 0;
 }
 
 .bottom-content-loader {
@@ -82,8 +74,8 @@
 }
 
 .error-info {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   height: fit-content;
   margin: auto;
   color: #7a7886;
@@ -92,9 +84,17 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
   height: 100%;
   width: 100%;
+  justify-content: space-around;
+}
+
+.list-ltsd {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  row-gap: 1rem;
 }
 
 .content-list {
@@ -124,12 +124,10 @@
 }
 
 .identity {
-  /* border: 1px solid darkblue; */
-  width: 8rem;
+  min-width: 8rem;
 }
 
 .status-type {
-  /* border: 1px solid darkblue; */
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
@@ -137,14 +135,12 @@
 }
 
 .type {
-  /* border: 1px solid darkblue; */
   font-weight: 800;
   font-size: 10px;
   color: #7a7886;
 }
 
 .image {
-  /* border: 1px solid darkcyan; */
   width: 56px;
   height: 56px;
   border-radius: 2px;
@@ -152,18 +148,21 @@
   object-fit: fill;
 }
 
-.name {
-  /* border: 1px solid darkblue; */
+.name, .date {
   font-weight: 800;
 }
 
+.date {
+  font-size: 10px;
+}
+
 .success-status {
-  font-size: 12px;
+  font-size: 10px;
   color: #1ec15f;
 }
 
 .failed-status {
-  font-size: 12px;
+  font-size: 10px;
   color: #ff5b37;
 }
 
@@ -207,9 +206,15 @@
     min-height: 100vh;
   }
 
-  .bottom-content,
+  .bottom-content {
+    flex: 1;
+  }
+
   .bottom-content-loader {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .error-info {

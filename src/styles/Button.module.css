@@ -1,5 +1,5 @@
 .btn {
-  cursor: no-drop;
+  cursor: not-allowed;
   max-width: 27.0625rem;
   height: 3.5625rem;
   border-radius: 1rem;

@@ -1,15 +1,9 @@
-.form {
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
 .pin-form {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .pin-styles {
@@ -24,7 +18,7 @@
 
 .pin-styles-failed {
   outline: none;
-  border: 2px solid #FF5B37 !important;
+  border: 2px solid #ff5b37 !important;
   box-shadow: 0px 10px 75px rgba(147, 147, 147, 0.1);
   border-radius: 10px;
   width: 3rem;

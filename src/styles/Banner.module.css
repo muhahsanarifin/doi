@@ -1,0 +1,145 @@
+.left-content {
+  position: relative;
+  background: #6379f4;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 6rem;
+  gap: 1rem;
+}
+
+.init-logo {
+  font-weight: 800;
+}
+
+.left-content::before {
+  position: absolute;
+  content: url(../assets/images/vector-3.png);
+  left: 0;
+}
+
+.left-content_image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.image {
+  width: 17.4069rem;
+  height: 33.5294rem;
+}
+
+.image-one {
+  position: relative;
+  transform: rotate(-8deg);
+  left: 3.5rem;
+}
+
+.image-second {
+  position: relative;
+  transform: rotate(8deg);
+  right: 4rem;
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .left-content {
+    padding: 0.5rem 2.5rem;
+  }
+
+  .left-content {
+    background: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 32px;
+    color: #6379f4;
+  }
+
+  /* || Non display left side content */
+  .image,
+  .left-content_image,
+  .left-content__description,
+  .left-content::before {
+    display: none;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .left-content {
+    padding: 0.5rem 2.5rem;
+  }
+
+  .left-content {
+    background: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 32px;
+    color: #6379f4;
+  }
+
+  .image,
+  .left-content_image,
+  .left-content__description,
+  .left-content::before {
+    display: none;
+  }
+
+  .image {
+    width: 17.4069rem;
+    height: 33.5294rem;
+  }
+
+  .image-one {
+    position: relative;
+    transform: rotate(-8deg);
+    left: 3.5rem;
+  }
+
+  .image-second {
+    position: relative;
+    transform: rotate(8deg);
+    right: 4rem;
+  }
+}
+
+@media all and (max-width: 480px) {
+  .left-content {
+    padding: 0.5rem 2.5rem;
+    background: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 26px;
+    color: #6379f4;
+  }
+
+  .image,
+  .left-content_image,
+  .left-content__description {
+    display: none;
+  }
+
+  .init-logo {
+    text-align: center;
+    font-size: 26px;
+    color: #6379f4;
+  }
+
+  /* || Non display left side content */
+  .image,
+  .left-content_image,
+  .left-content__description,
+  .left-content::before {
+    display: none;
+  }
+}

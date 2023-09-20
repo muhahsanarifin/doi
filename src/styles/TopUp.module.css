@@ -5,7 +5,6 @@
   flex-direction: row;
   gap: 1rem;
   min-height: 100vh;
-  background: #e5e5e5;
 }
 
 .main {
@@ -27,14 +26,14 @@
   flex-direction: column;
   gap: 2rem;
   padding: 2rem;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));
   border-radius: 25px;
   background: #ffffff;
   max-width: 31.1625rem;
   margin: auto;
 }
 
-.top-up-visible-bg {
+.top-up-invisible-bg {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -59,8 +58,16 @@
   /* align-self: center; */
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  row-gap: 1rem;
   width: fit-content;
+}
+
+.top-up__input p {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  margin-top: 1rem;
+  color: #fe5c38;
 }
 
 .input-number {
@@ -78,7 +85,7 @@
 .input-number-active {
   border: none;
   outline: none;
-  border: 1px solid #6379f4;
+  border: 2px solid #6379f4;
   box-shadow: 0px 10px 75px rgba(147, 147, 147, 0.1);
   border-radius: 10px;
   height: 3rem;
@@ -90,13 +97,14 @@
 .input-number-failed {
   border: none;
   outline: none;
-  border: 1px solid #fe5c38;
+  border: 2px solid #fe5c38;
   box-shadow: 0px 10px 75px rgba(147, 147, 147, 0.1);
   border-radius: 10px;
   height: 3rem;
   font-size: 18px;
   padding: 0 1rem;
   width: 433px;
+  color: #fe5c38;
 }
 
 /* Topup side button */
