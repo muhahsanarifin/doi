@@ -11,7 +11,7 @@ const Footer = () => {
     <>
       <footer className={styles["footer"]}>
         <span className={styles["footer__section_one"]}>
-          <p>2022-{currentYear} Doi. All right reserved.</p>
+          <p>2022 - {currentYear} Doi. All right reserved.</p>
         </span>
         <span className={styles["footer__section_two"]}>
           <p className={styles["footer__no-telp"]}>+62 5321 1234 9876</p>

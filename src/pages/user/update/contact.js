@@ -1,147 +1,137 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
-import usersAction from "../../../redux/actions/user";
 import { useDispatch, useSelector } from "react-redux";
+
+import usersAction from "../../../redux/actions/user";
+import { PrivateRoute } from "../../../helpers/handleRoutes";
+import { INPCwZero } from "../../../helpers/validate";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import SideBar from "../../../components/SideBar";
 import { EditPhoneNumberButton } from "../../../components/Button";
 import TitleBar from "../../../components/TitleBar";
-import { PrivateRoute } from "../../../helpers/handleRoutes";
 import { ErrorMsg, Loader } from "../../../components/Feedback";
 import { SuccessPhoneNumberMsg } from "../../../components/Feedback";
 
-import styles from "../../../styles/Contact.module.css";
-import phoneIcon from "../../../assets/icons/phone.png";
-import plusIconBlue from "../../../assets/icons/plus-blue.png";
-import phoneIconBlue from "../../../assets/icons/phone-blue.png";
-import successIcon from "../../../assets/icons/success.png";
-import phoneIconRed from "../../../assets/icons/phone-red.png";
+import icon from "../../../utils/icon";
+import styles from "../../../styles/contact.module.css";
 
 const Contact = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.users.getDataUser);
+  const updateProfileUser = useSelector(
+    (state) => state.users?.updateProfileUser
+  );
   const [noTelp, setNoTelp] = useState("");
-  const [successUpdatePhoneNumber, setSuccessUpdatePhoneNumber] = useState("");
-  const [failedUpdatePhoneNumber, seUpdatePhoneNumberFailedMsg] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setNoTelp(user.data?.noTelp);
-  }, [user]);
 
   const body = {
     noTelp: noTelp,
   };
 
   const handleUpdatePhoneNumber = () => {
+    const id = getCookie("id");
+    const accessToken = getCookie("token");
     dispatch(
-      usersAction.updateProfileUserThunk(
-        getCookie("id"),
+      usersAction.updateProfileUserThunk({
+        id,
         body,
-        getCookie("token"),
-        resPendingUpdatePhoneNumber,
-        resFulfilledUpdatePhoneNumber,
-        resRejectedUpdatePhoneNumber,
-        resFinallyUpdatePhoneNumber
-      )
+        accessToken,
+        cbUPUFulfilled,
+      })
     );
   };
 
-  const resPendingUpdatePhoneNumber = () => {
-    setLoading(true);
+  const cbUPUFulfilled = () => {
+    setNoTelp("");
+    const id = getCookie("id");
+    const accessToken = getCookie("token");
+    dispatch(usersAction.getDataUserThunk({ id, accessToken, cbFulfilled }));
   };
 
-  const resFulfilledUpdatePhoneNumber = (response) => {
+  const cbFulfilled = () => {
     setTimeout(() => {
-      setSuccessUpdatePhoneNumber(response?.msg);
+      dispatch(usersAction.cupdThunk());
     }, 1000);
-
-    setTimeout(() => {
-      window.location.replace("/user/profile");
-    }, 1500);
-  };
-
-  const resRejectedUpdatePhoneNumber = (error) => {
-    setLoading(false);
-    seUpdatePhoneNumberFailedMsg(error.response.data?.msg);
-  };
-
-  const resFinallyUpdatePhoneNumber = () => {
-    seUpdatePhoneNumberFailedMsg(false);
   };
 
   return (
     <>
       <PrivateRoute>
-        <TitleBar name={"Edit Phone Number"} />
+        <TitleBar title={"Edit Phone Number"} />
         <Header />
         <main className={styles["main"]}>
           <SideBar
-            focusStyleTopUp={styles["focus-style-side-topup-button"]}
-            topUpStyle={styles["init-button-active"]}
-            plusIconBlue={plusIconBlue}
+            focusStyle={styles["focus-style-side-profile-button"]}
+            titleStyle={styles["init-button-active"]}
+            activeIcon={icon.userBlue}
+            onTitle={"Profile"}
           />
           <section className={styles["right-side-content"]}>
             <span className={styles["title"]}>
               <h3>Edit Phone Number</h3>
-              {!successUpdatePhoneNumber ? (
+              {updateProfileUser?.isFulfilled ? null : (
                 <p className={styles["description"]}>
                   Add at least one phone number for the transfer ID so you can
                   start transfering your money to another user.
                 </p>
-              ) : null}
+              )}
             </span>
-            {!successUpdatePhoneNumber ? (
+            {updateProfileUser?.isFulfilled ? (
+              <SuccessPhoneNumberMsg
+                icon={icon.success}
+                msg={updateProfileUser?.data?.msg}
+              />
+            ) : (
               <span className={styles["form"]}>
                 <ul className={styles["list"]}>
                   <li className={styles["content-list"]}>
                     <span
                       className={
                         styles[
-                          failedUpdatePhoneNumber
+                          updateProfileUser?.isRejected
                             ? "form__telp-content-active-rejected"
-                            : !noTelp
+                            : !noTelp || !INPCwZero(noTelp)
                             ? "form__telp-content"
                             : "form__telp-content-active"
                         ]
                       }
                     >
-                      <label className={styles["label-phone"]}>
+                      <label className={styles["label-phone"]} htmlFor="noTelp">
                         <Image
                           src={
-                            failedUpdatePhoneNumber
-                              ? phoneIconRed
-                              : !noTelp
-                              ? phoneIcon
-                              : phoneIconBlue
+                            updateProfileUser?.isRejected
+                              ? icon.telpRed
+                              : !noTelp || !INPCwZero(noTelp)
+                              ? icon.telp
+                              : icon.telpBlue
                           }
                           alt="phone"
                           className={styles["phone-icon"]}
+                          placeholder="blur"
                         />
                         <span className={styles["country-phone-code"]}>
                           +62
                         </span>
                       </label>
                       <input
+                        id="noTelp"
                         type="number"
                         placeholder="Enter your phone number"
-                        className={styles["phone"]}
+                        className={styles[noTelp ? "phone-active" : "phone"]}
                         onChange={(e) => setNoTelp(e.target.value)}
                         value={"-Infinity" < noTelp ? noTelp : !noTelp}
                       />
                     </span>
                   </li>
-                  {failedUpdatePhoneNumber ? (
-                    <ErrorMsg failedMsg={failedUpdatePhoneNumber} />
+                  {updateProfileUser?.isRejected ? (
+                    <ErrorMsg failedMsg={updateProfileUser?.err} />
                   ) : null}
                   <EditPhoneNumberButton
-                    noTelp={noTelp}
+                    disabled={!noTelp || !INPCwZero(noTelp)}
                     onClick={handleUpdatePhoneNumber}
                     init={
-                      loading ? (
+                      updateProfileUser?.isLoading ? (
                         <Loader onColor={"#5464c7"} />
                       ) : (
                         "Edit Phone Number"
@@ -150,11 +140,6 @@ const Contact = () => {
                   />
                 </ul>
               </span>
-            ) : (
-              <SuccessPhoneNumberMsg
-                icon={successIcon}
-                msg={successUpdatePhoneNumber}
-              />
             )}
           </section>
         </main>

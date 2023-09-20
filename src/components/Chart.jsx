@@ -1,245 +1,142 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
-import dashboardAction from "../redux/actions/dashboard";
-import { Bar } from "react-chartjs-2";
-import "chart.js/auto";
 import Image from "next/image";
-import greenArrowUpIcon from "../assets/icons/arrow-up-green.png";
-import redArrowUpIcon from "../assets/icons/arrow-up-red.png";
-import greenArrowDownIcon from "../assets/icons/arrow-down-green.png";
-import redArrowDownIcon from "../assets/icons/arrow-down-red.png";
+import "chart.js/auto";
+
+import { Bar } from "react-chartjs-2";
+
+import dashboardAction from "../redux/actions/dashboard";
+import { rupiah } from "../helpers/intl";
+import { CircleLoader } from "./Loader";
+
+import icon from "../utils/icon";
+import styles from "../styles/Chart.module.css";
 
 const Charts = () => {
-  const [listExpense, setListExpense] = useState([]);
-  const [listIncome, setListIncome] = useState([]);
-
-  // Function for response data dashboard if fulfilled
-  const resDataDashboardFulfilled = (data) => {
-    setListExpense(data.data.listExpense);
-    setListIncome(data.data.listIncome);
-  };
-
+  const dataDashboard = useSelector(
+    (state) => state?.dashboard?.getDataDashboard
+  );
   const dispatch = useDispatch();
   useEffect(() => {
+    const id = getCookie("id");
+    const accessToken = getCookie("token");
     dispatch(
-      dashboardAction.getDataDashboardThunk(
-        getCookie("id"),
-        getCookie("token"),
-        "",
-        resDataDashboardFulfilled,
-        "",
-        ""
-      )
+      dashboardAction.getDataDashboardThunk({
+        id,
+        accessToken,
+      })
     );
   }, [dispatch]);
 
-  const times = () => {
-    const days = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
-    return days;
-  };
+  const expenseDays = dataDashboard?.data?.data?.listExpense.map(
+    (el) => el.day
+  );
+  const incomeDays = dataDashboard?.data?.data?.listIncome.map((el) => el.day);
+  const duplicateDays = expenseDays?.concat(incomeDays);
 
   const data = {
-    labels: times(),
+    labels: [...new Set(duplicateDays)],
     datasets: [
       {
         label: "Expense",
-        data: listExpense.map((expense) => expense.total),
-        backgroundColor: "#FF5B37",
+        data: dataDashboard?.data?.data?.listExpense.map((el) => el.total),
+        borderRadius: Number.MAX_VALUE,
+        backgroundColor: "#9DA6B5",
       },
       {
         label: "Income",
-        data: listIncome.map((income) => income.total),
-        backgroundColor: "#1EC15F",
+        data: dataDashboard?.data?.data?.listIncome.map((el) => el.total),
+        borderRadius: Number.MAX_VALUE,
+        backgroundColor: "#6379F4",
       },
     ],
   };
 
-  // Function for sum income/expense total
-  const sum = (totals) => {
-    const initialValue = 0;
-    const result = totals
-      .map((total) => total.total)
-      .reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        initialValue
-      );
-
-    return result;
-  };
-
-  const incomeTotal = sum(listIncome);
-  const expenseTotal = sum(listExpense);
-
-  // const checkTotal = (totals) => {
-  //   const result = totals.map((total) => total.total === 0).includes(false);
-
-  //   return result;
-  // };
-  // console.log("Check total list expense: ", checkTotal(listExpense))
-  // console.log("Check total list income: ", checkTotal(listIncome));
-
-  // Handle currency
-  const idrCurreny = (number) => {
-    return Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(number);
+  const option = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        display: false,
+        tricks: {
+          beginAtZero: true,
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
 
   return (
     <>
-      <span className={"chart"}>
-        <span className={"income-expense"}>
-          <span className={"income-section"}>
-            <Image
-              src={
-                incomeTotal > expenseTotal
-                  ? greenArrowUpIcon
-                  : greenArrowDownIcon
-              }
-              alt="Down"
-              // className={"income-expense-image"}
-              width={50}
-              height={50}
-              style={{ width: "24px", height: "24px" }}
-            />
-            <p className={"income-title"}>Income</p>
-            <p className={"income-section__value"}>
-              {incomeTotal ? `${idrCurreny(incomeTotal)}` : null}
-            </p>
-          </span>
-          <span className={"expense-section"}>
-            <Image
-              src={
-                expenseTotal > incomeTotal ? redArrowUpIcon : redArrowDownIcon
-              }
-              alt="Up"
-              // className={"income-expense-image"}
-              width={50}
-              height={50}
-              style={{ width: "24px", height: "24px" }}
-            />
-            <p className={"expense-title"}>Expense</p>
-            <p className={"expense-section__value"}>
-              {expenseTotal ? `${idrCurreny(expenseTotal)}` : null}
-            </p>
-          </span>
-        </span>
-        <div className={"chart-section"}>
-          <div className={"chart-data"}>
-            <Bar data={data} />
-          </div>
-        </div>
+      <span className={styles["chart"]}>
+        {dataDashboard?.isLoading ? (
+          <CircleLoader />
+        ) : (
+          <>
+            <span className={styles["income-expense"]}>
+              <span className={styles["income-section"]}>
+                <Image
+                  src={
+                    dataDashboard?.data?.data?.totalIncome >
+                    dataDashboard?.data?.data?.totalExpense
+                      ? icon.arrowUpGreen
+                      : icon.arrowDownGreen
+                  }
+                  alt="Down"
+                  // className={"income-expense-image"}
+                  width={50}
+                  height={50}
+                  style={{ width: "24px", height: "24px" }}
+                  placeholder="blur"
+                />
+                <p className={styles["income-title"]}>Income</p>
+                <p className={styles["income-section__value"]}>
+                  {dataDashboard?.data?.data?.totalIncome
+                    ? `${rupiah(dataDashboard?.data?.data?.totalIncome)}`
+                    : null}
+                </p>
+              </span>
+              <span className={styles["expense-section"]}>
+                <Image
+                  src={
+                    dataDashboard?.data?.data?.totalExpense >
+                    dataDashboard?.data?.data?.totalIncome
+                      ? icon.arrowUpRed
+                      : icon.arrowDownRed
+                  }
+                  alt="Up"
+                  // className={"income-expense-image"}
+                  width={50}
+                  height={50}
+                  style={{ width: "24px", height: "24px" }}
+                  placeholder="blur"
+                />
+                <p className={styles["expense-title"]}>Expense</p>
+                <p className={styles["expense-section__value"]}>
+                  {dataDashboard?.data?.data?.totalExpense
+                    ? `${rupiah(dataDashboard?.data?.data?.totalExpense)}`
+                    : null}
+                </p>
+              </span>
+            </span>
+            <div className={styles["chart-section"]}>
+              <div className={styles["chart-data"]}>
+                <Bar options={option} data={data} />
+              </div>
+            </div>
+          </>
+        )}
       </span>
-      {/* Functional same as css internal */}
-      <style jsx>
-        {`
-          .chart {
-            /* border: 1px solid darkblue; */
-            width: 60%;
-            padding: 1.5rem;
-            background: #ffffff;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-            border-radius: 18px;
-            display: flex;
-            flex-direction: column;
-          }
-
-          .chart-section {
-            /* border: 1px solid darkblue; */
-            display: flex;
-            justify-content: center;
-            padding: 2rem;
-          }
-
-          .chart-data {
-            align-self: center;
-            border: 1px solid #e9e8e8;
-            display: flex;
-            justify-content: center;
-            padding: 0.5rem;
-            border-radius: 25px;
-            width: 30rem;
-            height: 15rem;
-          }
-
-          .income-expense {
-            /* border: 1px solid darkblue; */
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-          }
-
-          /* .income-section {
-            border: 1px solid darkblue}; */
-
-          /*.income-expense-image {
-            width: 24px;
-            height: 24px;
-          }*/
-
-          .income-title,
-          .expense-title {
-            font-size: 10px;
-          }
-
-          .income-section__value,
-          .expense-section__value {
-            font-weight: 800;
-          }
-
-          @media all and (min-width: 768px) and (max-width: 1024px) {
-            .main {
-              padding: 0 0.5rem;
-              flex-direction: column;
-              height: 100vh;
-            }
-            .history__content_rigth {
-              flex-direction: column;
-            }
-            .history__content_rigth {
-              flex-direction: column;
-            }
-            .chart {
-              width: auto;
-            }
-            .transcation-history {
-              width: auto;
-            }
-            .content-list {
-              /* border: 1px solid darkblue; */
-              margin: 1rem 0;
-            }
-          }
-
-          @media all and (min-width: 480px) and (max-width: 768px) {
-            .chart {
-              width: auto;
-            }
-          }
-
-          @media all and (max-width: 480px) {
-            .chart {
-              width: auto;
-            }
-
-            .chart-data {
-              width: 20rem;
-              heigth: 10rem;
-              padding: 2rem 0;
-            }
-          }
-        `}
-      </style>
     </>
   );
 };

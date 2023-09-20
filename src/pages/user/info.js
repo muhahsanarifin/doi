@@ -1,93 +1,82 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { PrivateRoute } from "../../helpers/handleRoutes";
-import { PersonalInfoButton } from "../../components/Button";
-import usersAction from "../../redux/actions/user";
 import { getCookie } from "cookies-next";
 
+import usersAction from "../../redux/actions/user";
+import { PrivateRoute } from "../../helpers/handleRoutes";
+import { ICP } from "../../helpers/handleSentence";
+
+import { PersonalInfoButton } from "../../components/Button";
 import Header from "../../components/Header";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import TitleBar from "../../components/TitleBar";
-import userIconBlue from "../../assets/icons/user-blue.png";
-
-import styles from "../../styles/UserInfo.module.css";
 import { SuccessMsg } from "../../components/Feedback";
+
+
+import icon from "../../utils/icon";
+import styles from "../../styles/UserInfo.module.css";
 
 const Info = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.users.getDataUser?.data);
+  const user = useSelector((state) => state.users?.getDataUser);
+  const updateProfileUser = useSelector(
+    (state) => state.users?.updateProfileUser
+  );
   const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [disableInputFirstName, setDisableInputFirstName] = useState(true);
   const [disableInputLastName, setDisableInputLastName] = useState(true);
-  const [successUpdateFirstName, setSuccessUpdateFirstName] = useState("");
-  // const [failedUpdateFirstName, setFailedUpdateFirstName] = useState("");
-  const [successUpdateLastName, setSuccessUpdateLastName] = useState("");
-  // const [failedUpdateLastName, setFailedUpdateLastName] = useState("");
 
   useEffect(() => {
-    setFirstName(user.firstName);
-    setLastName(user.lastName);
-  }, [user.firstName, user.lastName]);
+    setFirstName(user?.data?.data?.firstName);
+    setLastName(user?.data?.data?.lastName);
+  }, [user?.data?.data?.firstName, user?.data?.data?.lastName]);
 
   const body = {
-    firstName: firstName,
-    lastName: lastName,
+    firstName,
+    lastName,
   };
 
   const handleSaveName = () => {
+    const id = getCookie("id");
+    const accessToken = getCookie("token");
     dispatch(
-      usersAction.updateProfileUserThunk(
-        getCookie("id"),
+      usersAction.updateProfileUserThunk({
+        id,
         body,
-        getCookie("token"),
-        resPendingUpdateProfile,
-        resFulfilledUpdateProfile,
-        resRejectedUpdateProfile,
-        resFinallyUpdateProfile
-      )
+        accessToken,
+        cbUPUFulfilled,
+      })
     );
   };
 
-  const resPendingUpdateProfile = () => {};
+  const cbUPUFulfilled = () => {
+    const id = getCookie("id");
+    const accessToken = getCookie("token");
 
-  const resFulfilledUpdateProfile = (response) => {
-    if (response.data?.firstName != user.firstName)
-      setSuccessUpdateFirstName(response?.msg);
+    dispatch(usersAction.getDataUserThunk({ id, accessToken, cbFulfilled }));
+  };
 
-    if (response.data?.lastName != user.lastName)
-      setSuccessUpdateLastName(response?.msg);
-
+  const cbFulfilled = () => {
     setTimeout(() => {
-      window.location.reload();
+      dispatch(usersAction.cupdThunk());
     }, 1000);
-  };
-
-  const resRejectedUpdateProfile = (error) => {
-    // setFailedUpdateFirstName(error.response.data?.msg);
-    console.error(error.response.data?.msg);
-  };
-
-  const resFinallyUpdateProfile = () => {
-    setTimeout(() => {
-      setSuccessUpdateFirstName(false);
-      setSuccessUpdateLastName(false);
-    }, 2000);
   };
 
   return (
     <>
       <PrivateRoute>
-        <TitleBar name={"Personal Information"} />
+        <TitleBar title={"Personal Information"} />
         <Header />
         <main className={styles["main"]}>
           <SideBar
-            focusStyleProfile={styles["focus-style-side-info-button"]}
-            profileStyle={styles["init-button-active"]}
-            userIconBlue={userIconBlue}
+            focusStyle={styles["focus-style-side-info-button"]}
+            titleStyle={styles["init-button-active"]}
+            activeIcon={icon.userBlue}
+            onTitle={"Profile"}
           />
           <section className={styles["right-side-content"]}>
             <span className={styles["title"]}>
@@ -102,7 +91,11 @@ const Info = () => {
               <li className={styles["content-list"]}>
                 <span className={styles["sub-content-list"]}>
                   <span className={styles["identity"]}>
-                    {!successUpdateFirstName ? (
+                    {updateProfileUser?.isFulfilled &&
+                    updateProfileUser?.data?.data?.firstName !==
+                      user?.data?.data?.firstName ? (
+                      <SuccessMsg fulfilledMsg={updateProfileUser?.data?.msg} />
+                    ) : (
                       <>
                         <p className={styles["identify__title"]}>Firstname</p>
                         <input
@@ -119,8 +112,6 @@ const Info = () => {
                           disabled={disableInputFirstName}
                         />
                       </>
-                    ) : (
-                      <SuccessMsg fulfilledMsg={successUpdateFirstName} />
                     )}
                   </span>
                   <PersonalInfoButton
@@ -136,7 +127,11 @@ const Info = () => {
               <li className={styles["content-list"]}>
                 <span className={styles["sub-content-list"]}>
                   <span className={styles["identity"]}>
-                    {!successUpdateLastName ? (
+                    {updateProfileUser?.isFulfilled &&
+                    updateProfileUser?.data?.data?.lastName !==
+                      user?.data?.data?.lastName ? (
+                      <SuccessMsg fulfilledMsg={updateProfileUser?.data?.msg} />
+                    ) : (
                       <>
                         <p className={styles["identify__title"]}>Lastname</p>
                         <input
@@ -153,8 +148,6 @@ const Info = () => {
                           disabled={disableInputLastName}
                         />
                       </>
-                    ) : (
-                      <SuccessMsg fulfilledMsg={"Updated Lastname"} />
                     )}
                   </span>
                   <PersonalInfoButton
@@ -172,7 +165,7 @@ const Info = () => {
                   <span className={styles["identity"]}>
                     <p className={styles["identify__title"]}>Verified E-mail</p>
                     <p className={styles["identify__main-content"]}>
-                      {user.email}
+                      {user?.data?.data?.email}
                     </p>
                   </span>
                 </span>
@@ -183,9 +176,11 @@ const Info = () => {
                 <span className={styles["sub-content-list"]}>
                   <span className={styles["identity"]}>
                     <p className={styles["identify__title"]}>Phone Number</p>
-                    <p className={styles["identify__main-content"]}>
-                      {user.noTelp}
-                    </p>
+                    {user?.data?.data?.noTelp && (
+                      <p className={styles["identify__main-content"]}>
+                        {ICP(user?.data?.data?.noTelp)}
+                      </p>
+                    )}
                   </span>
                 </span>
                 <button

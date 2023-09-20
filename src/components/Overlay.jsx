@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import authsAction from "../redux/actions/auth";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getCookie, deleteCookie } from "cookies-next";
-import { useRouter } from "next/router";
+import Image from "next/image";
+
+import authsAction from "../redux/actions/auth";
+import dashboardAction from "../redux/actions/dashboard";
+import historyTransactionAction from "../redux/actions/history";
+import topUpAction from "../redux/actions/topup";
+import transferAction from "../redux/actions/transfer";
+import usersAction from "../redux/actions/user";
+
 import Pin from "./Pin";
 
 import {
@@ -19,44 +26,31 @@ import { Loader } from "./Feedback";
 
 // Logout Modal
 const LogoutModal = ({ title, initBtn, body, isOpen, onClose }) => {
-  const route = useRouter();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const logout = useSelector((state) => state.auth?.logout);
 
   // Handle logout
   const handleLogout = () => {
-    dispatch(
-      authsAction.logoutThunk(
-        getCookie("token"),
-        resCbLogoutPending,
-        resCbLogoutFulfilled,
-        "",
-        resCbLogoutFinally
-      )
-    );
+    const accessToken = getCookie("token");
+    dispatch(authsAction.logoutThunk({ accessToken, cbFulfilled }));
   };
 
-  const resCbLogoutPending = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 1000);
-  };
+  const cbFulfilled = () => {
+    // Delete in cookies
+    const values = ["id", "token"];
+    values.map((value) => deleteCookie(value));
 
-  const resCbLogoutFulfilled = () => {
-    setTimeout(() => {
-      // Delete cookies
-      const values = ["id", "token"];
-      values.map((value) => deleteCookie(value));
+    // Delete in local storage
+    const actions = [
+      authsAction.caadThunk,
+      dashboardAction.cdadThunk,
+      historyTransactionAction.chtadThunk,
+      topUpAction.ctuadThunk,
+      transferAction.ctadThunk,
+      usersAction.cuadThunk,
+    ];
 
-      // Clear lstorage
-      window.localStorage.clear();
-
-      route.push("/auth/login");
-    }, 2000);
-  };
-
-  const resCbLogoutFinally = () => {
-    setLoading(false);
+    actions.map((action) => dispatch(action()));
   };
 
   return (
@@ -71,6 +65,7 @@ const LogoutModal = ({ title, initBtn, body, isOpen, onClose }) => {
           <ModalFooter display="flex" justifyContent="center">
             <Button
               colorScheme="blue"
+              fontWeight={"bold"}
               mr={3}
               onClick={onClose}
               fontSize="14px"
@@ -79,13 +74,14 @@ const LogoutModal = ({ title, initBtn, body, isOpen, onClose }) => {
               Close
             </Button>
             <Button
-              colorScheme="green"
+              fontWeight={"bold"}
+              variant="ghost"
               mr={3}
               onClick={handleLogout}
               fontSize="14px"
               width="4.243rem"
             >
-              {loading ? <Loader onColor="#266a48" /> : initBtn}
+              {logout?.isLoading ? <Loader onColor="#5464c7" /> : initBtn}
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -94,7 +90,7 @@ const LogoutModal = ({ title, initBtn, body, isOpen, onClose }) => {
   );
 };
 
-// Pin modal tranfer
+// Tranfer Pin Modal
 const PinConfirmationModal = ({
   initBtn,
   isOpen,
@@ -107,8 +103,8 @@ const PinConfirmationModal = ({
   onSetPinFive,
   onSetPinSix,
   disabled,
-  onSetSuccess,
-  onSetFailed,
+  onSuccessMsg,
+  onFailedMsg,
   onTrueSuccessMsg,
   onTrueFailedMsg,
   onLoading,
@@ -131,11 +127,17 @@ const PinConfirmationModal = ({
                   fontWeight: "400",
                 }}
               >
-                Enter your 6 digits PIN for confirmation to continue
-                transferring money.
+                Enter{" "}
+                <span style={{ fontWeight: "800" }}>your 6 digits PIN </span>for
+                confirmation to continue transferring money.
               </p>
             </div>
-            <div style={{ alignSelf: "center" }}>
+            <div
+              style={{
+                alignSelf: "center",
+                width: "22.7rem",
+              }}
+            >
               <Pin
                 onSetPin={onSetPin}
                 onSetPinTwo={onSetPinTwo}
@@ -163,7 +165,7 @@ const PinConfirmationModal = ({
                     borderRadius: "6px",
                   }}
                 >
-                  {onSetSuccess}
+                  {onSuccessMsg}
                 </p>
               </div>
             ) : onTrueFailedMsg ? (
@@ -182,7 +184,7 @@ const PinConfirmationModal = ({
                     borderRadius: "6px",
                   }}
                 >
-                  {onSetFailed}
+                  {onFailedMsg}
                 </p>
               </div>
             ) : null}
@@ -206,7 +208,7 @@ const PinConfirmationModal = ({
   );
 };
 
-// Pin modal Toupup
+// Toupup Pin Modal
 const PinModalTopUp = ({
   initBtn,
   isOpen,
@@ -219,8 +221,8 @@ const PinModalTopUp = ({
   onSetPinFive,
   onSetPinSix,
   disabled,
-  onSetSuccess,
-  onSetFailed,
+  onSuccessMsg,
+  onFailedMsg,
   onTrueSuccessMsg,
   onTrueFailedMsg,
   onLoading,
@@ -243,10 +245,12 @@ const PinModalTopUp = ({
                   fontWeight: "400",
                 }}
               >
-                Enter your 6 digits PIN for confirmation to continue Top Up.
+                Enter{" "}
+                <span style={{ fontWeight: "800" }}>your 6 digits PIN </span>for
+                confirmation to continue Top Up.
               </p>
             </div>
-            <div style={{ alignSelf: "center" }}>
+            <div style={{ alignSelf: "center", width: "22.7rem" }}>
               <Pin
                 onSetPin={onSetPin}
                 onSetPinTwo={onSetPinTwo}
@@ -274,7 +278,7 @@ const PinModalTopUp = ({
                     borderRadius: "6px",
                   }}
                 >
-                  {onSetSuccess}
+                  {onSuccessMsg}
                 </p>
               </div>
             ) : onTrueFailedMsg ? (
@@ -293,7 +297,7 @@ const PinModalTopUp = ({
                     borderRadius: "6px",
                   }}
                 >
-                  {onSetFailed}
+                  {onFailedMsg}
                 </p>
               </div>
             ) : null}
@@ -306,7 +310,7 @@ const PinModalTopUp = ({
               maxWidth="10.625rem"
               fontWeight="700"
               onClick={onClick}
-              disabled={onLoading ? disabled : disabled}
+              disabled={disabled}
             >
               {onLoading ? <Loader onColor="#5464c7" /> : initBtn}
             </Button>
@@ -317,4 +321,89 @@ const PinModalTopUp = ({
   );
 };
 
-export { LogoutModal, PinConfirmationModal, PinModalTopUp };
+// Notification Modal
+const NotificationModal = () => {
+  return (
+    <>
+      <ul
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "1rem",
+          flex: "1",
+        }}
+      >
+        {true ? (
+          <h1
+            style={{
+              fontSize: "16px",
+              fontWeight: "800",
+              height: "fit-content",
+              margin: "auto",
+              color: "#7a7886",
+            }}
+          >
+            Does not exist notification!
+          </h1>
+        ) : (
+          <>
+            {new Array(5).fill(0).map((_, idx) => (
+              <>
+                <li
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    columnGap: "1rem",
+                    padding: "0.5rem",
+                    boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                    borderRadius: "0.625rem",
+                  }}
+                  key={idx}
+                >
+                  <Image
+                    src={""}
+                    alt="icon"
+                    style={{
+                      border: "1px solid darkRed",
+                      width: "24px",
+                      height: "24px",
+                    }}
+                    width={500}
+                    height={500}
+                  />
+                  <div
+                    style={{
+                      border: "1px solid darkBlue",
+                      display: "flex",
+                      flexDirection: "column",
+                      rowGap: "0.5rem",
+                    }}
+                  >
+                    <p
+                      style={{
+                        border: "1px solid darkGreen",
+                        fontSize: "12px",
+                      }}
+                    >
+                      Accept from Joshua
+                    </p>
+                    <p
+                      style={{
+                        border: "1px solid darkBlue",
+                        fontWeight: "800",
+                      }}
+                    >
+                      Rp.200.000
+                    </p>
+                  </div>
+                </li>
+              </>
+            ))}
+          </>
+        )}
+      </ul>
+    </>
+  );
+};
+
+export { LogoutModal, PinConfirmationModal, PinModalTopUp, NotificationModal };

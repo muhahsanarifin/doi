@@ -15,89 +15,87 @@ const Pin = ({
 }) => {
   return (
     <>
-      <span className={styles["form"]}>
-        <span className={styles["pin-form"]}>
-          <PinInput otp placeholder="_" autoFocus={true}>
-            <PinInputField
-              className={
-                styles[
-                  onSetPinTrue
-                    ? "pin-styles"
-                    : onSetPinFailed
-                    ? "pin-styles-failed"
-                    : "pin-styles"
-                ]
-              }
-              onChange={onSetPin}
-              required
-            />
-            <PinInputField
-              className={
-                styles[
-                  onSetPinTrue
-                    ? "pin-styles"
-                    : onSetPinFailed
-                    ? "pin-styles-failed"
-                    : "pin-styles"
-                ]
-              }
-              onChange={onSetPinTwo}
-              required
-            />
-            <PinInputField
-              className={
-                styles[
-                  onSetPinTrue
-                    ? "pin-styles"
-                    : onSetPinFailed
-                    ? "pin-styles-failed"
-                    : "pin-styles"
-                ]
-              }
-              onChange={onSetPinThree}
-              required
-            />
-            <PinInputField
-              className={
-                styles[
-                  onSetPinTrue
-                    ? "pin-styles"
-                    : onSetPinFailed
-                    ? "pin-styles-failed"
-                    : "pin-styles"
-                ]
-              }
-              onChange={onSetPinFour}
-              required
-            />
-            <PinInputField
-              className={
-                styles[
-                  onSetPinTrue
-                    ? "pin-styles"
-                    : onSetPinFailed
-                    ? "pin-styles-failed"
-                    : "pin-styles"
-                ]
-              }
-              onChange={onSetPinFive}
-              required
-            />
-            <PinInputField
-              className={
-                styles[
-                  onSetPinTrue
-                    ? "pin-styles"
-                    : onSetPinFailed
-                    ? "pin-styles-failed"
-                    : "pin-styles"
-                ]
-              }
-              onChange={onSetPinSix}
-              required
-            />
-          </PinInput>
-        </span>
+      <span className={styles["pin-form"]}>
+        <PinInput otp placeholder="_" autoFocus={true}>
+          <PinInputField
+            className={
+              styles[
+                onSetPinTrue
+                  ? "pin-styles"
+                  : onSetPinFailed
+                  ? "pin-styles-failed"
+                  : "pin-styles"
+              ]
+            }
+            onChange={onSetPin}
+            required
+          />
+          <PinInputField
+            className={
+              styles[
+                onSetPinTrue
+                  ? "pin-styles"
+                  : onSetPinFailed
+                  ? "pin-styles-failed"
+                  : "pin-styles"
+              ]
+            }
+            onChange={onSetPinTwo}
+            required
+          />
+          <PinInputField
+            className={
+              styles[
+                onSetPinTrue
+                  ? "pin-styles"
+                  : onSetPinFailed
+                  ? "pin-styles-failed"
+                  : "pin-styles"
+              ]
+            }
+            onChange={onSetPinThree}
+            required
+          />
+          <PinInputField
+            className={
+              styles[
+                onSetPinTrue
+                  ? "pin-styles"
+                  : onSetPinFailed
+                  ? "pin-styles-failed"
+                  : "pin-styles"
+              ]
+            }
+            onChange={onSetPinFour}
+            required
+          />
+          <PinInputField
+            className={
+              styles[
+                onSetPinTrue
+                  ? "pin-styles"
+                  : onSetPinFailed
+                  ? "pin-styles-failed"
+                  : "pin-styles"
+              ]
+            }
+            onChange={onSetPinFive}
+            required
+          />
+          <PinInputField
+            className={
+              styles[
+                onSetPinTrue
+                  ? "pin-styles"
+                  : onSetPinFailed
+                  ? "pin-styles-failed"
+                  : "pin-styles"
+              ]
+            }
+            onChange={onSetPinSix}
+            required
+          />
+        </PinInput>
       </span>
     </>
   );

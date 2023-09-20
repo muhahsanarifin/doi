@@ -1,80 +1,64 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { PrivateRoute } from "../../helpers/handleRoutes";
 import { getCookie } from "cookies-next";
-import historyTransaction from "../../utils/api/history";
-import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+// import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
-
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { DateTime } from "luxon";
+
+import { sentenceCase } from "../../helpers/handleSentence";
+import { PrivateRoute } from "../../helpers/handleRoutes";
+import { rupiah } from "../../helpers/intl";
+import historyTransactionAction from "../../redux/actions/history";
+import { dt } from "../../helpers/intl";
+
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import TitleBar from "../../components/TitleBar";
 import Pagination from "../../components/Pagination";
-import { LdsFacebook } from "../../components/Feedback";
-import { ErrorMessage } from "../../utils/response";
+import { CircleLoader } from "../../components/Loader";
 
-import gridIconBlue from "../../assets/icons/grid-blue.png";
-import styles from "../../styles/History.module.css";
+import icon from "../../utils/icon";
+import styles from "../../styles/history.module.css";
 
 const History = () => {
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
-  const [histories, setHistory] = useState([]);
   const [filter, setFilter] = useState(searchParams.get("filter") || "");
   const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(6);
   const filterMenuItems = ["Week", "Month", "Year"];
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
-  const [error, setError] = useState();
+  const histories = useSelector(
+    (state) => state.historyTransaction?.getHistoryTransaction
+  );
 
   useEffect(() => {
-    const getHistory = async () => {
-      try {
-        setLoading(true);
-        const response = await historyTransaction(
-          `filter=${filter}&page=${page}&limit=${limit}`,
-          getCookie("token")
-        );
-        setHistory(response.data);
+    const queryParams = `filter=${filter}&page=${page}&limit=${limit}`;
+    const accessToken = getCookie("token");
+    dispatch(
+      historyTransactionAction.getHistoryTransactionThunk({
+        accessToken,
+        queryParams,
+      })
+    );
+  }, [dispatch, filter, limit, page]);
 
-        setError(response.data.data?.length === 0);
-
-        if (response.data.data.length === 0) {
-          throw new ErrorMessage("Data Not Found.");
-        }
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getHistory();
-
-    router.push(`history?filter=${filter}&page=${page}`);
-  }, [filter, page, limit]);
-
-  // Handle currency
-  const idrCurreny = (number) => {
-    return Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(number);
-  };
+  console.log("History transactions: ", histories);
 
   return (
     <>
       <PrivateRoute>
-        <TitleBar name={"History"} />
+        <TitleBar title={"History"} />
         <Header />
         <main className={styles["main"]}>
           <SideBar
-            focusStyleDashbord={styles["focus-style-side-history-button"]}
-            dashboardStyle={styles["init-button-active"]}
-            gridIconBlue={gridIconBlue}
+            focusStyle={styles["focus-style-side-history-button"]}
+            titleStyle={styles["init-button-active"]}
+            activeIcon={icon.gridBlue}
+            onTitle={"Dashboard"}
           />
           <section className={styles["right-side-content"]}>
             <span className={styles["head-content"]}>
@@ -118,16 +102,28 @@ const History = () => {
                 </Menu>
               </span>
             </span>
-            {!loading ? (
+            {histories?.isLoading ? (
+              <span className={styles["bottom-content-loader"]}>
+                <CircleLoader />
+              </span>
+            ) : (
               <>
                 <span className={styles["bottom-content"]}>
-                  {error ? (
+                  {histories.data?.data?.length === 0 ? (
                     <h1 className={styles["error-info"]}>
-                      Does not exist transaction
+                      Does not exist transaction!
                     </h1>
                   ) : (
-                    <ul className={styles["list"]}>
-                      {histories.data?.map((history) => (
+                    <ul
+                      className={
+                        styles[
+                          histories.data?.data?.length < 6
+                            ? "list-ltsd"
+                            : "list"
+                        ]
+                      }
+                    >
+                      {histories.data?.data?.map((history) => (
                         <li className={styles["content-list"]} key={history.id}>
                           <span className={styles["sub-content-list"]}>
                             <Image
@@ -151,13 +147,16 @@ const History = () => {
                                     ]
                                   }
                                 >
-                                  {history.status}
+                                  {sentenceCase(history.status)}
                                 </p>
                                 <p className={styles["type"]}>
                                   {" "}
-                                  {history.type}
+                                  {sentenceCase(history.type)}
                                 </p>
                               </span>
+                              <p className={styles["date"]}>
+                                {dt(DateTime.fromISO(history.createdAt))}
+                              </p>
                             </span>
                             <p
                               className={
@@ -169,9 +168,9 @@ const History = () => {
                               }
                             >
                               {history.type === "topup"
-                                ? `+${idrCurreny(history.amount)}`
+                                ? `+${rupiah(history.amount)}`
                                 : history.type === "send"
-                                ? `-${idrCurreny(history.amount)}`
+                                ? `-${rupiah(history.amount)}`
                                 : null}
                             </p>
                           </span>
@@ -181,16 +180,14 @@ const History = () => {
                   )}
                 </span>
               </>
-            ) : (
-              <span className={styles["bottom-content-loader"]}>
-                <LdsFacebook />
-              </span>
             )}
-            {error ? null : (
+            {histories?.isLoading ||
+            histories.data?.data?.length === 0 ||
+            histories.data?.data?.length < 6 ? null : (
               <Pagination
                 onPage={page}
                 onSetPage={setPage}
-                historyData={histories}
+                historyData={histories.data}
               />
             )}
           </section>

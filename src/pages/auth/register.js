@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import authsAction from "../../redux/actions/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { SignUpButton } from "../../components/Button";
 import { PreventBackPage } from "../../helpers/handleRoutes";
@@ -11,104 +11,52 @@ import { HideShowPassword } from "../../components/Toggle";
 import TitleBar from "../../components/TitleBar";
 import { SuccessMsg } from "../../components/Feedback";
 
-import phone from "../../assets/images/png-phone.png";
-import phoneSecond from "../../assets/images/png-phone-2.png";
-import emailIcon from "../../assets/icons/mail.png";
-import emailIconBlue from "../../assets/icons/mail-blue.png";
-import passwordIcon from "../../assets/icons/lock.png";
-import passwordIconBlue from "../../assets/icons/lock-blue.png";
-import personIcon from "../../assets/icons/person.png";
-import personIconBlue from "../../assets/icons/person-blue.png";
-import successIcon from "../../assets/icons/success.png";
-
-import styles from "../../styles/Register.module.css";
+import * as Banner from "../../components/Banner";
+import icon from "../../utils/icon";
+import styles from "../../styles/register.module.css";
 
 const Register = () => {
+  const { mail, mailBlue, lock, lockBlue, person, personBlue, success } = icon;
+  const register = useSelector((state) => state.auth?.register);
   const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorRegisterMsg, setErrorRegisterMsg] = useState("");
-  const [successRegisterMsg, setSuccessRegisterMsg] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const body = {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    password: password,
+  const [body, setBody] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInput = (el) => {
+    const { name, value } = el.target;
+    setBody({ ...body, [name]: value.trim() });
   };
 
   const handleRegister = () => {
-    dispatch(
-      authsAction.registerThunk(
-        body,
-        resRegisterPending,
-        resRegisterFulfilled,
-        resRegisterRejected,
-        resRegisterFinally
-      )
-    );
+    dispatch(authsAction.registerThunk(body, cbRFulfilled));
   };
 
-  const resRegisterPending = () => {
-    setLoading(true);
-  };
-
-  const resRegisterFulfilled = (response) => {
-    if (response.status === 200) {
-      setSuccessRegisterMsg(response.msg);
-
-      window.location.replace("/auth/login");
-    }
-  };
-
-  const resRegisterRejected = (error) => {
-    setErrorRegisterMsg(error.response.data?.msg);
-  };
-
-  const resRegisterFinally = () => {
-    setLoading(false);
+  // Register condition callback function
+  const cbRFulfilled = () => {
+    setTimeout(() => {
+      dispatch(authsAction.crdThunk());
+    }, 1000);
   };
 
   return (
     <>
       <PreventBackPage>
-        <TitleBar name={"Register"} />
+        <TitleBar title={"Register"} />
         <main className={styles["main"]}>
           <section className={styles["content"]}>
-            <aside className={styles["left-content"]}>
-              <h3 className={styles["init-logo"]}>Doi</h3>
-              <span className={styles["left-content_image"]}>
-                <Image
-                  src={phone}
-                  alt={`phone`}
-                  className={`${styles["image"]} ${styles["image-one"]}`}
-                />
-                <Image
-                  src={phoneSecond}
-                  alt={`phone`}
-                  className={`${styles["image"]} ${styles["image-second"]}`}
-                />
-              </span>
-              <span className={styles["left-content__description"]}>
-                <h4>App that Covering Banking Needs.</h4>
-                <p>
-                  Doi is an application that focussing in banking needs for all
-                  users in the world. Always updated and always following world
-                  trends. 5000+ users registered in Doi everyday with worldwide
-                  users coverage.
-                </p>
-              </span>
-            </aside>
-            {successRegisterMsg ? (
+            <Banner.Auth />
+            {register?.isFulfilled ? (
               <div className={styles["right-content"]}>
                 <span className={styles["success-msg-section"]}>
                   <Image
-                    src={successIcon}
+                    src={success}
                     width={100}
                     height={100}
                     style={{
@@ -117,8 +65,9 @@ const Register = () => {
                       alignSelf: "center",
                     }}
                     alt="Success Icon"
+                    placeholder="blur"
                   />
-                  <SuccessMsg fulfilledMsg={"Success register user"} />
+                  <SuccessMsg fulfilledMsg={register?.data.msg} />
                 </span>
               </div>
             ) : (
@@ -142,96 +91,113 @@ const Register = () => {
                   <span
                     className={
                       styles[
-                        !firstName
+                        !body.firstName
                           ? "form__firstname-content"
                           : "form__firstname-content-active"
                       ]
                     }
                   >
-                    <label className={styles["label-firstname"]}>
+                    <label
+                      className={styles["label-firstname"]}
+                      htmlFor="firstName"
+                    >
                       <Image
-                        src={!firstName ? personIcon : personIconBlue}
+                        src={!body.firstName ? person : personBlue}
                         alt="firstname"
                         className={styles["person-icon"]}
+                        placeholder="blur"
                       />
                     </label>
                     <input
+                      id="firstName"
+                      name="firstName"
                       type="text"
                       placeholder="Enter your firstname"
-                      className={styles["email"]}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      onChange={handleInput}
                       required
                     />
                   </span>
                   <span
                     className={
                       styles[
-                        !lastName
+                        !body.lastName
                           ? "form__lastname-content"
                           : "form__lastname-content-active"
                       ]
                     }
                   >
-                    <label className={styles["label-lastname"]}>
+                    <label
+                      className={styles["label-lastname"]}
+                      htmlFor="lastName"
+                    >
                       <Image
-                        src={!lastName ? personIcon : personIconBlue}
+                        src={!body.lastName ? person : personBlue}
                         alt="lastname"
                         className={styles["person-icon"]}
+                        placeholder="blur"
                       />
                     </label>
                     <input
+                      id="lastName"
+                      name="lastName"
                       type="text"
                       placeholder="Enter your lastname"
-                      className={styles["person-icon"]}
-                      onChange={(e) => setLastName(e.target.value)}
+                      onChange={handleInput}
                       required
                     />
                   </span>
                   <span
                     className={
                       styles[
-                        !email
+                        !body.email
                           ? "form__email-content"
                           : "form__email-content-active"
                       ]
                     }
                   >
-                    <label className={styles["label-email"]}>
+                    <label className={styles["label-email"]} htmlFor="email">
                       <Image
-                        src={!email ? emailIcon : emailIconBlue}
+                        src={!body.email ? mail : mailBlue}
                         alt="email"
                         className={styles["email-icon"]}
+                        placeholder="blur"
                       />
                     </label>
                     <input
+                      id="email"
+                      name="email"
                       type="text"
                       placeholder="Enter your e-mail"
-                      className={styles["email"]}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleInput}
                       required
                     />
                   </span>
                   <span
                     className={
                       styles[
-                        !password
+                        !body.password
                           ? "form__password-content"
                           : "form__password-content-active"
                       ]
                     }
                   >
-                    <label className={styles["label-password"]}>
+                    <label
+                      className={styles["label-password"]}
+                      htmlFor="password"
+                    >
                       <Image
-                        src={!password ? passwordIcon : passwordIconBlue}
+                        src={!body.password ? lock : lockBlue}
                         alt="password"
                         className={styles["password-icon"]}
+                        placeholder="blur"
                       />
                     </label>
                     <input
+                      id="password"
+                      name="password"
                       type={show ? "text" : "password"}
                       placeholder="Enter your password"
-                      className={styles["password"]}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={handleInput}
                       required
                     />
                     <HideShowPassword
@@ -241,17 +207,20 @@ const Register = () => {
                     />
                   </span>
                   <span className={styles["error-msg-section"]}>
-                    {errorRegisterMsg ? (
-                      <ErrorMsg failedMsg={errorRegisterMsg} />
-                    ) : null}
+                    {register?.isRejected && (
+                      <ErrorMsg failedMsg={register?.err} />
+                    )}
                   </span>
                   <SignUpButton
-                    firstName={firstName}
-                    lastName={lastName}
-                    email={email}
-                    password={password}
+                    disabled={Object.values(body).includes("")}
                     onClick={handleRegister}
-                    init={loading ? <Loader onColor="#5464c7" /> : "SignUp"}
+                    init={
+                      register?.isLoading ? (
+                        <Loader onColor="#5464c7" />
+                      ) : (
+                        "SignUp"
+                      )
+                    }
                   />
                 </span>
                 <span className={styles["link-to-login"]}>

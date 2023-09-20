@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
@@ -6,11 +5,7 @@ import { useRouter } from "next/router";
 const PrivateRoute = ({ children }) => {
   const route = useRouter();
 
-  useEffect(() => {
-    if (!getCookie("token")) {
-      route.replace("/auth/login");
-    }
-  }, [route]);
+  if (!getCookie("token")) route.replace("/auth/login");
 
   return children;
 };
@@ -18,11 +13,7 @@ const PrivateRoute = ({ children }) => {
 const PreventBackPage = ({ children }) => {
   const route = useRouter();
 
-  useEffect(() => {
-    if (getCookie("token")) {
-      route.replace("/dashboard");
-    }
-  }, [route]);
+  if (getCookie("token")) route.replace("/dashboard");
 
   return children;
 };
@@ -33,13 +24,27 @@ const PreventDirectStatusPage = ({ children }) => {
     (state) => state.transfer?.confirmationTransfer
   );
 
-  useEffect(() => {
-    if (confirmationTransferData === undefined) {
-      route.replace("/dashboard");
-    }
-  }, [confirmationTransferData, route]);
+  const transfer = useSelector((state) => state.transfer?.transfer);
+
+  if (!confirmationTransferData?.isFulfilled || !transfer?.isFulfilled)
+    route.replace("/dashboard");
 
   return children;
 };
 
-export { PrivateRoute, PreventBackPage, PreventDirectStatusPage };
+const PreventDirectConfirmationPage = ({ children }) => {
+  const route = useRouter();
+  const confirmationTransferData = useSelector(
+    (state) => state.transfer?.confirmationTransfer
+  );
+
+  if (!confirmationTransferData?.isFulfilled) route.replace("/dashboard");
+  return children;
+};
+
+export {
+  PrivateRoute,
+  PreventBackPage,
+  PreventDirectStatusPage,
+  PreventDirectConfirmationPage,
+};

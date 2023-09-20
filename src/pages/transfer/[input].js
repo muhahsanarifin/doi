@@ -6,36 +6,32 @@ import usersAction from "../../redux/actions/user";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 import { DateTime } from "luxon";
+import { rupiah } from "../../helpers/intl";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
+import TitleBar from "../../components/TitleBar";
+import { dt } from "../../helpers/intl";
 
-import penIcon from "../../assets/icons/edit-2.png";
-import penIconBlue from "../../assets/icons/edit-2-blue.png";
-import arrowUpIconBlue from "../../assets/icons/arrow-up-blue.png";
-import styles from "../../styles/InputTransfer.module.css";
+import icon from "../../utils/icon";
+import styles from "../../styles/inputTransfer.module.css";
 
 const Input = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.users.getDataUser.data);
-  const receiver = useSelector((state) => state.users);
   const router = useRouter();
+  const receiverId = router.query.input;
+  const user = useSelector((state) => state.users?.getDataUser);
+  const receiver = useSelector((state) => state.users?.getDataReceiver);
   const [amount, setAmount] = useState("");
   const [notes, setNotes] = useState("");
-  const receiverId = router.query.input;
 
   useEffect(() => {
-    dispatch(usersAction.getDataReceiverThunk(receiverId, getCookie("token")));
+    const id = receiverId;
+    const accessToken = getCookie("token");
+    dispatch(usersAction.getDataReceiverThunk({ id, accessToken }));
   }, [dispatch, receiverId]);
 
-  // console.log("Entity receiver: ", receiver.getDataReceiver.data);
-  // console.log("Entity user: ", user);
-
-  // Data & Time
-  const dt = (dateTime) => {
-    return dateTime;
-  };
 
   // Balance left
   const bl = (tempBalance, amountTf) => {
@@ -46,39 +42,32 @@ const Input = () => {
   // Handle Confirm Transfer
   const handleConfirmTransfer = () => {
     const body = {
-      id: receiver.getDataReceiver.data?.id,
-      firstName: receiver.getDataReceiver.data?.firstName,
-      lastName: receiver.getDataReceiver.data?.lastName,
-      image: receiver.getDataReceiver.data?.image,
-      noTelp: receiver.getDataReceiver.data?.noTelp,
+      id: receiver?.data?.data?.id,
+      firstName: receiver?.data?.data?.firstName,
+      lastName: receiver?.data?.data?.lastName,
+      image: receiver?.data?.data?.image,
+      noTelp: receiver?.data?.data?.noTelp,
       amount: parseFloat(amount),
-      balanceLeft: bl(user?.balance, parseFloat(amount)),
-      date: dt(DateTime.now().toFormat("ff")),
+      balanceLeft: bl(user?.data?.data?.balance, parseFloat(amount)),
+      date: dt(DateTime.now()),
       notes: notes,
     };
-    // console.log("Sample body: ", body);
 
     dispatch(transferAction.transferConfirmationThunk(body));
 
     router.replace("/transfer/confirmation");
   };
 
-  // Handle currency
-  const idrCurreny = (number) => {
-    return Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(number);
-  };
-
   return (
     <>
+      <TitleBar title={"Transfer"} />
       <Header />
       <main className={styles["main"]}>
         <SideBar
-          focusStyleTransfer={styles["focus-style-side-transfer-button"]}
-          transferStyle={styles["init-button-active"]}
-          arrowUpIconBlue={arrowUpIconBlue}
+          focusStyle={styles["focus-style-side-transfer-button"]}
+          titleStyle={styles["init-button-active"]}
+          activeIcon={icon.arrowUpBlue}
+          onTitle={"Transfer"}
         />
         <section className={styles["right-side-content"]}>
           <span className={styles["right-side-content__title"]}>
@@ -88,21 +77,25 @@ const Input = () => {
             <ul className={styles["list"]}>
               <li className={styles["content-list"]}>
                 <span className={styles["sub-content-list"]}>
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${receiver.getDataReceiver.data?.image}`}
-                    alt={receiver.getDataReceiver.data?.firstName}
-                    className={styles["image"]}
-                    width={500}
-                    height={500}
-                  />
-                  <span className={styles["identity"]}>
-                    <p className={styles["name"]}>
-                      {`${receiver.getDataReceiver.data?.firstName} ${receiver.getDataReceiver.data?.lastName}`}
-                    </p>
-                    <p className={styles["contact"]}>
-                      {receiver.getDataReceiver.data?.noTelp}
-                    </p>
-                  </span>
+                  {receiver?.isFulfilled && (
+                    <>
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${receiver?.data?.data?.image}`}
+                        alt={receiver?.data?.data?.firstName}
+                        className={styles["image"]}
+                        width={500}
+                        height={500}
+                      />
+                      <span className={styles["identity"]}>
+                        <p className={styles["name"]}>
+                          {`${receiver?.data?.data?.firstName} ${receiver?.data?.data?.lastName}`}
+                        </p>
+                        <p className={styles["contact"]}>
+                          {receiver?.data?.data?.noTelp}
+                        </p>
+                      </span>
+                    </>
+                  )}
                 </span>
               </li>
             </ul>
@@ -114,24 +107,42 @@ const Input = () => {
             </span>
             <span className={styles["form"]}>
               <span className={styles["input-section"]}>
-                {
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className={styles[!amount ? "amount" : "amount-active"]}
-                    onChange={(e) => setAmount(e.target.value)}
-                    value={"-Infinity" < amount ? amount : !amount}
-                  />
-                }
-                <p className={styles["rest-balance"]}>
-                  {`${idrCurreny(user?.balance)} Availabe`}
-                </p>
+                <input
+                  type="number"
+                  placeholder="0.00"
+                  className={
+                    styles[
+                      !amount
+                        ? "amount"
+                        : Number(amount) <= 1000 && amount !== ""
+                        ? "error-amount"
+                        : amount > user?.data?.data?.balance && amount !== ""
+                        ? "error-amount"
+                        : "amount-active"
+                    ]
+                  }
+                  onChange={(e) => setAmount(e.target.value)}
+                  value={"-Infinity" < amount ? amount : !amount}
+                />
+                {Number(amount) <= 1000 && amount !== "" ? (
+                  <p className={styles["error-input"]}>
+                    Please input amount more than Rp 1000,00
+                  </p>
+                ) : amount > user?.data?.data?.balance && amount !== "" ? (
+                  <p className={styles["error-input"]}>Insufficient balance</p>
+                ) : null}
+                {user?.isFulfilled && (
+                  <p className={styles["rest-balance"]}>
+                    {rupiah(user?.data?.data?.balance) + " Available"}
+                  </p>
+                )}
                 <span className={styles[!notes ? "note" : "note-active"]}>
                   <label className={styles["pen-icon-label"]}>
                     <Image
-                      src={!notes ? penIcon : penIconBlue}
+                      src={!notes ? icon.pen : icon.penBlue}
                       alt="Pen"
                       className={styles["pen-icon"]}
+                      placeholder="blur"
                     />
                   </label>
                   <input
@@ -145,7 +156,13 @@ const Input = () => {
               <span className={styles["btn-section"]}>
                 <button
                   className={
-                    styles[!amount ? "continue-btn" : "continue-btn-active"]
+                    styles[
+                      !amount ||
+                      (Number(amount) <= 1000 && amount !== "") ||
+                      (amount > user?.data?.data?.balance && amount !== "")
+                        ? "continue-btn"
+                        : "continue-btn-active"
+                    ]
                   }
                   onClick={handleConfirmTransfer}
                   disabled={!amount}

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import authsAction from "../../redux/actions/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { ResetPasswordButton } from "../../components/Button";
@@ -11,67 +11,20 @@ import { ErrorMsg } from "../../components/Feedback";
 import { ChangePasswordMsg, Loader } from "../../components/Feedback";
 import TitleBar from "../../components/TitleBar";
 
-import styles from "../../styles/CreateNewPassword.module.css";
-import phone from "../../assets/images/png-phone.png";
-import phoneSecond from "../../assets/images/png-phone-2.png";
-import passwordIcon from "../../assets/icons/lock.png";
-import passwordIconBlue from "../../assets/icons/lock-blue.png";
-import successIcon from "../../assets/icons/success.png";
+import icon from "../../utils/icon";
+import styles from "../../styles/createNewPassword.module.css";
 
 const CreateNewPassword = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-
   // const keyChangePassword = parseInt(router.query.create);
   // console.log(keyChangePassword);
+  const resetPassword = useSelector((state) => state?.auth?.resetPassword);
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [show, setShow] = useState(false);
   const [showSecond, setShowSecond] = useState(false);
-  const [failedCreateNewPassword, setFailedCreateNewPassword] = useState("");
-  const [successCreateNewPassword, setSuccessCreateNewPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const body = {
-    keysChangePassword: parseInt(router.query.create),
-    newPassword: newPassword,
-    confirmPassword: confirmPassword,
-  };
-
-  const handleCreateNewPassword = () => {
-    dispatch(
-      authsAction.resetPasswordThunk(
-        body,
-        resCreateNewPasswordPending,
-        resCreateNewPasswordFulfilled,
-        resCreateNewPasswordRejected,
-        resCreateNewPasswordFinally
-      )
-    );
-  };
-
-  const resCreateNewPasswordPending = () => {
-    setLoading(true);
-  };
-
-  const resCreateNewPasswordFulfilled = (response) => {
-    setTimeout(() => {
-      setSuccessCreateNewPassword(response?.msg);
-    }, 1000);
-
-    setTimeout(() => {
-      router.push("/auth/login");
-    }, 1500);
-  };
-  const resCreateNewPasswordRejected = (error) => {
-    setFailedCreateNewPassword(error.response.data?.msg);
-  };
-
-  const resCreateNewPasswordFinally = () => {
-    setLoading(false);
-    setFailedCreateNewPassword(false);
-  };
 
   const showPassword = () => {
     setShow(!show);
@@ -80,23 +33,39 @@ const CreateNewPassword = () => {
     setShowSecond(!showSecond);
   };
 
+  const handleCreateNewPassword = () => {
+    const body = {
+      keysChangePassword: parseInt(router.query.create),
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    };
+
+    dispatch(
+      authsAction.resetPasswordThunk({
+        body,
+      })
+    );
+  };
+
   return (
     <>
-      <TitleBar name={"Create New Password"} />
+      <TitleBar title={"Create New Password"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
           <aside className={styles["left-content"]}>
             <h3 className={styles["init-logo"]}>Doi</h3>
             <span className={styles["left-content_image"]}>
               <Image
-                src={phone}
+                src={icon.phone}
                 alt={`phone`}
                 className={`${styles["image"]} ${styles["image-one"]}`}
+                placeholder="blur"
               />
               <Image
-                src={phoneSecond}
+                src={icon.phoneSecond}
                 alt={`phone`}
                 className={`${styles["image"]} ${styles["image-second"]}`}
+                placeholder="blur"
               />
             </span>
             <span className={styles["left-content__description"]}>
@@ -110,7 +79,7 @@ const CreateNewPassword = () => {
             </span>
           </aside>
           <div className={styles["right-content"]}>
-            {!successCreateNewPassword ? (
+            {resetPassword?.isFulfilled ? null : (
               <>
                 <span className={styles["right-content__description"]}>
                   <h3>
@@ -128,9 +97,14 @@ const CreateNewPassword = () => {
                   <p>Enter your new password.</p>
                 </span>
               </>
-            ) : null}
+            )}
             <span className={styles["form"]}>
-              {!successCreateNewPassword ? (
+              {resetPassword?.isFulfilled ? (
+                <ChangePasswordMsg
+                  icon={icon.success}
+                  msg={resetPassword?.data?.msg}
+                />
+              ) : (
                 <>
                   <span
                     className={
@@ -143,9 +117,10 @@ const CreateNewPassword = () => {
                   >
                     <label className={styles["label-password"]}>
                       <Image
-                        src={!newPassword ? passwordIcon : passwordIconBlue}
+                        src={!newPassword ? icon.lock : icon.lockBlue}
                         alt="password"
                         className={styles["password-icon"]}
+                        placeholder="blur"
                       />
                     </label>
                     <input
@@ -177,9 +152,10 @@ const CreateNewPassword = () => {
                   >
                     <label className={styles["label-password"]}>
                       <Image
-                        src={!confirmPassword ? passwordIcon : passwordIconBlue}
+                        src={!confirmPassword ? icon.lock : icon.lockBlue}
                         alt="password"
                         className={styles["password-icon"]}
+                        placeholder="blur"
                       />
                     </label>
                     <input
@@ -201,9 +177,9 @@ const CreateNewPassword = () => {
                     </span>
                   </span>
                   <span className={styles["error-msg-section"]}>
-                    {failedCreateNewPassword ? (
+                    {resetPassword?.isRejected ? (
                       <ErrorMsg
-                        failedCreateNewPassword={failedCreateNewPassword}
+                        failedCreateNewPassword={resetPassword?.data?.msg}
                       />
                     ) : null}
                   </span>
@@ -211,15 +187,14 @@ const CreateNewPassword = () => {
                     onClick={handleCreateNewPassword}
                     disabled={newPassword && confirmPassword}
                     init={
-                      loading ? <Loader onColor="#5464c7" /> : "Reset Password"
+                      resetPassword?.isLoading ? (
+                        <Loader onColor="#5464c7" />
+                      ) : (
+                        "Reset Password"
+                      )
                     }
                   />
                 </>
-              ) : (
-                <ChangePasswordMsg
-                  icon={successIcon}
-                  msg={successCreateNewPassword}
-                />
               )}
             </span>
           </div>

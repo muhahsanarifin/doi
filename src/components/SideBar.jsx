@@ -5,41 +5,34 @@ import { useDisclosure } from "@chakra-ui/react";
 
 import { LogoutModal } from "../components/Overlay";
 
-import gridIcon from "../assets/icons/grid.png";
-import arrowUpIcon from "../assets/icons/arrow-up.png";
-import plusIcon from "../assets/icons/plus.png";
-import userIcon from "../assets/icons/user.png";
-import logOutIcon from "../assets/icons/log-out.png";
-
+import icon from "../utils/icon";
 import styles from "../styles/SideBar.module.css";
 
-const SideBar = ({
-  focusStyleDashbord,
-  dashboardStyle,
-  gridIconBlue,
-  focusStyleTransfer,
-  transferStyle,
-  arrowUpIconBlue,
-  focusStyleTopUp,
-  topUpStyle,
-  plusIconBlue,
-  focusStyleProfile,
-  profileStyle,
-  userIconBlue,
-  focusStyleLogOut,
-  logoutStyle,
-  logOutIconBlue,
-}) => {
+const SideBar = ({ focusStyle, titleStyle, onTitle, activeIcon }) => {
   const route = useRouter();
-  const [sideBar, setSample] = useState([
-    gridIconBlue,
-    arrowUpIconBlue,
-    plusIconBlue,
-    userIconBlue,
-    logOutIconBlue,
-  ]);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const sideBar = [
+    {
+      title: "Dashboard",
+      link: "/dashboard",
+      icon: icon.grid,
+    },
+    {
+      title: "Transfer",
+      link: "/transfer",
+      icon: icon.arrowUp,
+    },
+    {
+      title: "Top Up",
+      link: "/topup",
+      icon: icon.plus,
+    },
+    {
+      title: "Profile",
+      link: "/user/profile",
+      icon: icon.user,
+    },
+  ];
 
   return (
     <>
@@ -47,64 +40,38 @@ const SideBar = ({
         <ul
           className={`${styles["side-bar__content"]} ${styles["content__one"]}`}
         >
-          <li
-            className={`${styles["btn-list"]} ${focusStyleDashbord}`}
-            onClick={() => route.push("/dashboard")}
-          >
-            <Image
-              src={sideBar[0] ? gridIconBlue : gridIcon}
-              alt="Dashboard"
-              className={styles["btn-icon"]}
-            />
-            <p className={dashboardStyle}>Dashboard</p>
-          </li>
-          <li
-            className={`${styles["btn-list"]} ${focusStyleTransfer}`}
-            onClick={() => route.push("/transfer")}
-          >
-            <Image
-              src={sideBar[1] ? arrowUpIconBlue : arrowUpIcon}
-              alt="Transfer"
-              className={styles["btn-icon"]}
-            />
-            <p className={transferStyle}>Transfer</p>
-          </li>
-          <li
-            className={`${styles["btn-list"]} ${focusStyleTopUp}`}
-            onClick={() => route.push("/topup")}
-          >
-            <Image
-              src={sideBar[2] ? plusIconBlue : plusIcon}
-              alt="Top Up"
-              className={styles["btn-icon"]}
-            />
-            <p className={topUpStyle}>Top Up</p>
-          </li>
-          <li
-            className={`${styles["btn-list"]} ${focusStyleProfile}`}
-            onClick={() => route.push("/user/profile")}
-          >
-            <Image
-              src={sideBar[3] ? userIconBlue : userIcon}
-              alt="Profile"
-              className={styles["btn-icon"]}
-            />
-            <p className={profileStyle}>Profile</p>
-          </li>
+          {sideBar.map((bar, idx) => (
+            <li
+              className={`${styles["btn-list"]} ${
+                bar.title === onTitle && focusStyle
+              }`}
+              onClick={() => route.push(bar.link)}
+              key={idx}
+            >
+              <Image
+                src={bar.title === onTitle ? activeIcon : bar.icon}
+                alt={bar.title}
+                className={styles["btn-icon"]}
+                placeholder="blur"
+              />
+              <p className={bar.title === onTitle && titleStyle}>{bar.title}</p>
+            </li>
+          ))}
         </ul>
         <ul
           className={`${styles["side-bar__content"]} ${styles["content__two"]}`}
         >
           <li
-            className={`${styles["btn-list"]} ${focusStyleLogOut}`}
+            className={styles["btn-list"]}
             onClick={onOpen}
           >
             <Image
-              src={sideBar[4] ? logOutIconBlue : logOutIcon}
+              src={icon.logOut}
               alt="Log Out"
               className={styles["btn-icon"]}
+              placeholder="blur"
             />
-            <p className={logoutStyle}>Logout</p>
+            <p>Logout</p>
           </li>
         </ul>
         {/* Logout Modal */}

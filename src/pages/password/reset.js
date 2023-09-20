@@ -1,26 +1,23 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import authsAction from "../../redux/actions/auth";
 
 import { ForgotPasswordButton } from "../../components/Button";
 import { ErrorMsg } from "../../components/Feedback";
-
-import styles from "../../styles/ResetPassword.module.css";
-import phone from "../../assets/images/png-phone.png";
-import phoneSecond from "../../assets/images/png-phone-2.png";
-import emailIcon from "../../assets/icons/mail.png";
-import emailIconBlue from "../../assets/icons/mail-blue.png";
+import * as Banner from "../../components/Banner";
 import TitleBar from "../../components/TitleBar";
 import { SuccessResetPasswordMsg, Loader } from "../../components/Feedback";
-import successIcon from "../../assets/icons/success.png";
+
+import icon from "../../utils/icon";
+import styles from "../../styles/resetPassword.module.css";
 
 const ResetPassword = () => {
+  const { mail, mailBlue } = icon;
+  const forgotPassword = useSelector((state) => state.auth?.forgotPassword);
   const dispatch = useDispatch();
-  const [failedMsg, setFailedMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const body = {
     email: email,
@@ -28,65 +25,27 @@ const ResetPassword = () => {
   };
 
   const handleResetPassword = () => {
-    dispatch(
-      authsAction.forgotPasswordThunk(
-        body,
-        resResetPasswordPending,
-        resResetPasswordFulfilled,
-        resResetPasswordRejected,
-        resResetPasswordFinally
-      )
-    );
+    dispatch(authsAction.forgotPasswordThunk({ body, cbFinally }));
   };
 
-  const resResetPasswordPending = () => {
-    setLoading(true);
-  };
-
-  const resResetPasswordFulfilled = (response) => {
-    setSuccessMsg(response?.msg);
-  };
-
-  const resResetPasswordRejected = (error) => {
-    setFailedMsg(error.response.data?.msg);
-  };
-
-  const resResetPasswordFinally = () => {
-    setLoading(false);
+  const cbFinally = () => {
+    setTimeout(() => {
+      dispatch(authsAction.cfpdThunk());
+    }, 1000);
   };
 
   return (
     <>
-      <TitleBar name={"Reset Password"} />
+      <TitleBar title={"Reset Password"} />
       <main className={styles["main"]}>
         <section className={styles["content"]}>
-          <aside className={styles["left-content"]}>
-            <h3 className={styles["init-logo"]}>Doi</h3>
-            <span className={styles["left-content_image"]}>
-              <Image
-                src={phone}
-                alt={`phone`}
-                className={`${styles["image"]} ${styles["image-one"]}`}
-              />
-              <Image
-                src={phoneSecond}
-                alt={`phone`}
-                className={`${styles["image"]} ${styles["image-second"]}`}
-              />
-            </span>
-            <span className={styles["left-content__description"]}>
-              <h4>App that Covering Banking Needs.</h4>
-              <p>
-                Doi is an application that focussing in banking needs for all
-                users in the world. Always updated and always following world
-                trends. 5000+ users registered in Doi everyday with worldwide
-                users coverage.
-              </p>
-            </span>
-          </aside>
-          {successMsg ? (
+          <Banner.Auth />
+          {forgotPassword?.isFulfilled ? (
             <div className={styles["right-content"]}>
-              <SuccessResetPasswordMsg icon={successIcon} msg={successMsg} />
+              <SuccessResetPasswordMsg
+                icon={icon.success}
+                msg={forgotPassword?.data?.msg}
+              />
             </div>
           ) : (
             <div className={styles["right-content"]}>
@@ -120,9 +79,10 @@ const ResetPassword = () => {
                 >
                   <label className={styles["label-email"]}>
                     <Image
-                      src={!email ? emailIcon : emailIconBlue}
+                      src={!email ? mail : mailBlue}
                       alt="email"
                       className={styles["email-icon"]}
+                      placeholder="blur"
                     />
                   </label>
                   <input
@@ -134,12 +94,20 @@ const ResetPassword = () => {
                   />
                 </span>
                 <span className={styles["error-msg-section"]}>
-                  {failedMsg ? <ErrorMsg failedMsg={failedMsg} /> : null}
+                  {forgotPassword?.isRejected && (
+                    <ErrorMsg failedMsg={forgotPassword?.err} />
+                  )}
                 </span>
                 <ForgotPasswordButton
                   email={email}
                   onClick={handleResetPassword}
-                  init={loading ? <Loader onColor="#5464c7" /> : "Confirm"}
+                  init={
+                    forgotPassword?.isLoading ? (
+                      <Loader onColor="#5464c7" />
+                    ) : (
+                      "Confirm"
+                    )
+                  }
                 />
               </span>
             </div>

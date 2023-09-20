@@ -1,81 +1,89 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
+
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import historyTransactionAction from "../../redux/actions/history";
 
+import { rupiah } from "../../helpers/intl";
 import { PrivateRoute } from "../../helpers/handleRoutes";
+import { sentenceCase, ICP } from "../../helpers/handleSentence";
+import historyTransactionAction from "../../redux/actions/history";
+import usersAction from "../../redux/actions/user";
+
+import { CircleLoader } from "../../components/Loader";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
 import TitleBar from "../../components/TitleBar";
 import Charts from "../../components/Chart";
-import ArrowUpBlueMagenta from "../../assets/icons/arrow-up-blue-magenta.png";
-import PlusBlueMagenta from "../../assets/icons/plus-blue-magenta.png";
 
-import gridIconBlue from "../../assets/icons/grid-blue.png";
-import styles from "../../styles/Dashboard.module.css";
+import icon from "../../utils/icon";
+import styles from "../../styles/dashboard.module.css";
 
-const Dashbord = () => {
+export const Dashboard = () => {
+  const { arrowUpBlueMagenta, plusBlueMagenta, gridBlue } = icon;
   const dispatch = useDispatch();
   const router = useRouter();
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
-  const [filter, setFilter] = useState("");
   const histories = useSelector(
-    (state) => state.historyTransaction.getHistoryTransaction
+    (state) => state.historyTransaction?.getHistoryTransactionOfDashboard
   );
-  const user = useSelector((state) => state.users.getDataUser.data);
+  const user = useSelector((state) => state.users?.getDataUser);
 
   useEffect(() => {
-    dispatch(
-      historyTransactionAction.getHistoryTransactionThunk(
-        `page=${page}&limit=${limit}&filter=${filter}`,
-        getCookie("token")
-      )
-    );
-  }, [dispatch, page, limit, filter]);
+    const id = getCookie("id");
+    const accessToken = getCookie("token");
 
-  // Handle currency
-  const idrCurreny = (number) => {
-    return Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(number);
-  };
+    // Get user data
+    dispatch(usersAction.getDataUserThunk({ id, accessToken }));
+
+    const queryParams = `page=${page}&limit=${limit}`;
+
+    // Get transaction history data dashboard
+    dispatch(
+      historyTransactionAction.getHistoryTransactionOfDashboardThunk({
+        queryParams,
+        accessToken,
+      })
+    );
+  }, [dispatch, page, limit]);
 
   return (
     <>
       <PrivateRoute>
-        <TitleBar name={"Dashboard"} />
+        <TitleBar title={"Dashboard"} />
         <Header />
         <main className={styles["main"]}>
           <SideBar
-            focusStyleDashbord={styles["focus-style-side-dashboard-button"]}
-            dashboardStyle={styles["init-button-active"]}
-            gridIconBlue={gridIconBlue}
+            focusStyle={styles["focus-style-side-dashboard-button"]}
+            titleStyle={styles["init-button-active"]}
+            activeIcon={gridBlue}
+            onTitle={"Dashboard"}
           />
           <section className={styles["right-side-content"]}>
             <span className={styles["balance"]}>
               <span className={styles["balance__content_left"]}>
-                <p className={styles["title"]}>Balance</p>
-                <h1 className={styles["fund"]}>{idrCurreny(user?.balance)}</h1>
-                <p className={styles["phone-number"]}>
-                  {user?.noTelp === null ? (
-                    <span
-                      style={{
-                        fontWeight: 700,
-                        color: "#ff8c90",
-                      }}
-                    >
-                      Please, set your phone number!
-                    </span>
-                  ) : (
-                    user?.noTelp
-                  )}
-                </p>
+                {user?.isFulfilled && (
+                  <>
+                    <p className={styles["title"]}>Balance</p>
+
+                    <h1 className={styles["fund"]}>
+                      {rupiah(user?.data?.data?.balance)}
+                    </h1>
+                    <p className={styles["phone-number"]}>
+                      {user?.data?.data?.noTelp === null ? (
+                        <span className={styles["spna"]}>
+                          Please, set your phone number!
+                        </span>
+                      ) : (
+                        ICP(user?.data?.data?.noTelp)
+                      )}
+                    </p>
+                  </>
+                )}
               </span>
               <span className={styles["balance__content_right"]}>
                 <button
@@ -83,11 +91,12 @@ const Dashbord = () => {
                   onClick={() => router.push("/transfer")}
                 >
                   <Image
-                    src={ArrowUpBlueMagenta}
+                    src={arrowUpBlueMagenta}
                     alt="Arrow Up Blue Magenta"
                     width={500}
                     height={500}
                     className={styles["transfer-btn-icon"]}
+                    placeholder="blur"
                   />
                   <p className={styles["transfer-btn-init"]}>Transfer</p>
                 </button>
@@ -96,11 +105,12 @@ const Dashbord = () => {
                   onClick={() => router.push("/topup")}
                 >
                   <Image
-                    src={PlusBlueMagenta}
+                    src={plusBlueMagenta}
                     alt="Arrow Up Blue Magenta"
                     width={500}
                     height={500}
                     className={styles["top-up-btn-icon"]}
+                    placeholder="blur"
                   />
                   <p className={styles["top-up-btn-init"]}>Top Up</p>
                 </button>
@@ -118,55 +128,67 @@ const Dashbord = () => {
                     See all
                   </p>
                 </span>
-                <ul className={styles["list"]}>
-                  {histories.data?.map((history) => (
-                    <li className={styles["content-list"]} key={history.id}>
-                      <span className={styles["sub-content-list"]}>
-                        <Image
-                          src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
-                          alt={history.firstName}
-                          className={styles["image"]}
-                          width={500}
-                          height={500}
-                        />
-                        <span className={styles["identity"]}>
-                          <p className={styles["name"]}>
-                            {history.firstName} {history.lastName}
-                          </p>
-                          <span className={styles["status-type"]}>
-                            <p
-                              className={
-                                styles[
-                                  history.status === "success"
-                                    ? "success-status"
-                                    : "failed-status"
-                                ]
-                              }
-                            >
-                              {history.status}
+                {histories?.isLoading ? (
+                  <CircleLoader />
+                ) : (
+                  <ul className={styles["list"]}>
+                    {histories?.data?.data?.map((history) => (
+                      <li className={styles["content-list"]} key={history.id}>
+                        <span className={styles["sub-content-list"]}>
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}${history.image}`}
+                            alt={history.firstName}
+                            width={500}
+                            height={500}
+                            className={styles["image"]}
+                          />
+                          <span className={styles["identity"]}>
+                            <p className={styles["name"]}>
+                              {`${history.firstName} ${history.lastName}`}
                             </p>
-                            <p className={styles["type"]}> {history.type}</p>
+                            <span className={styles["status-type"]}>
+                              <p
+                                className={
+                                  styles[
+                                    history.status === "success"
+                                      ? "success-status"
+                                      : "failed-status"
+                                  ]
+                                }
+                              >
+                                {sentenceCase(history.status)}
+                              </p>
+                              <p className={styles["type"]}>
+                                {" "}
+                                {sentenceCase(history.type)}
+                              </p>
+                            </span>
                           </span>
+                          <p
+                            className={
+                              styles[
+                                history.type === "topup"
+                                  ? "value-income"
+                                  : "value-expense"
+                              ]
+                            }
+                          >
+                            {history.type === "topup"
+                              ? `+${rupiah(history.amount)}`
+                              : history.type === "send"
+                              ? `-${rupiah(history.amount)}`
+                              : null}
+                          </p>
                         </span>
-                        <p
-                          className={
-                            styles[
-                              history.type === "topup"
-                                ? "value-income"
-                                : "value-expense"
-                            ]
-                          }
-                        >
-                          {history.type === "topup"
-                            ? `+${idrCurreny(history.amount)}`
-                            : history.type === "send"
-                            ? `-${idrCurreny(history.amount)}`
-                            : null}
-                        </p>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {histories.data?.data?.length === 0 && (
+                  <h1 className={styles["error-info"]}>
+                    Does not exist transaction!
+                  </h1>
+                )}
               </span>
             </span>
           </section>
@@ -177,4 +199,4 @@ const Dashbord = () => {
   );
 };
 
-export default Dashbord;
+export default Dashboard;

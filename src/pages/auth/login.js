@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "cookies-next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import TitleBar from "../../components/TitleBar";
 
@@ -11,99 +11,59 @@ import { HideShowPassword } from "../../components/Toggle";
 import { ErrorMsg, Loader } from "../../components/Feedback";
 import { PreventBackPage } from "../../helpers/handleRoutes";
 
-import phone from "../../assets/images/png-phone.png";
-import phoneSecond from "../../assets/images/png-phone-2.png";
-import emailIcon from "../../assets/icons/mail.png";
-import emailIconBlue from "../../assets/icons/mail-blue.png";
-import emailIconRed from "../../assets/icons/mail-red.png";
-import passwordIcon from "../../assets/icons/lock.png";
-import passwordIconBlue from "../../assets/icons/lock-blue.png";
-import passwordIconRed from "../../assets/icons/lock-red.png";
-import styles from "../../styles/Login.module.css";
+import * as Banner from "../../components/Banner";
+import icon from "../../utils/icon";
+
+import styles from "../../styles/login.module.css";
 import authsAction from "../../redux/actions/auth";
 
 const Login = () => {
+  const { mail, mailBlue, mailRed, lock, lockBlue, lockRed } = icon;
   const dispatch = useDispatch();
+  const login = useSelector((state) => state?.auth?.login);
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [show, setShow] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorLoginMsg, setErrorLoginMsg] = useState("");
+  const [body, setBody] = useState({
+    email: "",
+    password: "",
+  });
+  const [visiblePwd, setVisiblePwd] = useState(false);
 
-  const body = {
-    email: email,
-    password: password,
+  const handleInput = (el) => {
+    const { name, value } = el.target;
+    setBody({ ...body, [name]: value.trim() });
   };
 
   const handleLogin = () => {
     dispatch(
-      authsAction.loginThunk(
+      authsAction.loginThunk({
         body,
-        resPendingLogin,
-        resFulfilledLogin,
-        resRejectedLogin,
-        resFinallyLogin
-      )
+        cbFulfilled,
+      })
     );
   };
 
-  const resPendingLogin = () => {
-    setLoading(true);
-  };
-
-  const resFulfilledLogin = (response) => {
+  const cbFulfilled = (response) => {
     if (response.status === 200) {
+      const store = ["id", "token"];
+
+      store.map((key) =>
+        setCookie(key, key === "id" ? response.data?.id : response.data?.token)
+      );
       setCookie("id", response.data?.id);
       setCookie("token", response.data?.token);
 
       const { pin } = response.data;
-      if (pin === null) return router.push("/auth/pin"); // If value of pin property is null, Fulfilled result is going to auth/pin path.
-
-      router.push("/dashboard");
+      if (pin === null) return router.push("/auth/pin");
     }
-  };
-
-  const resRejectedLogin = (error) => {
-    setErrorLoginMsg(error.response.data?.msg);
-  };
-
-  const resFinallyLogin = () => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
   };
 
   return (
     <>
       <PreventBackPage>
-        <TitleBar name={"Login"} />
+        <TitleBar title={"Login"} />
         <main className={styles["main"]}>
           <section className={styles["content"]}>
-            <aside className={styles["left-content"]}>
-              <h3 className={styles["init-logo"]}>Doi</h3>
-              <span className={styles["left-content_image"]}>
-                <Image
-                  src={phone}
-                  alt={`phone`}
-                  className={`${styles["image"]} ${styles["image-one"]}`}
-                />
-                <Image
-                  src={phoneSecond}
-                  alt={`phone`}
-                  className={`${styles["image"]} ${styles["image-second"]}`}
-                />
-              </span>
-              <span className={styles["left-content__description"]}>
-                <h4>App that Covering Banking Needs.</h4>
-                <p>
-                  Doi is an application that focussing in banking needs for all
-                  users in the world. Always updated and always following world
-                  trends. 5000+ users registered in Doi everyday with worldwide
-                  users coverage.
-                </p>
-              </span>
-            </aside>
+            <Banner.Auth />
             <div className={styles["right-content"]}>
               <span className={styles["right-content__description"]}>
                 <h3>
@@ -127,67 +87,76 @@ const Login = () => {
                 <span
                   className={
                     styles[
-                      errorLoginMsg
+                      login?.isRejected
                         ? "form__email-content-active-error-msg"
-                        : !email
+                        : !body.email
                         ? "form__email-content"
                         : "form__email-content-active"
                     ]
                   }
                 >
-                  <label className={styles["label-email"]}>
+                  <label className={styles["label-email"]} htmlFor="email">
                     <Image
                       src={
-                        errorLoginMsg
-                          ? emailIconRed
-                          : !email
-                          ? emailIcon
-                          : emailIconBlue
+                        login?.isRejected
+                          ? mailRed
+                          : !body.email
+                          ? mail
+                          : mailBlue
                       }
                       alt="email"
                       className={styles["email-icon"]}
+                      placeholder="blur"
                     />
                   </label>
                   <input
+                    id="email"
+                    name="email"
                     type="text"
                     placeholder="Enter your e-mail"
                     className={styles["email"]}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleInput}
                   />
                 </span>
                 <span
                   className={
                     styles[
-                      errorLoginMsg
+                      login?.isRejected
                         ? "form__password-content-active-error-msg"
-                        : !password
+                        : !body.password
                         ? "form__password-content"
                         : "form__password-content-active"
                     ]
                   }
                 >
-                  <label className={styles["label-password"]}>
+                  <label
+                    className={styles["label-password"]}
+                    htmlFor="password"
+                  >
                     <Image
                       src={
-                        errorLoginMsg
-                          ? passwordIconRed
-                          : !password
-                          ? passwordIcon
-                          : passwordIconBlue
+                        login?.isRejected
+                          ? lockRed
+                          : !body.password
+                          ? lock
+                          : lockBlue
                       }
                       alt="password"
                       className={styles["password-icon"]}
+                      placeholder="blur"
                     />
                   </label>
                   <input
-                    type={show ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    type={visiblePwd ? "text" : "password"}
                     placeholder="Enter your password"
                     className={styles["password"]}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleInput}
                   />
                   <HideShowPassword
-                    onClick={() => setShow(!show)}
-                    onShow={show}
+                    onClick={() => setVisiblePwd(!visiblePwd)}
+                    onShow={visiblePwd}
                     className={styles["show-password"]}
                   />
                 </span>
@@ -195,17 +164,18 @@ const Login = () => {
                   className={styles["forgot-password"]}
                   onClick={() => router.push("/password/reset")}
                 >
-                  <p>Forgot password ?</p>
+                  <p>Forgot password?</p>
                 </span>
                 <span className={styles["error-msg-section"]}>
-                  {errorLoginMsg ? (
-                    <ErrorMsg failedMsg={errorLoginMsg} />
-                  ) : null}
+                  {login?.isRejected && <ErrorMsg failedMsg={login?.err} />}
                 </span>
                 <LoginButton
-                  email={email}
-                  password={password}
-                  init={loading ? <Loader onColor="#5464c7" /> : "Login"}
+                  disabled={
+                    Object.values(body).includes("") || login?.isLoading
+                  }
+                  init={
+                    login?.isLoading ? <Loader onColor="#5464c7" /> : "Login"
+                  }
                   onClick={handleLogin}
                 />
               </span>

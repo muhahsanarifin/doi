@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import styles from "../styles/Button.module.css";
 
-const LoginButton = ({ password, email, init, onClick }) => {
+const LoginButton = ({ disabled, init, onClick }) => {
   return (
     <>
       <button
-        className={styles[!password || !email ? "btn" : "btn-active"]}
-        disabled={!password || !email}
+        className={styles[disabled ? "btn" : "btn-active"]}
+        disabled={disabled}
         onClick={onClick}
       >
         {init}
@@ -15,24 +15,11 @@ const LoginButton = ({ password, email, init, onClick }) => {
   );
 };
 
-const SignUpButton = ({
-  firstName,
-  lastName,
-  email,
-  password,
-  onClick,
-  init,
-}) => {
+const SignUpButton = ({ disabled, onClick, init }) => {
   return (
     <>
       <button
-        className={
-          styles[
-            !firstName || !lastName || !password || !email
-              ? "btn"
-              : "btn-active"
-          ]
-        }
+        className={styles[disabled ? "btn" : "btn-active"]}
         onClick={onClick}
       >
         {init}
@@ -56,64 +43,15 @@ const ForgotPasswordButton = ({ email, onClick, init }) => {
 };
 
 const PinButton = ({
-  numeric,
-  numericTwo,
-  numericTree,
-  numericFour,
-  numericFive,
-  numericSix,
-
+  disabled,
   onClick,
+  init
 }) => {
   return (
     <>
       <button
-        className={
-          styles[
-            !numeric ||
-            !numericTwo ||
-            !numericTree ||
-            !numericFour ||
-            !numericFive ||
-            !numericSix
-              ? "btn"
-              : "btn-active"
-          ]
-        }
-        disabled={
-          !numeric ||
-          !numericTwo ||
-          !numericTree ||
-          !numericFour ||
-          !numericFive ||
-          !numericSix
-        }
-        onClick={onClick}
-      >
-        Confirm
-      </button>
-    </>
-  );
-};
-
-const ChangePasswordButton = ({
-  currentPassword,
-  newPassword,
-  repeatPassword,
-  onClick,
-  init,
-}) => {
-  return (
-    <>
-      <button
-        className={
-          styles[
-            !currentPassword || !newPassword || !repeatPassword
-              ? "btn"
-              : "btn-active"
-          ]
-        }
-        disabled={!currentPassword || !newPassword || !repeatPassword}
+        className={styles[disabled ? "btn" : "btn-active"]}
+        disabled={disabled}
         onClick={onClick}
       >
         {init}
@@ -122,12 +60,26 @@ const ChangePasswordButton = ({
   );
 };
 
-const EditPhoneNumberButton = ({ noTelp, onClick, init }) => {
+const ChangePasswordButton = ({ disabled, onClick, init }) => {
   return (
     <>
       <button
-        className={styles[!noTelp ? "btn" : "btn-active"]}
-        disabled={!noTelp}
+        className={styles[disabled ? "btn" : "btn-active"]}
+        disabled={disabled}
+        onClick={onClick}
+      >
+        {init}
+      </button>
+    </>
+  );
+};
+
+const EditPhoneNumberButton = ({ disabled, onClick, init }) => {
+  return (
+    <>
+      <button
+        className={styles[disabled ? "btn" : "btn-active"]}
+        disabled={disabled}
         onClick={onClick}
       >
         {init}
@@ -146,8 +98,8 @@ const TopupButton = ({ onClick, disabled }) => {
     <>
       <button
         ref={inputRefence}
-        className={styles[!disabled ? "btn" : "btn-active"]}
-        disabled={!disabled}
+        className={styles[disabled ? "btn" : "btn-active"]}
+        disabled={disabled}
         onClick={onClick}
       >
         Submit
@@ -190,39 +142,12 @@ const ResetPasswordButton = ({ onClick, disabled, init }) => {
   );
 };
 
-const UpdatedPinButton = ({
-  numeric,
-  numericTwo,
-  numericTree,
-  numericFour,
-  numericFive,
-  numericSix,
-  initBtn,
-  onClick,
-}) => {
+const UpdatedPinButton = ({ disabled, initBtn, onClick }) => {
   return (
     <>
       <button
-        className={
-          styles[
-            !numeric ||
-            !numericTwo ||
-            !numericTree ||
-            !numericFour ||
-            !numericFive ||
-            !numericSix
-              ? "btn"
-              : "btn-active"
-          ]
-        }
-        disabled={
-          !numeric ||
-          !numericTwo ||
-          !numericTree ||
-          !numericFour ||
-          !numericFive ||
-          !numericSix
-        }
+        className={styles[disabled ? "btn" : "btn-active"]}
+        disabled={disabled}
         onClick={onClick}
       >
         {initBtn}

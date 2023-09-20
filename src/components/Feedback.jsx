@@ -1,6 +1,5 @@
 import { useToast, CircularProgress } from "@chakra-ui/react";
 import Image from "next/image";
-import styles from "../styles/Feedback.module.css";
 
 const Toast = ({ title, id, status, position }) => {
   const toast = useToast();
@@ -44,6 +43,7 @@ const TopUpMsg = ({ icon, msg }) => {
           height={100}
           style={{ width: "48px", height: "48px", alignSelf: "center" }}
           alt="Success Icon"
+          placeholder="blur"
         />
         <p
           style={{
@@ -76,6 +76,7 @@ const ChangePinMsg = ({ icon, msg }) => {
           height={100}
           style={{ width: "48px", height: "48px", alignSelf: "center" }}
           alt="Success Icon"
+          placeholder="blur"
         />
         <p
           style={{
@@ -110,6 +111,7 @@ const CreatePinMsg = ({ icon, msg }) => {
           height={100}
           style={{ width: "48px", height: "48px", alignSelf: "flex-start" }}
           alt="Success Icon"
+          placeholder="blur"
         />
         <p
           style={{
@@ -135,6 +137,7 @@ const ChangePasswordMsg = ({ icon, msg }) => {
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
+          margin: "auto 0",
         }}
       >
         <Image
@@ -143,6 +146,7 @@ const ChangePasswordMsg = ({ icon, msg }) => {
           height={100}
           style={{ width: "48px", height: "48px", alignSelf: "center" }}
           alt="Success Icon"
+          placeholder="blur"
         />
         <p
           style={{
@@ -204,20 +208,6 @@ const SuccessMsg = ({ fulfilledMsg }) => {
   );
 };
 
-const LdsFacebook = () => {
-  return (
-    <>
-      <div className={styles["loader-saction"]}>
-        <div className={styles["lds-facebook"]}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-    </>
-  );
-};
-
 export {
   Toast,
   Loader,
@@ -227,7 +217,6 @@ export {
   ChangePasswordMsg,
   ErrorMsg,
   SuccessMsg,
-  LdsFacebook,
   ChangePinMsg as SuccessResetPasswordMsg,
   ChangePasswordMsg as SuccessPhoneNumberMsg, 
 };

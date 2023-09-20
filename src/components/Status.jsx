@@ -2,10 +2,12 @@ import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useReactToPrint } from "react-to-print";
 import Image from "next/image";
-import transferAction from "../redux/actions/transfer";
 import { useSelector, useDispatch } from "react-redux";
-import successIcon from "../assets/icons/success.png";
-import failedIcon from "../assets/icons/failed.png";
+
+import transferAction from "../redux/actions/transfer";
+import { rupiah } from "../helpers/intl";
+
+import icon from "../utils/icon";
 import styles from "../styles/Status.module.css";
 
 const Status = () => {
@@ -16,59 +18,43 @@ const Status = () => {
     (state) => state.transfer?.confirmationTransfer
   );
 
-  const transferStatus = useSelector(
-    (state) => state.transfer.transfer?.data?.status
-  );
-
-  // Handle currency
-  const idrCurreny = (number) => {
-    return Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(number);
-  };
-
-  const clearObj = (obj) => {
-    obj = {};
-  };
+  const transfer = useSelector((state) => state.transfer?.transfer);
 
   const handleBackToHome = () => {
-    dispacth(
-      transferAction.transferConfirmationThunk(
-        clearObj(confirmationTransferData)
-      )
-    );
-    router.replace("/transfer");
+    dispacth(transferAction.ctdThunk());
+    dispacth(transferAction.ctdcThunk());
   };
 
   // Handle print
   const handlePrintTransaction = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: `doi-transfer-success-to-${confirmationTransferData?.firstName}-${confirmationTransferData?.lastName}`,
+    documentTitle: `doi-transfer-success-to-${confirmationTransferData?.data?.firstName}-${confirmationTransferData?.data?.lastName}`,
   });
 
   return (
     <>
       <span ref={componentRef} style={{ padding: "1rem" }}>
-        {transferStatus === "success" ? (
+        {transfer?.data?.data?.status === "success" ? (
           <span className={styles["status"]}>
             <Image
-              src={successIcon}
-              alt={`Image`}
+              src={icon.success}
+              alt={`success`}
               className={styles["image-status"]}
               width={100}
               height={100}
+              placeholder="blur"
             />
             <p className={styles["title-status"]}>Transfer Success</p>
           </span>
         ) : (
           <span className={styles["status"]}>
             <Image
-              src={failedIcon}
-              alt={`Image`}
+              src={icon.failed}
+              alt={`failed`}
               className={styles["image-status"]}
               width={100}
               height={100}
+              placeholder="blur"
             />
             <p className={styles["title-status"]}>Transfer Failed</p>
             <p className={styles["sub-title-status"]}>
@@ -83,7 +69,7 @@ const Status = () => {
               <span className={styles["identity"]}>
                 <p className={styles["identify__title"]}>{`Amount`}</p>
                 <p className={styles["identify__main-content"]}>
-                  {idrCurreny(confirmationTransferData?.amount)}
+                  {rupiah(confirmationTransferData?.data?.amount)}
                 </p>
               </span>
             </span>
@@ -93,7 +79,7 @@ const Status = () => {
               <span className={styles["identity"]}>
                 <p className={styles["identify__title"]}>{`Balance Left`}</p>
                 <p className={styles["identify__main-content"]}>
-                  {idrCurreny(confirmationTransferData?.balanceLeft)}
+                  {rupiah(confirmationTransferData?.data?.balanceLeft)}
                 </p>
               </span>
             </span>
@@ -103,7 +89,7 @@ const Status = () => {
               <span className={styles["identity"]}>
                 <p className={styles["identify__title"]}>{`Date & Time`}</p>
                 <p className={styles["identify__main-content"]}>
-                  {confirmationTransferData?.date}
+                  {confirmationTransferData?.data?.date}
                 </p>
               </span>
             </span>
@@ -113,7 +99,7 @@ const Status = () => {
               <span className={styles["identity"]}>
                 <p className={styles["identify__title"]}>{`Notes`}</p>
                 <p className={styles["identify__main-content"]}>
-                  {confirmationTransferData?.notes}
+                  {confirmationTransferData?.data?.notes}
                 </p>
               </span>
             </span>
@@ -122,8 +108,8 @@ const Status = () => {
             <p className={styles["content-header-list"]}>{`Transfer to`}</p>
             <span className={styles["sub-content-list"]}>
               <Image
-                src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${confirmationTransferData?.image}`}
-                alt={confirmationTransferData?.lastName}
+                src={`${process.env.NEXT_PUBLIC_DOI_CLOUDINARY}/${confirmationTransferData?.data?.image}`}
+                alt={confirmationTransferData?.data?.lastName}
                 className={styles["image"]}
                 width={100}
                 height={100}
@@ -131,16 +117,16 @@ const Status = () => {
               <span className={styles["identity"]}>
                 <p
                   className={styles["identify__title"]}
-                >{`${confirmationTransferData?.firstName} ${confirmationTransferData?.lastName}`}</p>
+                >{`${confirmationTransferData?.data?.firstName} ${confirmationTransferData?.data?.lastName}`}</p>
                 <p className={styles["identify__main-content"]}>
-                  {confirmationTransferData?.noTelp}
+                  {confirmationTransferData?.data?.noTelp}
                 </p>
               </span>
             </span>
           </li>
         </ul>
       </span>
-      {transferStatus === "success" ? (
+      {transfer?.data?.data?.status === "success" ? (
         <span className={styles["btn-section"]}>
           <button
             className={styles["download-btn"]}
