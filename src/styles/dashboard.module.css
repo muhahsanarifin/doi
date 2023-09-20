@@ -42,11 +42,11 @@
 }
 
 .fund {
-  /* border: 1px solid darkgoldenrod; */
   min-width: 10rem;
   font-weight: 700;
   font-size: 40px;
   color: var(--primary-font-color);
+  background: transparent;
 }
 
 .phone-number {
@@ -71,7 +71,7 @@
 .top-up-btn {
   height: 2.5rem;
   width: 8rem;
-  background: rgba(255, 255, 255, 0.20);
+  background: rgba(255, 255, 255, 0.2);
   border: 1px solid #ffffff;
   color: var(--primary-font-color);
   border-radius: 8px;
@@ -155,6 +155,8 @@
   font-weight: 700;
   font-size: 14px;
   color: #1ec15f;
+  width: 8rem;
+  background: transparent;
 }
 
 .value-expense {
@@ -162,6 +164,8 @@
   font-weight: 700;
   font-size: 14px;
   color: #ff5b37;
+  width: 8rem;
+  background: transparent;
 }
 
 .identity {
@@ -293,6 +297,7 @@
 
   .fund {
     font-size: 24px;
+    width: 100%;
   }
 
   /* Set phone number alert */

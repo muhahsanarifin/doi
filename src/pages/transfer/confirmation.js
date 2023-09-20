@@ -60,6 +60,13 @@ const Confirmation = () => {
 
   // Check pin user callback function
   const cbCPUFulfilled = () => {
+    setPin("");
+    setPinTwo("");
+    setPinThree("");
+    setPinFour("");
+    setPinFive("");
+    setPinSix("");
+    
     const body = {
       receiverId: confirmationTransferData?.data?.id,
       amount: confirmationTransferData?.data?.amount,

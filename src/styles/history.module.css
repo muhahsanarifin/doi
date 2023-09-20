@@ -16,8 +16,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  padding: 2rem;
-  /* justify-content: center; */
+  padding: 1rem;
 }
 
 .head-content {
@@ -114,6 +113,10 @@
   font-weight: 700;
   font-size: 14px;
   color: #1ec15f;
+  border: none;
+  outline: none;
+  width: 8rem;
+  background: transparent;
 }
 
 .value-expense {
@@ -121,6 +124,10 @@
   font-weight: 700;
   font-size: 14px;
   color: #ff5b37;
+  border: none;
+  outline: none;
+  width: 8rem;
+  background: transparent;
 }
 
 .identity {
@@ -148,7 +155,8 @@
   object-fit: fill;
 }
 
-.name, .date {
+.name,
+.date {
   font-weight: 800;
 }
 

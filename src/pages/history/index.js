@@ -158,7 +158,7 @@ const History = () => {
                                 {dt(DateTime.fromISO(history.createdAt))}
                               </p>
                             </span>
-                            <p
+                            {/* <p
                               className={
                                 styles[
                                   history.type === "topup"
@@ -172,7 +172,25 @@ const History = () => {
                                 : history.type === "send"
                                 ? `-${rupiah(history.amount)}`
                                 : null}
-                            </p>
+                            </p> */}
+                            <input
+                              type="text"
+                              value={
+                                history.type === "topup"
+                                  ? `+${rupiah(history.amount)}`
+                                  : history.type === "send"
+                                  ? `-${rupiah(history.amount)}`
+                                  : null
+                              }
+                              className={
+                                styles[
+                                  history.type === "topup"
+                                    ? "value-income"
+                                    : "value-expense"
+                                ]
+                              }
+                              disabled
+                            />
                           </span>
                         </li>
                       ))}

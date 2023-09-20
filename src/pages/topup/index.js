@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef } from "react";
 import { getCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, CloseButton, useOutsideClick } from "@chakra-ui/react";
 
 import topUpAction from "../../redux/actions/topup";
 import usersAction from "../../redux/actions/user";
@@ -29,8 +29,6 @@ const Topup = () => {
   const [numericFour, setPinFour] = useState("");
   const [numericFive, setPinFive] = useState("");
   const [numericSix, setPinSix] = useState("");
-  // Success Top Up Message
-  const [STUM, setSTUM] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleInput = (e) => {
@@ -60,6 +58,13 @@ const Topup = () => {
 
   // Check pin user condition
   const cbCPUFulfilled = () => {
+    setPin("");
+    setPinTwo("");
+    setPinThree("");
+    setPinFour("");
+    setPinFive("");
+    setPinSix("");
+    
     setTimeout(() => {
       dispatch(usersAction.ccpudThunk());
     }, 1000);
@@ -81,20 +86,23 @@ const Topup = () => {
 
   // Top Up Condition
   const cbTUFulfilled = (response) => {
-
-    setTimeout(() => {
-      setSTUM(response.data.msg);
-    }, 1000);
-
     setTimeout(() => {
       const { redirectUrl } = response.data.data;
       window.open(redirectUrl, "_blank");
-
-      dispatch(topUpAction.ctuadThunk());
-
-      window.location.replace("/dashboard");
-    }, 2000);
+    }, 1000);
   };
+
+  // Handle outsideclick of TopUp Success Message element.
+  const topUpMsgRef = useRef();
+
+  const handleCLoseTopUp = () => {
+    dispatch(topUpAction.ctuadThunk());
+  };
+
+  useOutsideClick({
+    ref: topUpMsgRef,
+    handler: handleCLoseTopUp,
+  });
 
   return (
     <>
@@ -109,18 +117,23 @@ const Topup = () => {
             onTitle={"Top Up"}
           />
           <section className={styles["right-side-content"]}>
-            <span
-              className={
-                styles[
-                  !topUp?.isFulfilled || STUM ? "top-up" : "top-up-invisible-bg"
-                ]
-              }
-            >
+            <span className={styles["top-up"]}>
               {topUp?.isRejected && (
                 <TopUpMsg icon={icon.failed} msg={topUp?.err} />
               )}
 
-              {STUM && <TopUpMsg icon={icon.success} msg={STUM} />}
+              {topUp?.isFulfilled && (
+                <>
+                  <div className={styles["close-btn"]}>
+                    <CloseButton size="md" />
+                  </div>
+                  <TopUpMsg
+                    icon={icon.success}
+                    msg={`${topUp?.data?.msg}!`}
+                    ref={topUpMsgRef}
+                  />
+                </>
+              )}
 
               {!topUp?.isFulfilled && (
                 <>
@@ -148,9 +161,13 @@ const Topup = () => {
                         onChange={handleInput}
                         value={"-Infinity" < amount ? amount : !amount}
                       />
-                      {amount < 20000 && amount && (
-                        <p>Minumum amount to top-up Rp 20.000,00</p>
-                      )}
+                      <div className={styles["min-amount-sec"]}>
+                        {amount < 20000 && amount && (
+                          <p className={styles["min-amount"]}>
+                            Minumum amount to top-up Rp 20.000,00
+                          </p>
+                        )}
+                      </div>
                     </span>
                     {topUp?.isRejected ? (
                       <TryAgainButton disabled={amount} onClick={onOpen} />

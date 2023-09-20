@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
@@ -69,10 +69,12 @@ export const Dashboard = () => {
                 {user?.isFulfilled && (
                   <>
                     <p className={styles["title"]}>Balance</p>
-
-                    <h1 className={styles["fund"]}>
-                      {rupiah(user?.data?.data?.balance)}
-                    </h1>
+                    <input
+                      type="text"
+                      value={rupiah(user?.data?.data?.balance)}
+                      className={styles["fund"]}
+                      disabled
+                    />
                     <p className={styles["phone-number"]}>
                       {user?.data?.data?.noTelp === null ? (
                         <span className={styles["spna"]}>
@@ -164,7 +166,15 @@ export const Dashboard = () => {
                               </p>
                             </span>
                           </span>
-                          <p
+                          <input
+                            type="text"
+                            value={
+                              history.type === "topup"
+                                ? `+${rupiah(history.amount)}`
+                                : history.type === "send"
+                                ? `-${rupiah(history.amount)}`
+                                : null
+                            }
                             className={
                               styles[
                                 history.type === "topup"
@@ -172,13 +182,8 @@ export const Dashboard = () => {
                                   : "value-expense"
                               ]
                             }
-                          >
-                            {history.type === "topup"
-                              ? `+${rupiah(history.amount)}`
-                              : history.type === "send"
-                              ? `-${rupiah(history.amount)}`
-                              : null}
-                          </p>
+                            disabled
+                          />
                         </span>
                       </li>
                     ))}

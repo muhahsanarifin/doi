@@ -48,6 +48,7 @@
 
 .bottom-content {
   height: 28.1625rem;
+  
 }
 
 .list {
@@ -153,10 +154,6 @@
     flex-direction: column;
     padding: 1rem 0.5rem;
     min-height: 100vh;
-  }
-
-  .bottom-content {
-    height: fit-content;
   }
 
   .not-found-section {

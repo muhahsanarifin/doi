@@ -27,7 +27,7 @@ const Loader = ({ onColor }) => {
   );
 };
 
-const TopUpMsg = ({ icon, msg }) => {
+const TopUpMsg = ({ icon, msg, ref }) => {
   return (
     <>
       <span
@@ -36,6 +36,7 @@ const TopUpMsg = ({ icon, msg }) => {
           flexDirection: "column",
           gap: "1rem",
         }}
+        ref={ref}
       >
         <Image
           src={icon}
