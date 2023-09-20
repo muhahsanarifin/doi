@@ -2,11 +2,27 @@ import { ActionType } from "redux-promise-middleware";
 import { actionStrings } from "../actions/actionStrings";
 
 const intialState = {
-  getHistoryTransaction: {},
-  isLoading: false,
-  isError: false,
-  isFulfilled: false,
-  err: null,
+  getHistoryTransaction: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  getHistoryTransactionOfDashboard: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  getHistoryTransactionOfNotification: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
 };
 
 const transactionHistoryReducer = (
@@ -14,33 +30,124 @@ const transactionHistoryReducer = (
   { payload, type }
 ) => {
   const { Pending, Fulfilled, Rejected } = ActionType;
-  const { getHistoryTransaction } = actionStrings;
+  const {
+    getHistoryTransaction,
+    getHistoryTransactionOfDashboard,
+    chtad,
+    getHistoryTransactionOfNotification,
+    chton,
+  } = actionStrings;
   switch (type) {
     case getHistoryTransaction.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isError: false,
-        isFulfilled: false,
+        getHistoryTransaction: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
 
     case getHistoryTransaction.concat("-", Fulfilled):
       return {
         ...prevState,
-        err: null,
-        isLoading: false,
-        isError: false,
-        isFulfilled: true,
-        getHistoryTransaction: payload.data,
+        getHistoryTransaction: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
     case getHistoryTransaction.concat("-", Rejected):
       return {
         ...prevState,
-        isLoading: false,
-        isError: true,
-        isFulfilled: false,
-        err: payload.error.message, // <= Default error message
+        getHistoryTransaction: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.message,
+        },
+      };
+    case getHistoryTransactionOfDashboard.concat("-", Pending):
+      return {
+        ...prevState,
+        getHistoryTransactionOfDashboard: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+      };
+
+    case getHistoryTransactionOfDashboard.concat("-", Fulfilled):
+      return {
+        ...prevState,
+        getHistoryTransactionOfDashboard: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
+      };
+    case getHistoryTransactionOfDashboard.concat("-", Rejected):
+      return {
+        ...prevState,
+        getHistoryTransactionOfDashboard: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.message,
+        },
+      };
+
+    case getHistoryTransactionOfNotification:
+      return {
+        ...prevState,
+        getHistoryTransactionOfNotification: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
+      };
+      
+    case chton:
+      return {
+        ...prevState,
+        getHistoryTransactionOfNotification: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+      };
+
+    case chtad:
+      return {
+        ...prevState,
+        getHistoryTransaction: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        getHistoryTransactionOfDashboard: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
 
     default:

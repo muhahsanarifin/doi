@@ -2,55 +2,116 @@ import { ActionType } from "redux-promise-middleware";
 import { actionStrings } from "../actions/actionStrings";
 
 const initialState = {
-  transfer: {},
-  confirmationTransfer: {},
-  isLoading: false,
-  isError: false,
-  isFulfilled: false,
-  err: null,
+  transfer: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  confirmationTransfer: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
 };
 
 const transferReducer = (prevState = initialState, { payload, type }) => {
   const { Pending, Fulfilled, Rejected } = ActionType;
 
-  const { transfer, transferConfirmation } = actionStrings;
+  const { transfer, transferConfirmation, ctd, ctcd, ctad } = actionStrings;
 
   switch (type) {
     case transfer.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        transfer: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case transfer.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        transfer: payload.data,
-        isError: false,
-        err: null,
+        transfer: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
 
     case transfer.concat("-", Rejected):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        transfer: payload.error.response.data.data, // <= Change transfer's property when condition is rejected.
-        err: payload.error.response?.data.msg, // <= Custome error message.
+        transfer: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response?.data.msg,
+        },
       };
 
     case transferConfirmation:
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        isError: false,
-        confirmationTransfer: payload.data,
+        confirmationTransfer: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
+      };
+
+    case ctd:
+      return {
+        ...prevState,
+        transfer: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+      };
+
+    case ctcd:
+      return {
+        ...prevState,
+        confirmationTransfer: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+      };
+
+    case ctad:
+      return {
+        ...prevState,
+        transfer: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        confirmationTransfer: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
 
     default:

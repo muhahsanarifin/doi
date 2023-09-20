@@ -25,23 +25,40 @@ const transferConfrimationAction = (data) => ({
   payload: { data },
 });
 
-const transferBalanceUserThunk = (
+// Clear transfer data
+const ctdAction = () => ({
+  type: actionStrings.ctd,
+});
+
+// Clear transfer confirmation data
+const ctcdAction = () => ({
+  type: actionStrings.ctcd,
+});
+
+const ctadAction = () => ({
+  type: actionStrings.ctad,
+});
+
+const transferBalanceUserThunk = ({
   body,
   accessToken,
-  cbPending,
-  cbFulfilled,
-  cbError
-) => {
+  cbTBPending,
+  cbTBFulfilled,
+  cbTBRejected,
+  cbTBFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(transferBalancePending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbTBPending === "function" && cbTBPending();
       const response = await transfer(body, accessToken);
       dispatch(transferBalanceFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled();
+      typeof cbTBFulfilled === "function" && cbTBFulfilled();
     } catch (error) {
       dispatch(transferBalanceRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbTBRejected === "function" && cbTBRejected();
+    } finally {
+      typeof cbTBFinally === "function" && cbTBFinally();
     }
   };
 };
@@ -52,9 +69,30 @@ const transferConfirmationThunk = (payload) => {
   };
 };
 
+const ctdThunk = () => {
+  return async (dispatch) => {
+    dispatch(ctdAction());
+  };
+};
+
+const ctdcThunk = () => {
+  return async (dispatch) => {
+    dispatch(ctcdAction());
+  };
+};
+
+const ctadThunk = () => {
+  return async (dispatch) => {
+    dispatch(ctadAction());
+  };
+};
+
 const transferAction = {
   transferBalanceUserThunk,
   transferConfirmationThunk,
+  ctdThunk,
+  ctdcThunk,
+  ctadThunk,
 };
 
 export default transferAction;

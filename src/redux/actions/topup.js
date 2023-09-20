@@ -19,32 +19,43 @@ const topUpRejected = (error) => ({
   payload: { error },
 });
 
-const topUpThunk = (
+const ctuadAction = () => ({
+  type: actionStrings.ctuad,
+});
+
+const topUpThunk = ({
   body,
   accessToken,
-  cbPending,
-  cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbTUPending,
+  cbTUFulfilled,
+  cbTURejected,
+  cbTUFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(topUpPending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbTUPending === "function" && cbTUPending();
       const response = await topUp(body, accessToken);
       dispatch(topUpFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled(response);
+      typeof cbTUFulfilled === "function" && cbTUFulfilled(response);
     } catch (error) {
       dispatch(topUpRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbTURejected === "function" && cbTURejected(error);
     } finally {
-      typeof cbFinally === "function" && cbFinally();
+      typeof cbTUFinally === "function" && cbTUFinally();
     }
+  };
+};
+
+const ctuadThunk = () => {
+  return async (dispatch) => {
+    dispatch(ctuadAction());
   };
 };
 
 const topUpAction = {
   topUpThunk,
+  ctuadThunk,
 };
 
 export default topUpAction;

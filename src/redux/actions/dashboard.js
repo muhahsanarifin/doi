@@ -4,7 +4,7 @@ import { actionStrings } from "./actionStrings";
 
 const { Pending, Fulfilled, Rejected } = ActionType;
 
-// Get data dashboard actions
+// Get data dashboard action
 const getDataDashboardPending = () => ({
   type: actionStrings.getDataDashboard.concat("-", Pending),
 });
@@ -19,15 +19,19 @@ const getDataDashboardError = (error) => ({
   payload: { error },
 });
 
+const cdadAction = () => ({
+  type: actionStrings.cdad,
+});
+
 // Get data dashboard thunk
-const getDataDashboardThunk = (
+const getDataDashboardThunk = ({
   id,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(getDataDashboardPending());
@@ -37,15 +41,22 @@ const getDataDashboardThunk = (
       typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(getDataDashboardError(error));
-      typeof cbError === "function" && cbError();
+      typeof cbRejected === "function" && cbRejected();
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
+const cdadThunk = () => {
+  return async (dispatch) => {
+    dispatch(cdadAction());
+  };
+};
+
 const dashboardAction = {
   getDataDashboardThunk,
+  cdadThunk,
 };
 
 export default dashboardAction;

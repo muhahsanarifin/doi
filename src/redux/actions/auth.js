@@ -95,24 +95,48 @@ const verifyRejected = (error) => ({
   payload: { error },
 });
 
-const registerThunk = (body, cbPending, cbFulfilled, cbError, cbFinally) => {
+const caadAction = () => ({
+  type: actionStrings.caad,
+});
+
+const cfpdAction = () => ({
+  type: actionStrings.cfpd,
+});
+
+const crdAction = () => ({
+  type: actionStrings.crd,
+});
+
+const registerThunk = (
+  body,
+  cbRPending,
+  cbRFulfilled,
+  cbRRejected,
+  cbRFinally
+) => {
   return async (dispatch) => {
     try {
       dispatch(registerPending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbRPending === "function" && cbRPending();
       const response = await register(body);
       dispatch(registerFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled(response.data);
+      typeof cbRFulfilled === "function" && cbRFulfilled(response.data);
     } catch (error) {
       dispatch(registerRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbRRejected === "function" && cbRRejected(error);
     } finally {
-      typeof cbFinally === "function" && cbFinally();
+      typeof cbRFinally === "function" && cbRFinally();
     }
   };
 };
 
-const loginThunk = (body, cbPending, cbFulfilled, cbError, cbFinally) => {
+const loginThunk = ({
+  body,
+  cbPending,
+  cbFulfilled,
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(loginPending());
@@ -122,20 +146,20 @@ const loginThunk = (body, cbPending, cbFulfilled, cbError, cbFinally) => {
       typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(loginRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbRejected === "function" && cbRejected(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const logoutThunk = (
+const logoutThunk = ({
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(logoutPending());
@@ -145,20 +169,20 @@ const logoutThunk = (
       typeof cbFulfilled === "function" && cbFulfilled();
     } catch (error) {
       dispatch(logoutRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbRejected === "function" && cbRejected();
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const forgotPasswordThunk = (
+const forgotPasswordThunk = ({
   body,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(forgotPasswordPending());
@@ -168,20 +192,20 @@ const forgotPasswordThunk = (
       typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(forgotPasswordRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbRejected === "function" && cbRejected(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const resetPasswordThunk = (
+const resetPasswordThunk = ({
   body,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(resetPasswordPending());
@@ -191,21 +215,21 @@ const resetPasswordThunk = (
       typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(resetPasswordRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbRejected === "function" && cbRejected(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const verifyThunk = (
+const verifyThunk = ({
   pin,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(verifyPending());
@@ -215,10 +239,28 @@ const verifyThunk = (
       typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(verifyRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbRejected === "function" && cbRejected(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
+  };
+};
+
+const caadThunk = () => {
+  return async (dispatch) => {
+    dispatch(caadAction());
+  };
+};
+
+const cfpdThunk = () => {
+  return async (dispatch) => {
+    dispatch(cfpdAction());
+  };
+};
+
+const crdThunk = () => {
+  return async (dispatch) => {
+    dispatch(crdAction());
   };
 };
 
@@ -229,6 +271,9 @@ const authsAction = {
   forgotPasswordThunk,
   resetPasswordThunk,
   verifyThunk,
+  cfpdThunk,
+  crdThunk,
+  caadThunk,
 };
 
 export default authsAction;

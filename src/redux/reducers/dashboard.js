@@ -2,40 +2,62 @@ import { ActionType } from "redux-promise-middleware";
 import { actionStrings } from "../actions/actionStrings";
 
 const intialState = {
-  getDataDashboard: {},
-  isLoading: false,
-  isError: false,
-  isFulfilled: false,
-  err: null,
+  getDataDashboard: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
 };
 
 const dashboardReducer = (prevState = intialState, { payload, type }) => {
   const { Pending, Fulfilled, Rejected } = ActionType;
-  const { getDataDashboard } = actionStrings;
+  const { getDataDashboard, cdad } = actionStrings;
   switch (type) {
     case getDataDashboard.concat("-", Pending):
       return {
         ...prevState,
-        isLoading: true,
-        isError: false,
-        isFulfilled: false,
+        getDataDashboard: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case getDataDashboard.concat("-", Fulfilled):
       return {
         ...prevState,
-        err: null,
-        isLoading: false,
-        isError: false,
-        isFulfilled: true,
-        getDataDashboard: payload.data,
+        getDataDashboard: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
     case getDataDashboard.concat("-", Rejected):
       return {
         ...prevState,
-        isLoading: false,
-        isError: true,
-        isFulfilled: false,
-        err: payload.error.message, // <= Default error message
+        getDataDashboard: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.message,
+        },
+      };
+    case cdad:
+      return {
+        ...prevState,
+        getDataDashboard: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     default:
       return prevState;

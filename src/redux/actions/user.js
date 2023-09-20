@@ -149,14 +149,44 @@ const deleteImageUserRejected = (error) => ({
   payload: { error },
 });
 
-const getDataUserThunk = (
+// Clear check pin user data
+const ccpudAction = () => ({
+  type: actionStrings.ccpud,
+});
+
+// Clear change pin data
+const ccpdAction = () => ({
+  type: actionStrings.ccpd,
+});
+
+// Clear update password user data
+const cupudAction = () => ({
+  type: actionStrings.cupud,
+});
+
+// Clear update image data
+const cuidAction = () => ({
+  type: actionStrings.cuid,
+});
+
+// Clear update profile data
+const cupdAction = () => ({
+  type: actionStrings.cupd,
+});
+
+// Clear user all data
+const cuadAction = () => ({
+  type: actionStrings.cuad,
+});
+
+const getDataUserThunk = ({
   id,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(getDataUserPending());
@@ -166,21 +196,21 @@ const getDataUserThunk = (
       typeof cbFulfilled === "function" && cbFulfilled();
     } catch (error) {
       dispatch(getDataUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbRejected === "function" && cbRejected();
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const getDataReceiverThunk = (
+const getDataReceiverThunk = ({
   id,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(getDataReceiverPending());
@@ -190,21 +220,21 @@ const getDataReceiverThunk = (
       typeof cbFulfilled === "function" && cbFulfilled();
     } catch (error) {
       dispatch(getDataReceiverRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbRejected === "function" && cbRejected();
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const getDataUsersThunk = (
+const getDataUsersThunk = ({
   queryParams,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(getDataUsersPending());
@@ -214,121 +244,121 @@ const getDataUsersThunk = (
       typeof cbFulfilled === "function" && cbFulfilled();
     } catch (error) {
       dispatch(getDataUsersRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbRejected === "function" && cbRejected();
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const checkPinUserThunk = (
+const checkPinUserThunk = ({
   pin,
   accessToken,
-  cbPending,
-  cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbCPUPending,
+  cbCPUFulfilled,
+  cbCPURejected,
+  cbCPUFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(checkPinUserPending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbCPUPending === "function" && cbCPUPending();
       const response = await checkPinUser(pin, accessToken);
       dispatch(checkPinUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled(response);
+      typeof cbCPUFulfilled === "function" && cbCPUFulfilled(response);
     } catch (error) {
       dispatch(checkPinUserRejected(error));
-      typeof cbError === "function" && cbError(error.response);
+      typeof cbCPURejected === "function" && cbCPURejected(error.response);
     } finally {
-      typeof cbFinally === "function" && cbFinally();
+      typeof cbCPUFinally === "function" && cbCPUFinally();
     }
   };
 };
 
-const updateProfileUserThunk = (
+const updateProfileUserThunk = ({
   id,
   body,
   accessToken,
-  cbPending,
-  cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbUPUPending,
+  cbUPUFulfilled,
+  cbUPURejected,
+  cbUPUFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(updateProfileUserPending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbUPUPending === "function" && cbUPUPending();
       const response = await updateProfileUser(id, body, accessToken);
       dispatch(updateProfileUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled(response.data);
+      typeof cbUPUFulfilled === "function" && cbUPUFulfilled(response.data);
     } catch (error) {
       dispatch(updateProfileUserRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbUPURejected === "function" && cbUPURejected(error);
     } finally {
-      typeof cbFinally === "function" && cbFinally();
+      typeof cbUPUFinally === "function" && cbUPUFinally();
     }
   };
 };
 
-const updateImageUserThunk = (
+const updateImageUserThunk = ({
   id,
   body,
   accessToken,
-  cbPending,
-  cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbUIUPending,
+  cbUIUFulfilled,
+  cbUIURejected,
+  cbUIUFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(updateImageUserPending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbUIUPending === "function" && cbUIUPending();
       const response = await updateImageUser(id, body, accessToken);
       dispatch(updateImageUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled(response.data);
+      typeof cbUIUFulfilled === "function" && cbUIUFulfilled(response.data);
     } catch (error) {
       dispatch(updateImageUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbUIURejected === "function" && cbUIURejected();
     } finally {
-      typeof cbFinally === "function" && cbFinally();
+      typeof cbUIUFinally === "function" && cbUIUFinally();
     }
   };
 };
 
-const updatePinUserThunk = (
+const updatePinUserThunk = ({
   id,
   body,
   accessToken,
-  cbPending,
-  cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbUPUPending,
+  cbUPUFulfilled,
+  cbUPURejected,
+  cbUPUFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(updatePinUserPending());
-      typeof cbPending === "function" && cbPending();
+      typeof cbUPUPending === "function" && cbUPUPending();
       const response = await updatePinUser(id, body, accessToken);
       dispatch(updatePinUserFulfilled(response.data));
-      typeof cbFulfilled === "function" && cbFulfilled(response.data);
+      typeof cbUPUFulfilled === "function" && cbUPUFulfilled(response.data);
     } catch (error) {
       dispatch(updatePinUserRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbUPURejected === "function" && cbUPURejected(error);
     } finally {
-      typeof cbFinally === "function" && cbFinally();
+      typeof cbUPUFinally === "function" && cbUPUFinally();
     }
   };
 };
 
-const updatePasswordUserThunk = (
+const updatePasswordUserThunk = ({
   id,
   body,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError,
-  cbFinally
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(updatePasswordUserPending());
@@ -338,20 +368,21 @@ const updatePasswordUserThunk = (
       typeof cbFulfilled === "function" && cbFulfilled(response.data);
     } catch (error) {
       dispatch(updatedPasswordUserRejected(error));
-      typeof cbError === "function" && cbError(error);
+      typeof cbRejected === "function" && cbRejected(error);
     } finally {
       typeof cbFinally === "function" && cbFinally();
     }
   };
 };
 
-const deleteImageUserThunk = (
+const deleteImageUserThunk = ({
   id,
   accessToken,
   cbPending,
   cbFulfilled,
-  cbError
-) => {
+  cbRejected,
+  cbFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(deleteImageUserPending());
@@ -361,10 +392,48 @@ const deleteImageUserThunk = (
       typeof cbFulfilled === "function" && cbFulfilled();
     } catch (error) {
       dispatch(deleteImageUserRejected(error));
-      typeof cbError === "function" && cbError();
+      typeof cbRejected === "function" && cbRejected();
+    } finally {
+      typeof cbFinally === "function" && cbFinally();
     }
   };
 };
+
+const ccpudThunk = () => {
+  return async (dispatch) => {
+    dispatch(ccpudAction());
+  };
+};
+
+const ccpdThunk = () => {
+  return async (dispatch) => {
+    dispatch(ccpdAction());
+  };
+};
+
+const cuidThunk = () => {
+  return async (dispatch) => {
+    dispatch(cuidAction());
+  };
+};
+
+const cupdThunk = () => {
+  return async (dispatch) => {
+    dispatch(cupdAction());
+  };
+};
+
+const cuadThunk = () => {
+  return async (dispatch) => {
+    dispatch(cuadAction());
+  };
+};
+
+const cupudThunk = () => {
+  return async (dispatch) => {
+    dispatch(cupudAction())
+  }
+}
 
 const usersAction = {
   getDataUsersThunk,
@@ -376,6 +445,12 @@ const usersAction = {
   updatePinUserThunk,
   updatePasswordUserThunk,
   deleteImageUserThunk,
+  ccpudThunk,
+  ccpdThunk,
+  cupudThunk,
+  cuidThunk,
+  cupdThunk,
+  cuadThunk,
 };
 
 export default usersAction;

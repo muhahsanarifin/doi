@@ -2,45 +2,67 @@ import { ActionType } from "redux-promise-middleware";
 import { actionStrings } from "../actions/actionStrings";
 
 const initialState = {
-  topUp: {},
-  isLoading: false,
-  isError: false,
-  isFulfilled: false,
-  err: null,
+  topUp: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
 };
 
 const topUpReducer = (prevState = initialState, { payload, type }) => {
   const { Pending, Fulfilled, Rejected } = ActionType;
-  const { topUp } = actionStrings;
+  const { topUp, ctuad } = actionStrings;
 
   switch (type) {
     case topUp.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        topUp: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case topUp.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        topUp: payload.data,
-        isError: false,
-        err: null,
+        topUp: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
 
     case topUp.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response.data?.msg, // <= Custome error message
+        topUp: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response.data?.msg,
+        },
       };
     }
+
+    case ctuad:
+      return {
+        ...prevState,
+        topUp: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+      };
 
     default:
       return prevState;

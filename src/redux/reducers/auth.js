@@ -2,190 +2,333 @@ import { ActionType } from "redux-promise-middleware";
 import { actionStrings } from "../actions/actionStrings";
 
 const initialState = {
-  register: {},
-  login: {},
-  logout: {},
-  forgotPassword: {},
-  resetPassword: {},
-  verify: {},
-  isLoading: false,
-  isError: false,
-  isFulfilled: false,
-  err: null,
+  register: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  login: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  logout: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  forgotPassword: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  resetPassword: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
+  verify: {
+    isLoading: false,
+    isFulfilled: false,
+    isRejected: false,
+    data: null,
+    err: null,
+  },
 };
 
 const authReducer = (prevState = initialState, { payload, type }) => {
   const { Pending, Fulfilled, Rejected } = ActionType;
 
-  const { register, login, logout, forgotPassword, resetPassword, verify } =
-    actionStrings;
+  const {
+    register,
+    login,
+    logout,
+    forgotPassword,
+    resetPassword,
+    verify,
+    crd,
+    caad,
+  } = actionStrings;
 
   switch (type) {
     case register.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        register: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case register.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        register: payload.data,
-        isError: false,
-        err: null,
+        register: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
 
     case register.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response?.data.msg, // <= Custome error message
+        register: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: payload.error.response?.data?.msg,
+          err: null,
+        },
       };
     }
 
     case login.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        login: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case login.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        login: payload.data,
-        isError: false,
-        err: null,
+        login: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
-
     case login.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response?.data.msg, // <= Custome error message
+        login: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response?.data?.msg,
+        },
       };
     }
 
     case logout.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        logout: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case logout.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        logout: payload.data,
-        isError: false,
-        err: null,
+        logout: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
-
     case logout.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response?.data.msg, // <= Custome error message
+        logout: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response?.data?.msg,
+        },
       };
     }
 
     case forgotPassword.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        forgotPassword: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case forgotPassword.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        forgotPassword: payload.data,
-        isError: false,
-        err: null,
+        forgotPassword: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
-
     case forgotPassword.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response?.data.msg, // <= Custome error message
+        forgotPassword: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response?.data.msg,
+        },
       };
     }
 
     case resetPassword.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        resetPassword: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case resetPassword.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        resetPassword: payload.data,
-        isError: false,
-        err: null,
+        resetPassword: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
-
     case resetPassword.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response?.data.msg, // <= Custome error message
+        resetPassword: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response?.data.msg,
+        },
       };
     }
 
     case verify.concat("-", Pending):
       return {
         ...prevState,
-        err: null,
-        isLoading: true,
-        isFulfilled: false,
-        isError: false,
+        verify: {
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     case verify.concat("-", Fulfilled):
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: true,
-        verify: payload.data,
-        isError: false,
-        err: null,
+        verify: {
+          isLoading: false,
+          isFulfilled: true,
+          isRejected: false,
+          data: payload.data,
+          err: null,
+        },
       };
-
     case verify.concat("-", Rejected): {
       return {
         ...prevState,
-        isLoading: false,
-        isFulfilled: false,
-        isError: true,
-        err: payload.error.response?.data.msg, // <= Custome error message
+        verify: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: true,
+          data: null,
+          err: payload.error.response?.data.msg,
+        },
+      };
+    }
+
+    case crd:
+      return {
+        ...prevState,
+        register: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+      };
+
+    case caad: {
+      return {
+        ...prevState,
+        register: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        login: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        logout: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        forgotPassword: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        resetPassword: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
+        verify: {
+          isLoading: false,
+          isFulfilled: false,
+          isRejected: false,
+          data: null,
+          err: null,
+        },
       };
     }
 
