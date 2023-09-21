@@ -93,18 +93,23 @@ const Charts = () => {
                       : icon.arrowDownGreen
                   }
                   alt="Down"
-                  // className={"income-expense-image"}
+                  className={styles["income-expense-image"]}
                   width={50}
                   height={50}
                   style={{ width: "24px", height: "24px" }}
                   placeholder="blur"
                 />
                 <p className={styles["income-title"]}>Income</p>
-                <p className={styles["income-section__value"]}>
-                  {dataDashboard?.data?.data?.totalIncome
-                    ? `${rupiah(dataDashboard?.data?.data?.totalIncome)}`
-                    : null}
-                </p>
+                <input
+                  type="text"
+                  value={
+                    dataDashboard?.data?.data?.totalIncome
+                      ? `${rupiah(dataDashboard?.data?.data?.totalIncome)}`
+                      : null
+                  }
+                  className={styles["income-section__value"]}
+                  disabled
+                />
               </span>
               <span className={styles["expense-section"]}>
                 <Image
@@ -115,18 +120,23 @@ const Charts = () => {
                       : icon.arrowDownRed
                   }
                   alt="Up"
-                  // className={"income-expense-image"}
+                  className={styles["income-expense-image"]}
                   width={50}
                   height={50}
                   style={{ width: "24px", height: "24px" }}
                   placeholder="blur"
                 />
                 <p className={styles["expense-title"]}>Expense</p>
-                <p className={styles["expense-section__value"]}>
-                  {dataDashboard?.data?.data?.totalExpense
-                    ? `${rupiah(dataDashboard?.data?.data?.totalExpense)}`
-                    : null}
-                </p>
+                <input
+                  type="text"
+                  value={
+                    dataDashboard?.data?.data?.totalExpense
+                      ? `${rupiah(dataDashboard?.data?.data?.totalExpense)}`
+                      : null
+                  }
+                  className={styles["expense-section__value"]}
+                  disabled
+                />
               </span>
             </span>
             <div className={styles["chart-section"]}>

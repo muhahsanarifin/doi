@@ -35,7 +35,7 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    dispatch(authsAction.registerThunk(body, cbRFulfilled));
+    dispatch(authsAction.registerThunk({body, cbRFulfilled}));
   };
 
   // Register condition callback function

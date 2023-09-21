@@ -107,13 +107,13 @@ const crdAction = () => ({
   type: actionStrings.crd,
 });
 
-const registerThunk = (
+const registerThunk = ({
   body,
   cbRPending,
   cbRFulfilled,
   cbRRejected,
-  cbRFinally
-) => {
+  cbRFinally,
+}) => {
   return async (dispatch) => {
     try {
       dispatch(registerPending());
